@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valenz, Wortarten und Fälle</title>
+  <style>
+    :root{
+      --nom:#3b82f6; --akk:#22c55e; --dat:#facc15; --verb:#a855f7; --prep:#ef4444;
+      --bg:#f7f7fb; --card:#ffffff; --text:#1f2937; --muted:#6b7280;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+    header{background:linear-gradient(135deg,#1f2937,#374151);color:white;padding:32px 18px;text-align:center}
+    header h1{margin:0;font-size:clamp(1.6rem,3vw,2.5rem)}
+    header p{margin:10px auto 0;max-width:900px;color:#e5e7eb}
+    main{max-width:1100px;margin:24px auto;padding:0 16px 48px}
+    .card{background:var(--card);border-radius:18px;padding:22px;margin:18px 0;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    h2{margin-top:0;color:#111827;border-left:8px solid #9ca3af;padding-left:12px}
+    h3{color:#111827;margin-bottom:8px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:14px}
+    .mini{border:1px solid #e5e7eb;border-radius:14px;padding:14px;background:#fafafa}
+    table{width:100%;border-collapse:collapse;margin:12px 0;background:white;border-radius:12px;overflow:hidden}
+    th,td{border:1px solid #e5e7eb;padding:10px;text-align:left;vertical-align:top}
+    th{background:#f3f4f6}
+    .tag{display:inline-block;padding:4px 9px;border-radius:999px;font-weight:bold;color:white;margin:2px}
+    .nom{background:var(--nom)} .akk{background:var(--akk)} .dat{background:#d4a300;color:#111} .verb{background:var(--verb)} .prep{background:var(--prep)}
+    .legend span{margin-right:8px;margin-bottom:6px}
+    .sentence{font-size:1.15rem;background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:14px;margin:10px 0}
+    .word{display:inline-block;padding:6px 9px;margin:4px;border-radius:8px;border:1px solid #d1d5db;background:white;cursor:pointer;user-select:none;transition:.15s}
+    .word:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+    .word.nomSel{background:var(--nom);color:white;border-color:var(--nom)}
+    .word.akkSel{background:var(--akk);color:white;border-color:var(--akk)}
+    .word.datSel{background:var(--dat);color:#111;border-color:var(--dat)}
+    .word.verbSel{background:var(--verb);color:white;border-color:var(--verb)}
+    .word.prepSel{background:var(--prep);color:white;border-color:var(--prep)}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+    button{border:none;border-radius:12px;padding:10px 14px;font-weight:bold;cursor:pointer;background:#e5e7eb;color:#111827}
+    button.active{outline:3px solid #111827}
+    button.check{background:#111827;color:white}
+    button.reset{background:#f3f4f6}
+    .feedback{font-weight:bold;margin-top:8px;min-height:24px}
+    .good{color:#15803d}.bad{color:#b91c1c}.note{color:#6b7280}
+    details{background:#f9fafb;border:1px solid #e5e7eb;border-radius:14px;padding:12px;margin:10px 0}
+    summary{font-weight:bold;cursor:pointer}
+    .task{border-top:1px dashed #d1d5db;padding-top:14px;margin-top:14px}
+    .footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:30px}
+    .casebox{padding:12px;border-radius:14px;border:1px solid #e5e7eb;background:#fff}
+    input[type="text"]{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:10px;margin:4px 0 8px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Valenz der Verben, Wortarten und Fälle</h1>
+    <p>Eine interaktive Übung: Markiere Nominativ, Akkusativ, Dativ, Verb und Präpositionen mit Farben.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>1. Farbcode</h2>
+      <p>Benutze diese Farben, um die Satzteile zu markieren:</p>
+      <div class="legend">
+        <span class="tag nom">Nominativ</span>
+        <span class="tag akk">Akkusativ</span>
+        <span class="tag dat">Dativ</span>
+        <span class="tag verb">Verb</span>
+        <span class="tag prep">Präposition</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Wortarten / Clases de palabras</h2>
+      <div class="grid">
+        <div class="mini">
+          <h3>Das Verb / El verbo</h3>
+          <p><b>Deutsch:</b> Das Verb beschreibt eine Handlung, einen Vorgang oder einen Zustand.</p>
+          <p><b>Español:</b> El verbo expresa una acción, un proceso o un estado.</p>
+          <p><b>Beispiele:</b> lernen, spielen, wohnen, sein, haben.</p>
+          <p><b>Satz:</b> Die Schülerin <span class="tag verb">lernt</span> Deutsch.</p>
+        </div>
+        <div class="mini">
+          <h3>Das Substantiv / El sustantivo</h3>
+          <p><b>Deutsch:</b> Substantive bezeichnen Personen, Tiere, Dinge oder Ideen.</p>
+          <p><b>Español:</b> Los sustantivos nombran personas, animales, cosas o conceptos.</p>
+          <p><b>Beispiele:</b> der Lehrer, die Schülerin, das Buch, die Schule.</p>
+          <p><b>Wichtig:</b> Im Deutschen schreibt man Substantive groß.</p>
+        </div>
+        <div class="mini">
+          <h3>Das Adjektiv / El adjetivo</h3>
+          <p><b>Deutsch:</b> Adjektive beschreiben Personen oder Dinge genauer.</p>
+          <p><b>Español:</b> Los adjetivos describen características.</p>
+          <p><b>Beispiele:</b> groß, klein, freundlich, interessant.</p>
+          <p><b>Satz:</b> Die <u>freundliche</u> Schülerin lernt Deutsch.</p>
+        </div>
+        <div class="mini">
+          <h3>Der Artikel / El artículo</h3>
+          <p><b>Deutsch:</b> Artikel stehen vor dem Substantiv.</p>
+          <p><b>Español:</b> Los artículos acompañan al sustantivo.</p>
+          <p><b>Bestimmt:</b> der, die, das, die.</p>
+          <p><b>Unbestimmt:</b> ein, eine, ein.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Die Fälle / Los casos</h2>
+      <table>
+        <tr><th>Fall</th><th>Frage auf Deutsch</th><th>Idea en español</th><th>Beispiel</th></tr>
+        <tr><td><span class="tag nom">Nominativ</span></td><td>Wer? Was?</td><td>¿Quién realiza la acción?</td><td><b>Der Lehrer</b> erklärt die Aufgabe.</td></tr>
+        <tr><td><span class="tag akk">Akkusativ</span></td><td>Wen? Was?</td><td>¿A quién? ¿Qué cosa?</td><td>Die Schülerin liest <b>einen Text</b>.</td></tr>
+        <tr><td><span class="tag dat">Dativ</span></td><td>Wem?</td><td>¿A quién? ¿Para quién?</td><td>Der Lehrer hilft <b>der Schülerin</b>.</td></tr>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>4. Valenz der Verben</h2>
+      <p>Die Valenz zeigt, welche Ergänzungen ein Verb braucht. <b>El verbo determina qué casos necesita la oración.</b></p>
+      <div class="grid">
+        <div class="casebox">
+          <h3>Einwertig: Nominativ</h3>
+          <p><b>Der Schüler</b> schläft.</p>
+          <p><span class="tag nom">Wer?</span> Der Schüler</p>
+        </div>
+        <div class="casebox">
+          <h3>Zweiwertig: Nominativ + Akkusativ</h3>
+          <p><b>Die Schülerin</b> liest <b>einen Text</b>.</p>
+          <p><span class="tag nom">Wer?</span> Die Schülerin<br><span class="tag akk">Was?</span> einen Text</p>
+        </div>
+        <div class="casebox">
+          <h3>Dreiwertig: Nominativ + Dativ + Akkusativ</h3>
+          <p><b>Die Mutter</b> schenkt <b>dem Kind</b> <b>ein Buch</b>.</p>
+          <p><span class="tag nom">Wer?</span> Die Mutter<br><span class="tag dat">Wem?</span> dem Kind<br><span class="tag akk">Was?</span> ein Buch</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>5. Präpositionen / Preposiciones</h2>
+      <p><b>Deutsch:</b> Präpositionen verbinden Wörter und bestimmen oft den Fall.</p>
+      <p><b>Español:</b> Las preposiciones relacionan palabras y muchas veces determinan el caso.</p>
+      <table>
+        <tr><th>Akkusativ</th><th>Dativ</th></tr>
+        <tr><td>durch, für, gegen, ohne, um</td><td>aus, bei, mit, nach, seit, von, zu</td></tr>
+        <tr><td>Das Geschenk ist <span class="tag prep">für</span> <span class="tag akk">den Lehrer</span>.</td><td>Ich spreche <span class="tag prep">mit</span> <span class="tag dat">dem Lehrer</span>.</td></tr>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>6. Interaktive Übung: Satzteile markieren</h2>
+      <p>Wähle zuerst eine Farbe. Klicke dann auf die Wörter im Satz.</p>
+      <div class="toolbar">
+        <button data-mode="nomSel" style="background:var(--nom);color:white">Nominativ</button>
+        <button data-mode="akkSel" style="background:var(--akk);color:white">Akkusativ</button>
+        <button data-mode="datSel" style="background:var(--dat);color:#111">Dativ</button>
+        <button data-mode="verbSel" style="background:var(--verb);color:white">Verb</button>
+        <button data-mode="prepSel" style="background:var(--prep);color:white">Präposition</button>
+        <button id="erase">Radieren</button>
+      </div>
+      <div id="tasks"></div>
+    </section>
+
+    <section class="card">
+      <h2>7. Mini-Test: Fragen stellen</h2>
+      <p>Beantworte die Fragen zu diesem Satz:</p>
+      <p class="sentence"><b>Die Polizistin zeigt dem Touristen den Weg.</b></p>
+      <label>Wer zeigt?</label>
+      <input type="text" id="q1" placeholder="Antwort...">
+      <label>Wem zeigt sie den Weg?</label>
+      <input type="text" id="q2" placeholder="Antwort...">
+      <label>Was zeigt sie?</label>
+      <input type="text" id="q3" placeholder="Antwort...">
+      <button class="check" onclick="checkMiniTest()">Mini-Test prüfen</button>
+      <div id="miniFeedback" class="feedback"></div>
+    </section>
+
+    <section class="card">
+      <h2>8. Merksatz</h2>
+      <p><b>Deutsch:</b> Suche zuerst das Verb. Das Verb zeigt, welche Ergänzungen der Satz braucht.</p>
+      <p><b>Español:</b> Busca primero el verbo. El verbo indica qué complementos y qué casos necesita la oración.</p>
+      <p><span class="tag nom">Wer?</span> = Nominativ · <span class="tag akk">Wen/Was?</span> = Akkusativ · <span class="tag dat">Wem?</span> = Dativ</p>
+    </section>
+
+    <div class="footer">Arbeitsblatt HTML – Valenz, Wortarten und Kasus</div>
+  </main>
+
+  <script>
+    let currentMode = 'nomSel';
+    const modes = ['nomSel','akkSel','datSel','verbSel','prepSel'];
+    const data = [
+      {
+        text:['Der','Lehrer','erklärt','der','Schülerin','die','Grammatik','.'],
+        solution:['nomSel','nomSel','verbSel','datSel','datSel','akkSel','akkSel',''],
+        hint:'Wer erklärt? der Lehrer · Wem erklärt er etwas? der Schülerin · Was erklärt er? die Grammatik'
+      },
+      {
+        text:['Die','Mutter','schenkt','dem','Kind','ein','Buch','.'],
+        solution:['nomSel','nomSel','verbSel','datSel','datSel','akkSel','akkSel',''],
+        hint:'Wer schenkt? die Mutter · Wem schenkt sie etwas? dem Kind · Was schenkt sie? ein Buch'
+      },
+      {
+        text:['Ich','spreche','mit','dem','Lehrer','.'],
+        solution:['nomSel','verbSel','prepSel','datSel','datSel',''],
+        hint:'mit + Dativ: mit dem Lehrer'
+      },
+      {
+        text:['Das','Geschenk','ist','für','den','Vater','.'],
+        solution:['nomSel','nomSel','verbSel','prepSel','akkSel','akkSel',''],
+        hint:'für + Akkusativ: für den Vater'
+      },
+      {
+        text:['Die','Polizistin','zeigt','dem','Touristen','den','Weg','.'],
+        solution:['nomSel','nomSel','verbSel','datSel','datSel','akkSel','akkSel',''],
+        hint:'Wer zeigt? die Polizistin · Wem? dem Touristen · Was? den Weg'
+      }
+    ];
+
+    document.querySelectorAll('.toolbar button[data-mode]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        currentMode = btn.dataset.mode;
+        document.querySelectorAll('.toolbar button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    document.querySelector('.toolbar button[data-mode]').classList.add('active');
+    document.getElementById('erase').addEventListener('click',()=>{
+      currentMode = 'erase';
+      document.querySelectorAll('.toolbar button').forEach(b=>b.classList.remove('active'));
+      document.getElementById('erase').classList.add('active');
+    });
+
+    function renderTasks(){
+      const wrap = document.getElementById('tasks');
+      wrap.innerHTML = '';
+      data.forEach((item,idx)=>{
+        const div = document.createElement('div');
+        div.className = 'task';
+        div.innerHTML = `<h3>Satz ${idx+1}</h3><div class="sentence" id="s${idx}"></div>
+          <button class="check" onclick="checkTask(${idx})">Prüfen</button>
+          <button class="reset" onclick="resetTask(${idx})">Neu starten</button>
+          <details><summary>Tipp anzeigen</summary><p>${item.hint}</p></details>
+          <div id="fb${idx}" class="feedback"></div>`;
+        wrap.appendChild(div);
+        const sent = div.querySelector(`#s${idx}`);
+        item.text.forEach((w,i)=>{
+          const span = document.createElement('span');
+          span.className = 'word';
+          span.textContent = w;
+          span.dataset.index = i;
+          span.dataset.task = idx;
+          span.addEventListener('click',()=>markWord(span));
+          sent.appendChild(span);
+        });
+      });
+    }
+
+    function markWord(span){
+      modes.forEach(m=>span.classList.remove(m));
+      if(currentMode !== 'erase') span.classList.add(currentMode);
+    }
+
+    function checkTask(idx){
+      const words = document.querySelectorAll(`#s${idx} .word`);
+      let ok = 0, total = 0;
+      words.forEach((w,i)=>{
+        const sol = data[idx].solution[i];
+        if(sol) total++;
+        const has = modes.find(m=>w.classList.contains(m)) || '';
+        if(has === sol) ok++;
+      });
+      const fb = document.getElementById(`fb${idx}`);
+      if(ok === total){
+        fb.className = 'feedback good';
+        fb.textContent = `Sehr gut! ${ok}/${total} richtig.`;
+      }else{
+        fb.className = 'feedback bad';
+        fb.textContent = `Noch einmal versuchen: ${ok}/${total} richtig.`;
+      }
+    }
+
+    function resetTask(idx){
+      document.querySelectorAll(`#s${idx} .word`).forEach(w=>modes.forEach(m=>w.classList.remove(m)));
+      document.getElementById(`fb${idx}`).textContent = '';
+    }
+
+    function norm(s){return s.toLowerCase().trim().replace(/\s+/g,' ')}
+    function checkMiniTest(){
+      const a1 = norm(document.getElementById('q1').value);
+      const a2 = norm(document.getElementById('q2').value);
+      const a3 = norm(document.getElementById('q3').value);
+      let pts = 0;
+      if(['die polizistin','polizistin'].includes(a1)) pts++;
+      if(['dem touristen','touristen'].includes(a2)) pts++;
+      if(['den weg','weg'].includes(a3)) pts++;
+      const fb = document.getElementById('miniFeedback');
+      fb.className = pts===3 ? 'feedback good' : 'feedback bad';
+      fb.textContent = pts===3 ? 'Perfekt! Alle Antworten sind richtig.' : `${pts}/3 richtig. Lösungen: die Polizistin · dem Touristen · den Weg`;
+    }
+
+    renderTasks();
+  </script>
+</body>
+</html>
