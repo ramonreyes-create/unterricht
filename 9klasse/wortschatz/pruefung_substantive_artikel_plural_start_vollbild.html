@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Prüfung – Substantive, Artikel und Plural</title>
+<style>
+body{font-family:Arial, sans-serif;background:#f4f7fb;margin:0;color:#222}
+header{background:#1f4e79;color:white;text-align:center;padding:24px}
+main{max-width:1050px;margin:24px auto;background:white;padding:28px;border-radius:16px;box-shadow:0 4px 16px #0002}
+h1,h2{color:#1f4e79} header h1{color:white;margin:0}
+.info{display:grid;grid-template-columns:1fr 1fr;gap:15px;background:#eaf2f8;padding:15px;border-radius:12px;margin-bottom:20px}
+input[type=text],select{width:100%;padding:8px;border:1px solid #aaa;border-radius:6px;box-sizing:border-box}
+.task{border:1px solid #cbd8e6;border-radius:12px;padding:18px;margin:20px 0;background:#fff}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+td,th{border:1px solid #cbd8e6;padding:8px}
+th{background:#eaf2f8}
+.warning{background:#fff3cd;border:1px solid #e0a800;padding:12px;border-radius:8px;font-weight:bold}
+.wordbank{background:#eef5fb;border:1px dashed #1f4e79;border-radius:10px;padding:12px;margin:10px 0;font-weight:bold}
+.submitbox{text-align:center;border-top:2px solid #ddd;padding-top:20px;position:sticky;bottom:0;background:white}
+button{background:#1f4e79;color:white;border:0;padding:14px 30px;border-radius:10px;font-size:17px;font-weight:bold;cursor:pointer}
+button:disabled{background:#777}
+#status{margin-top:12px;font-weight:bold}
+.sent{color:green}.error{color:#b00020}
+.der{color:#1565c0;font-weight:bold}.die{color:#c62828;font-weight:bold}.das{color:#2e7d32;font-weight:bold}
+.small{font-size:13px;color:#555}
+#startScreen{max-width:750px;margin:40px auto;text-align:center;background:white;padding:35px;border-radius:18px;box-shadow:0 4px 16px #0002}
+#examArea{display:none}
+#startBtn{background:#2e7d32;font-size:20px;padding:18px 42px}
+.timer{font-weight:bold;background:#1f4e79;color:white;padding:10px 14px;border-radius:10px;display:inline-block}
+</style>
+</head>
+<body>
+<header>
+<h1>Prüfung: Substantive, Artikel und Plural</h1>
+<p>Niveau B1 · Thema: Familie und Freizeit</p>
+</header>
+
+<div id="startScreen">
+<h2>Prüfung starten</h2>
+<p>Gib zuerst deinen Namen ein. Danach klicke auf <b>Prüfung starten</b>. Die Prüfung öffnet sich im Vollbildmodus und die Aufgaben werden angezeigt.</p>
+<p class="warning">Wenn du die Seite verlässt, die Registerkarte wechselst, das Fenster minimierst oder den Vollbildmodus beendest, wird dies registriert.</p>
+<p><b>Name der Schülerin:</b></p>
+<input id="studentNameStart" type="text" placeholder="Vor- und Nachname">
+<br><br>
+<button id="startBtn">Prüfung starten</button>
+<p id="startStatus" class="error"></p>
+</div>
+
+<main id="examArea">
+<div class="info">
+<div><b>Name der Schülerin:</b><br><input id="studentName" type="text" readonly></div>
+<div><b>Bearbeitungszeit:</b><br><span class="timer" id="timer">25:00</span><br><span class="small">Maximalpunkte: 40 · Bestehensgrenze/Note 4,0: 50%</span></div>
+</div>
+
+<form id="examForm">
+
+<div class="task">
+<h2>Teil 1 – Artikel bestimmen</h2>
+<p>Wähle den richtigen Artikel: <span class="der">der</span>, <span class="die">die</span> oder <span class="das">das</span>.</p>
+<table>
+<tr><th>Nr.</th><th>Substantiv</th><th>Artikel</th></tr>
+<tr><td>1</td><td>Familie</td><td><select name="q1"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>2</td><td>Freund</td><td><select name="q2"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>3</td><td>Netzwerk</td><td><select name="q3"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>4</td><td>Medium</td><td><select name="q4"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>5</td><td>Schule</td><td><select name="q5"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>6</td><td>Problem</td><td><select name="q6"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>7</td><td>Wochenende</td><td><select name="q7"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>8</td><td>Ausflug</td><td><select name="q8"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>9</td><td>Smartphone</td><td><select name="q9"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>10</td><td>Information</td><td><select name="q10"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+</table>
+</div>
+
+<div class="task">
+<h2>Teil 2 – Pluralformen schreiben</h2>
+<p>Schreibe die richtige Pluralform.</p>
+<table>
+<tr><th>Nr.</th><th>Singular</th><th>Plural</th></tr>
+<tr><td>11</td><td>die Familie</td><td><input type="text" name="q11"></td></tr>
+<tr><td>12</td><td>der Freund</td><td><input type="text" name="q12"></td></tr>
+<tr><td>13</td><td>das Problem</td><td><input type="text" name="q13"></td></tr>
+<tr><td>14</td><td>die Mahlzeit</td><td><input type="text" name="q14"></td></tr>
+<tr><td>15</td><td>der Ausflug</td><td><input type="text" name="q15"></td></tr>
+<tr><td>16</td><td>das Video</td><td><input type="text" name="q16"></td></tr>
+<tr><td>17</td><td>der Experte</td><td><input type="text" name="q17"></td></tr>
+<tr><td>18</td><td>die Fähigkeit</td><td><input type="text" name="q18"></td></tr>
+<tr><td>19</td><td>das Hobby</td><td><input type="text" name="q19"></td></tr>
+<tr><td>20</td><td>der Bildschirm</td><td><input type="text" name="q20"></td></tr>
+</table>
+</div>
+
+<div class="task">
+<h2>Teil 3 – Artikel + Plural ergänzen</h2>
+<p>Ergänze den Artikel und die Pluralform.</p>
+<table>
+<tr><th>Nr.</th><th>Substantiv</th><th>Artikel</th><th>Plural</th></tr>
+<tr><td>21</td><td>Zeit</td><td><select name="q21a"><option></option><option>der</option><option>die</option><option>das</option></select></td><td><input type="text" name="q21b"></td></tr>
+<tr><td>22</td><td>Nachricht</td><td><select name="q22a"><option></option><option>der</option><option>die</option><option>das</option></select></td><td><input type="text" name="q22b"></td></tr>
+<tr><td>23</td><td>Mensch</td><td><select name="q23a"><option></option><option>der</option><option>die</option><option>das</option></select></td><td><input type="text" name="q23b"></td></tr>
+<tr><td>24</td><td>Sportverein</td><td><select name="q24a"><option></option><option>der</option><option>die</option><option>das</option></select></td><td><input type="text" name="q24b"></td></tr>
+<tr><td>25</td><td>Musikgruppe</td><td><select name="q25a"><option></option><option>der</option><option>die</option><option>das</option></select></td><td><input type="text" name="q25b"></td></tr>
+</table>
+</div>
+
+<div class="task">
+<h2>Teil 4 – Nach Genus ordnen</h2>
+<p>Ordne die Substantive dem richtigen Artikel zu.</p>
+<div class="wordbank">Erlebnis · Rolle · Bestandteil · Leben · Aktivität · Angebot · Entwicklung · Jugendstudie · Kompetenz · Smartphone</div>
+<table>
+<tr><th>Nr.</th><th>Substantiv</th><th>Artikel</th></tr>
+<tr><td>26</td><td>Erlebnis</td><td><select name="q26"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>27</td><td>Rolle</td><td><select name="q27"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>28</td><td>Bestandteil</td><td><select name="q28"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>29</td><td>Leben</td><td><select name="q29"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>30</td><td>Aktivität</td><td><select name="q30"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>31</td><td>Angebot</td><td><select name="q31"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>32</td><td>Entwicklung</td><td><select name="q32"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>33</td><td>Jugendstudie</td><td><select name="q33"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>34</td><td>Kompetenz</td><td><select name="q34"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+<tr><td>35</td><td>Smartphone</td><td><select name="q35"><option></option><option>der</option><option>die</option><option>das</option></select></td></tr>
+</table>
+</div>
+
+<div class="task">
+<h2>Teil 5 – Substantive im Kontext</h2>
+<p>Wähle das passende Substantiv aus dem Text.</p>
+<table>
+<tr><th>Nr.</th><th>Satz</th><th>Antwort</th></tr>
+<tr><td>36</td><td>Viele Jugendliche sprechen mit ihren Eltern über persönliche ________.</td><td><select name="q36"><option></option><option>Probleme</option><option>Videos</option><option>Sportvereine</option></select></td></tr>
+<tr><td>37</td><td>Am Wochenende machen Familien manchmal gemeinsame ________.</td><td><select name="q37"><option></option><option>Ausflüge</option><option>Bildschirme</option><option>Kompetenzen</option></select></td></tr>
+<tr><td>38</td><td>Digitale Medien ermöglichen neue ________.</td><td><select name="q38"><option></option><option>Informationen</option><option>Mahlzeiten</option><option>Rollen</option></select></td></tr>
+<tr><td>39</td><td>In Sportvereinen entwickeln Jugendliche soziale ________.</td><td><select name="q39"><option></option><option>Kompetenzen</option><option>Freizeiten</option><option>Wochenenden</option></select></td></tr>
+<tr><td>40</td><td>Gemeinsame ________ sind für viele Jugendliche wichtig.</td><td><select name="q40"><option></option><option>Erlebnisse</option><option>Smartphones</option><option>Netzwerke</option></select></td></tr>
+</table>
+</div>
+
+<div class="submitbox">
+<button id="submitBtn" type="submit">Enviar al profesor</button>
+<div id="status"></div>
+<p class="small">Beim Senden werden Name, Punkte, Note, Antworten und Seitenwechsel registriert.</p>
+</div>
+</form>
+</main>
+
+<script>
+const SCRIPT_URL = "PEGAR_AQUI_URL_DEL_SCRIPT";
+
+const correct = {
+q1:"die",q2:"der",q3:"das",q4:"das",q5:"die",q6:"das",q7:"das",q8:"der",q9:"das",q10:"die",
+q11:"familien",q12:"freunde",q13:"probleme",q14:"mahlzeiten",q15:"ausfluege",q16:"videos",q17:"experten",q18:"faehigkeiten",q19:"hobbys",q20:"bildschirme",
+q21a:"die",q21b:"zeiten",q22a:"die",q22b:"nachrichten",q23a:"der",q23b:"menschen",q24a:"der",q24b:"sportvereine",q25a:"die",q25b:"musikgruppen",
+q26:"das",q27:"die",q28:"der",q29:"das",q30:"die",q31:"das",q32:"die",q33:"die",q34:"die",q35:"das",
+q36:"Probleme",q37:"Ausflüge",q38:"Informationen",q39:"Kompetenzen",q40:"Erlebnisse"
+};
+
+let exitCount = 0;
+let exitEvents = [];
+let started = false;
+let startTime = null;
+let timerInterval = null;
+let timeLeft = 25 * 60;
+
+function registerExit(type){
+  if(!started) return;
+  exitCount++;
+  exitEvents.push(type + " - " + new Date().toLocaleString());
+}
+
+document.getElementById("startBtn").addEventListener("click", async function(){
+  const name = document.getElementById("studentNameStart").value.trim();
+  const status = document.getElementById("startStatus");
+  if(!name){
+    status.textContent = "Bitte Namen eingeben.";
+    return;
+  }
+
+  try{
+    await document.documentElement.requestFullscreen();
+  }catch(e){
+    registerExit("Vollbild konnte nicht gestartet werden");
+  }
+
+  document.getElementById("studentName").value = name;
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("examArea").style.display = "block";
+  started = true;
+  startTime = new Date();
+  startTimer();
+});
+
+document.addEventListener("fullscreenchange", function(){
+  if(started && !document.fullscreenElement){
+    registerExit("Vollbildmodus beendet");
+  }
+});
+document.addEventListener("visibilitychange",()=>{ if(document.hidden) registerExit("Cambio de pestaña / página oculta"); });
+window.addEventListener("blur",()=>registerExit("Salió de la página / perdió foco"));
+
+function startTimer(){
+  updateTimer();
+  timerInterval = setInterval(function(){
+    timeLeft--;
+    updateTimer();
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      document.getElementById("examForm").requestSubmit();
+    }
+  },1000);
+}
+function updateTimer(){
+  const min = Math.floor(timeLeft/60);
+  const sec = timeLeft%60;
+  document.getElementById("timer").textContent = String(min).padStart(2,"0") + ":" + String(sec).padStart(2,"0");
+}
+
+function getAnswer(name){
+  const el = document.querySelector('[name="'+name+'"]');
+  return el ? el.value.trim() : "";
+}
+function normalize(x){
+  return (x||"").toLowerCase().trim()
+  .replaceAll("ä","ae").replaceAll("ö","oe").replaceAll("ü","ue").replaceAll("ß","ss");
+}
+function calculate(){
+  let score=0, answers={};
+  Object.keys(correct).forEach(k=>{
+    const ans=getAnswer(k);
+    answers[k]=ans;
+    const corr=correct[k];
+    if(k.match(/q(36|37|38|39|40)$/)){
+      if(ans===corr) score++;
+    }else{
+      if(normalize(ans)===normalize(corr)) score++;
+    }
+  });
+  return {score,answers};
+}
+function calculateGrade(score,maxScore){
+  const percent = score / maxScore;
+  let grade;
+  if(percent < 0.5){
+    grade = 2.0 + (percent / 0.5) * 2.0;
+  }else{
+    grade = 4.0 + ((percent - 0.5) / 0.5) * 3.0;
+  }
+  return Math.round(grade * 10) / 10;
+}
+
+document.getElementById("examForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  clearInterval(timerInterval);
+
+  const btn=document.getElementById("submitBtn");
+  const status=document.getElementById("status");
+  const name=document.getElementById("studentName").value.trim();
+
+  btn.disabled=true;
+  btn.textContent="Enviando...";
+  status.textContent="Enviando...";
+  status.className="";
+
+  const result=calculate();
+  const endTime=new Date();
+  const maxScore=Object.keys(correct).length;
+  const percent=Math.round(result.score/maxScore*100);
+  const grade=calculateGrade(result.score,maxScore);
+
+  const payload={
+    timestamp:endTime.toLocaleString(),
+    name:name,
+    thema:"Prüfung Substantive Artikel Plural - Familie und Freizeit",
+    score:result.score,
+    maxScore:maxScore,
+    prozent:percent,
+    note:grade,
+    exigencia:"50%",
+    dauerMinuten:Math.round((endTime-startTime)/60000),
+    seiteVerlassenAnzahl:exitCount,
+    seiteVerlassenDetails:exitEvents.join(" | "),
+    antworten:JSON.stringify(result.answers)
+  };
+
+  try{
+    if(SCRIPT_URL==="PEGAR_AQUI_URL_DEL_SCRIPT"){
+      console.log(payload);
+      status.textContent="Gesendet (Testmodus: falta pegar la URL del Apps Script)";
+      status.className="sent";
+      btn.textContent="Gesendet";
+      return;
+    }
+    await fetch(SCRIPT_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain"},
+      body:JSON.stringify(payload)
+    });
+    status.textContent="Gesendet";
+    status.className="sent";
+    btn.textContent="Gesendet";
+  }catch(err){
+    status.textContent="Fehler beim Senden.";
+    status.className="error";
+    btn.disabled=false;
+    btn.textContent="Enviar al profesor";
+  }
+});
+</script>
+</body>
+</html>
