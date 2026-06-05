@@ -12,31 +12,7 @@
 <header><h1>Kontrolle: Kasus und Adjektivdeklination</h1><p>10. Klasse · Nominativ, Akkusativ, Dativ · Valenz der Verben und Präpositionen</p></header>
 <section id="intro" class="wrap">
 <div class="card"><h2>Hinweise zur Prüfung</h2><p>Diese Kontrolle besteht aus zwei Teilen:</p><ul><li><strong>Teil A:</strong> Kasus bestimmen — 30 Punkte</li><li><strong>Teil B:</strong> Adjektivdeklination ergänzen — 30 Punkte</li></ul><p class="small">Nach dem Start wird die Prüfung im Vollbildmodus geöffnet. Tabwechsel, Kopieren, Einfügen und Verlassen des Vollbildmodus werden registriert.</p><div class="grid"><div><label for="studentName">Name der Schülerin</label><input id="studentName" type="text" placeholder="Vorname und Nachname"></div><div><label for="courseName">Kurs / Klasse</label><input id="courseName" type="text" placeholder="z. B. 10. Klasse"></div></div><p><button class="primary" onclick="startExam()">Prüfung starten</button></p><div class="notice"><strong>Wichtig:</strong> Trage im JavaScript bei <code>SCRIPT_URL</code> deine Web-App-URL von Google Apps Script ein.</div></div>
-  const ss = SpreadsheetApp.openById("DEINE_SHEET_ID");
-  let sheet = ss.getSheetByName("Ergebnisse");
-  if (!sheet) sheet = ss.insertSheet("Ergebnisse");
 
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow([
-      "Zeitstempel", "Name", "Kurs", "Teil A", "Teil B", "Gesamt",
-      "Prozent", "Note", "Tabwechsel", "Vollbild verlassen",
-      "Kopieren", "Einfügen", "Details"
-    ]);
-  }
-
-  const data = JSON.parse(e.postData.contents);
-
-  sheet.appendRow([
-    new Date(), data.name, data.course, data.teilA, data.teilB,
-    data.gesamt, data.prozent, data.note, data.tabwechsel,
-    data.vollbildVerlassen, data.kopieren, data.einfuegen, data.details
-  ]);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({status:"ok"}))
-    .setMimeType(ContentService.MimeType.JSON);
-}</div></div>
-</section>
 <div id="examToolbar" class="toolbar hidden"><div><strong>Kontrolle läuft</strong> · <span id="studentDisplay"></span></div><div class="badges"><span class="nom">Nominativ</span><span class="akk">Akkusativ</span><span class="dat">Dativ</span></div><div class="timer" id="timer">40:00</div></div>
 <main id="exam" class="wrap hidden"><form id="examForm"><section class="card"><h2>Teil A: Kasus bestimmen</h2><p>Bestimme den Kasus des markierten Satzteils.</p><div id="partA"></div></section><section class="card"><h2>Teil B: Adjektivdeklination</h2><p>Ergänze die richtige Form des Adjektivs.</p><div id="partB"></div></section><section class="card"><button type="button" class="submit" onclick="submitExam()">Arbeit abgeben</button><button type="button" class="secondary" onclick="requestFullscreen()">Vollbild wieder aktivieren</button><p id="sendStatus" class="small"></p></section></form></main>
 <section id="results" class="wrap hidden"><div class="card result" id="resultBox"></div></section>
