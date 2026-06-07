@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>9. Klasse – Materialien und Übungen</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #172554, #2563eb);
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1150px;
+      margin: 35px auto;
+      padding: 0 20px 50px;
+    }
+
+    .aktuell {
+      background: #fff7ed;
+      border-left: 7px solid #f97316;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 30px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .aktuell h2 {
+      color: #9a3412;
+      margin-bottom: 5px;
+    }
+
+    .intro {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      margin-bottom: 35px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      line-height: 1.6;
+    }
+
+    .semester-title {
+      margin: 35px 0 20px;
+      font-size: 1.7rem;
+      border-left: 6px solid #2563eb;
+      padding-left: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      text-decoration: none;
+      color: #1e293b;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, 0.1);
+      transition: 0.25s;
+      border-top: 7px solid #2563eb;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.16);
+    }
+
+    .card.active {
+      border-top-color: #f97316;
+      background: #fff7ed;
+    }
+
+    .card.ferien {
+      border-top-color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .kw {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1d4ed8;
+      margin-bottom: 5px;
+    }
+
+    .card.active .kw {
+      color: #ea580c;
+    }
+
+    .card.ferien .kw {
+      color: #15803d;
+    }
+
+    .date {
+      color: #64748b;
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+    }
+
+    .topic {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      line-height: 1.35;
+    }
+
+    .mini-list {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .mini-list li {
+      background: #f8fafc;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .card.ferien .mini-list li {
+      background: #dcfce7;
+    }
+
+    .tag {
+      display: inline-block;
+      width: fit-content;
+      padding: 7px 13px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .card.active .tag {
+      background: #fed7aa;
+      color: #9a3412;
+    }
+
+    .card.ferien .tag {
+      background: #bbf7d0;
+      color: #166534;
+    }
+
+    .help {
+      display: none;
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      margin-top: 40px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+      line-height: 1.7;
+    }
+
+    .help h2 {
+      color: #1e40af;
+      margin-bottom: 10px;
+    }
+
+    .help code {
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px 20px;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 650px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>9. Klasse</h1>
+  <p>Materialien · Interaktive Übungen · Kalenderwochen 2026</p>
+</header>
+
+<main>
+
+  <section class="aktuell">
+    <h2 id="aktuelleWoche">Aktuelle Kalenderwoche</h2>
+    <p>Die aktuelle KW wird automatisch nach dem Datum des Computers markiert.</p>
+  </section>
+
+  <section class="intro">
+    <strong>Organisation:</strong> Diese Seite sammelt die Materialien und interaktiven Übungen der 9. Klasse nach Kalenderwochen.
+  </section>
+
+  <h2 class="semester-title">Ab Juni 2026</h2>
+  <section class="grid" id="wochenContainer"></section>
+
+  <section class="help">
+    <h2>Neue KW hinzufügen</h2>
+    <p>1. Erstelle eine neue Datei, zum Beispiel <code>KW_29.html</code>.</p>
+    <p>2. Ergänze unten im Script eine neue Zeile in der Liste <code>wochen</code>.</p>
+    <p>Beispiel:</p>
+    <p><code>{ kw: 29, datum: "13.07 – 19.07", thema: "Neues Thema", link: "KW_29.html" }</code></p>
+  </section>
+
+</main>
+
+<footer>
+  Colegio Santa Úrsula · Deutschunterricht · 2026
+</footer>
+
+<script>
+  function getISOWeekNumber(date) {
+    const tempDate = new Date(date.valueOf());
+    const dayNumber = (date.getDay() + 6) % 7;
+
+    tempDate.setDate(tempDate.getDate() - dayNumber + 3);
+
+    const firstThursday = tempDate.valueOf();
+
+    tempDate.setMonth(0, 1);
+
+    if (tempDate.getDay() !== 4) {
+      tempDate.setMonth(0, 1 + ((4 - tempDate.getDay()) + 7) % 7);
+    }
+
+    return 1 + Math.ceil((firstThursday - tempDate) / 604800000);
+  }
+
+  const aktuelleKW = getISOWeekNumber(new Date());
+
+  document.getElementById("aktuelleWoche").innerHTML =
+    "📅 Aktuelle Kalenderwoche: KW " + aktuelleKW;
+
+  const wochen = [
+    {
+      kw: 23,
+      datum: "01.06 – 07.06",
+      thema: "Start: Materialien nach Kalenderwochen",
+      link: "KW_23.html",
+      materialien: ["📂 Materialien", "💻 Übungen"]
+    },
+    {
+      kw: 24,
+      datum: "08.06 – 14.06",
+      thema: "B1-Grammatik · Satzbau",
+      link: "KW_24.html",
+      materialien: ["📂 Materialien", "💻 Übungen"]
+    },
+    {
+      kw: 25,
+      datum: "15.06 – 21.06",
+      thema: "Lesen · Wortschatz · Übungen",
+      link: "KW_25.html",
+      materialien: ["📂 Materialien", "💻 Übungen"]
+    },
+    {
+      ferien: true,
+      titel: "Winterferien",
+      datum: "22.06 – 03.07",
+      thema: "Keine regulären Stunden",
+      link: "Winterferien.html",
+      materialien: ["🌴 Pause", "📌 Information"]
+    },
+    {
+      kw: 28,
+      datum: "06.07 – 12.07",
+      thema: "Wiederbeginn nach den Ferien",
+      link: "KW_28.html",
+      materialien: ["📂 Materialien", "💻 Übungen"]
+    }
+
+    /*
+    Neue KW hier ergänzen:
+
+    ,
+    {
+      kw: 29,
+      datum: "13.07 – 19.07",
+      thema: "Neues Thema",
+      link: "KW_29.html",
+      materialien: ["📄 Material", "💻 Übung"]
+    }
+    */
+  ];
+
+  const container = document.getElementById("wochenContainer");
+
+  wochen.forEach(woche => {
+    const card = document.createElement("a");
+    card.href = woche.link;
+    card.className = "card";
+
+    if (woche.ferien) {
+      card.classList.add("ferien");
+    }
+
+    if (woche.kw === aktuelleKW) {
+      card.classList.add("active");
+    }
+
+    const titel = woche.ferien ? woche.titel : "KW " + woche.kw;
+    const tag = woche.ferien
+      ? "Information"
+      : (woche.kw === aktuelleKW ? "Aktuelle Woche" : "Materialien öffnen");
+
+    card.innerHTML = `
+      <div>
+        <div class="kw">${titel}</div>
+        <div class="date">${woche.datum}</div>
+        <div class="topic">${woche.thema}</div>
+        <ul class="mini-list">
+          ${woche.materialien.map(item => `<li>${item}</li>`).join("")}
+        </ul>
+      </div>
+      <span class="tag">${tag}</span>
+    `;
+
+    container.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
