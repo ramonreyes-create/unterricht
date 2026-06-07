@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory-Spiel: Grafik-Wortschatz B2</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f3f6f8;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+
+    header {
+      background: #4338ca;
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    section {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    h1, h2, h3 {
+      margin-top: 0;
+    }
+
+    h2 {
+      color: #4338ca;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+
+    .hinweis {
+      background: #eef2ff;
+      border-left: 5px solid #4338ca;
+      padding: 12px;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+
+    .spielinfo {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .badge {
+      background: #e0e7ff;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+    }
+
+    .controls {
+      margin: 16px 0;
+    }
+
+    button {
+      background: #4338ca;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #3730a3;
+    }
+
+    .memory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .card {
+      min-height: 115px;
+      border-radius: 14px;
+      background: #4338ca;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s, background 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card.flipped {
+      background: #f8fafc;
+      color: #1f2937;
+      border: 2px solid #4338ca;
+    }
+
+    .card.matched {
+      background: #dcfce7;
+      color: #166534;
+      border: 2px solid #22c55e;
+      cursor: default;
+    }
+
+    .card.wrong {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 2px solid #ef4444;
+    }
+
+    .loesungen {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background: #e0e7ff;
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+      section {
+        box-shadow: none;
+        border: 1px solid #ddd;
+      }
+      .memory-grid, .controls, .spielinfo {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Memory-Spiel: Grafik-Wortschatz</h1>
+    <p>B2 / DSD II – Wortschatz für die Beschreibung von Grafiken</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Anleitung</h2>
+      <div class="hinweis">
+        Klicke auf zwei Karten. Finde jeweils das passende Paar: ein Wort oder ein Ausdruck und seine Erklärung. Wenn das Paar richtig ist, bleibt es grün markiert.
+      </div>
+
+      <div class="spielinfo">
+        <div class="badge">Paare gefunden: <span id="pairs">0</span> / 10</div>
+        <div class="badge">Versuche: <span id="moves">0</span></div>
+      </div>
+
+      <div class="controls">
+        <button onclick="startGame()">Spiel neu starten</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Memory</h2>
+      <div id="game" class="memory-grid"></div>
+    </section>
+
+    <section class="loesungen">
+      <h2>Lösung / Wortschatzübersicht</h2>
+      <p>Diese Übersicht kann nach dem Spielen zur Kontrolle verwendet werden.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Wort / Ausdruck</th>
+            <th>Erklärung</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>veranschaulichen</td><td>etwas mit Zahlen, Bildern oder Beispielen deutlich zeigen</td></tr>
+          <tr><td>der Anteil</td><td>ein Teil von einer Gesamtmenge</td></tr>
+          <tr><td>steigen</td><td>größer oder mehr werden</td></tr>
+          <tr><td>sinken</td><td>kleiner oder weniger werden</td></tr>
+          <tr><td>der Durchschnitt</td><td>ein Mittelwert aus mehreren Zahlen</td></tr>
+          <tr><td>der höchste Wert</td><td>die größte Zahl in einer Grafik</td></tr>
+          <tr><td>der niedrigste Wert</td><td>die kleinste Zahl in einer Grafik</td></tr>
+          <tr><td>auffällig</td><td>besonders sichtbar oder bemerkenswert</td></tr>
+          <tr><td>im Vergleich zu</td><td>wenn man zwei Werte oder Gruppen gegenüberstellt</td></tr>
+          <tr><td>darauf hindeuten</td><td>zeigen, dass etwas wahrscheinlich ist</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const pairsData = [
+      { id: 1, word: "veranschaulichen", definition: "etwas mit Zahlen, Bildern oder Beispielen deutlich zeigen" },
+      { id: 2, word: "der Anteil", definition: "ein Teil von einer Gesamtmenge" },
+      { id: 3, word: "steigen", definition: "größer oder mehr werden" },
+      { id: 4, word: "sinken", definition: "kleiner oder weniger werden" },
+      { id: 5, word: "der Durchschnitt", definition: "ein Mittelwert aus mehreren Zahlen" },
+      { id: 6, word: "der höchste Wert", definition: "die größte Zahl in einer Grafik" },
+      { id: 7, word: "der niedrigste Wert", definition: "die kleinste Zahl in einer Grafik" },
+      { id: 8, word: "auffällig", definition: "besonders sichtbar oder bemerkenswert" },
+      { id: 9, word: "im Vergleich zu", definition: "wenn man zwei Werte oder Gruppen gegenüberstellt" },
+      { id: 10, word: "darauf hindeuten", definition: "zeigen, dass etwas wahrscheinlich ist" }
+    ];
+
+    let firstCard = null;
+    let secondCard = null;
+    let lockBoard = false;
+    let moves = 0;
+    let pairs = 0;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function startGame() {
+      const game = document.getElementById("game");
+      game.innerHTML = "";
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+      moves = 0;
+      pairs = 0;
+      document.getElementById("moves").textContent = moves;
+      document.getElementById("pairs").textContent = pairs;
+
+      const cards = [];
+      pairsData.forEach(pair => {
+        cards.push({ id: pair.id, text: pair.word, type: "word" });
+        cards.push({ id: pair.id, text: pair.definition, type: "definition" });
+      });
+
+      shuffle(cards).forEach(cardData => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.id = cardData.id;
+        card.dataset.type = cardData.type;
+        card.dataset.text = cardData.text;
+        card.textContent = "?";
+        card.addEventListener("click", () => flipCard(card));
+        game.appendChild(card);
+      });
+    }
+
+    function flipCard(card) {
+      if (lockBoard || card.classList.contains("matched") || card === firstCard) return;
+
+      card.classList.add("flipped");
+      card.textContent = card.dataset.text;
+
+      if (!firstCard) {
+        firstCard = card;
+        return;
+      }
+
+      secondCard = card;
+      moves++;
+      document.getElementById("moves").textContent = moves;
+      checkMatch();
+    }
+
+    function checkMatch() {
+      const isMatch = firstCard.dataset.id === secondCard.dataset.id && firstCard.dataset.type !== secondCard.dataset.type;
+
+      if (isMatch) {
+        firstCard.classList.add("matched");
+        secondCard.classList.add("matched");
+        pairs++;
+        document.getElementById("pairs").textContent = pairs;
+        resetTurn();
+      } else {
+        lockBoard = true;
+        firstCard.classList.add("wrong");
+        secondCard.classList.add("wrong");
+
+        setTimeout(() => {
+          firstCard.classList.remove("flipped", "wrong");
+          secondCard.classList.remove("flipped", "wrong");
+          firstCard.textContent = "?";
+          secondCard.textContent = "?";
+          resetTurn();
+        }, 1000);
+      }
+    }
+
+    function resetTurn() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
