@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DSD Training – Komplette Übungsseite</title>
+<style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f5f7;
+      color: #222;
+      line-height: 1.6;
+    }
+
+    .top-header {
+      background: #15395b;
+      color: white;
+      padding: 34px 40px;
+      text-align: center;
+    }
+
+    .top-header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+    }
+
+    .top-header p {
+      margin: 8px 0 0;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: white;
+      border-bottom: 1px solid #ddd;
+      padding: 12px 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    nav a {
+      display: inline-block;
+      margin: 5px;
+      padding: 9px 14px;
+      background: #15395b;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      background: #0f2b45;
+    }
+
+    .container {
+      max-width: 1150px;
+      margin: 30px auto;
+      padding: 0 22px 50px;
+    }
+
+    .page-section {
+      margin-bottom: 42px;
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+
+    .section-title {
+      background: #eef6ff;
+      border-left: 6px solid #15395b;
+      padding: 12px 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: #15395b;
+    }
+
+    .embedded-page header {
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .embedded-page main {
+      margin: 0 auto !important;
+      box-shadow: none !important;
+    }
+
+    input, textarea, select {
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    @media print {
+      nav {
+        display: none;
+      }
+
+      .page-section {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+
+      .top-header {
+        background: white;
+        color: black;
+      }
+    }
+  
+.feedback{font-weight:bold;margin-left:10px;}
+.feedback.ok{color:#1b5e20;}
+.feedback.bad{color:#b71c1c;}
+button.check-btn{background:#15395b;color:white;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:bold;margin-left:8px;}
+button.send{background:#1b5e20;color:white;border:none;border-radius:10px;padding:12px 18px;cursor:pointer;font-weight:bold;}
+.sendstatus{font-weight:bold;margin-top:12px;}
+.hint{font-size:.95rem;color:#555;}
+
+
+
+#examHeader{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  background:#15395b;
+  color:white;
+  padding:10px 24px;
+  z-index:10000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-sizing:border-box;
+  box-shadow:0 3px 12px rgba(0,0,0,.25);
+}
+#examHeader #timerDisplay{
+  font-size:2rem;
+  font-weight:bold;
+  color:#fff;
+}
+body{
+  padding-top:76px;
+}
+.timerbox{
+  background:#fff7ed;
+  border:2px solid #fb923c;
+  border-radius:14px;
+  padding:14px 18px;
+  margin-bottom:18px;
+  box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+.timer-ended{
+  background:#fee2e2 !important;
+  border-color:#b91c1c !important;
+}
+
+
+.exam-content-hidden{
+  display:none;
+}
+.start-screen{
+  border:3px solid #15395b;
+}
+</style>
+</head>
+<body>
+
+<div id="examHeader">
+  <div><strong>DSD II – Leseverstehen</strong></div>
+  <div>
+    <span>⏰ Zeit: </span><span id="timerDisplay">40:00</span>
+  </div>
+</div>
+
+<header class="top-header">
+<h1>DSD Training – Komplette Übungsseite</h1>
+<p>Leseverstehen Teil 1 · Leseverstehen Teil 2</p>
+</header>
+<nav id="examNav" class="exam-content-hidden">
+<a href="#teil1">Leseverstehen Teil 1</a>
+<a href="#teil2">Leseverstehen Teil 2</a>
+
+</nav>
+<div class="container">
+
+<section class="page-section sendbox start-screen" id="registrierung">
+  <div class="section-title"><h2>Name und Ergebnis</h2></div>
+  <label for="studentName"><strong>Name der Schülerin:</strong></label>
+  <input id="studentName" type="text" placeholder="Name eingeben" style="width:280px;max-width:90%;padding:10px;border-radius:8px;border:1px solid #999;">
+  <p class="hint">Die Ergebnisse können auch gesendet werden, wenn nicht alle Aufgaben fertig sind.</p>
+</section>
+
+<section class="page-section exam-content-hidden" id="teil1" data-exam-content="true">
+<div class="section-title">
+<h2>1. Leseverstehen Teil 1</h2>
+</div>
+<div class="embedded-page">
+<header>
+<h1>DSD II – Leseverstehen Teil 1</h1>
+<p>Geführtes Training zum Aufgabentyp „Überschriften zuordnen“.</p>
+</header><main>
+<section>
+<h2>Ziel der Übung</h2>
+<p>Der Schüler / die Schülerin liest fünf kurze Texte und wählt die Überschrift, die die Hauptaussage am besten zusammenfasst. Es geht nicht darum, jedes Wort zu übersetzen, sondern <strong>Motivation, Problem und Ziel</strong> zu erkennen.</p>
+<div class="box">
+<strong>Goldene Regel:</strong> Die richtige Überschrift passt zum ganzen Text. Ein einzelnes Detail reicht nicht aus.
+    </div>
+</section>
+<section>
+<h2>Vor dem Lesen: Überschriften analysieren</h2>
+<p>Lies zuerst nur die Überschriften und markiere die Schlüsselwörter.</p>
+<table>
+<tr><th>Buchstabe</th><th>Überschrift</th><th>Schlüsselidee</th></tr>
+<tr><td>A</td><td>Im zweiten Anlauf zum Abitur</td><td>zweiter Versuch</td></tr>
+<tr><td>B</td><td>Familie und Schule – Organisation ist alles</td><td>Familie + Schule + Planung</td></tr>
+<tr><td>C</td><td>Nach langer Berufstätigkeit zurück zur Schule</td><td>lange gearbeitet, dann wieder Schule</td></tr>
+<tr><td>D</td><td>Nach dem Abi erstmal reisen</td><td>Reisen nach dem Abitur</td></tr>
+<tr><td>E</td><td>Abistress mit Kindern nicht zu bewältigen</td><td>Stress mit Kindern ist nicht zu schaffen</td></tr>
+<tr><td>F</td><td>Abitur stärkt das Selbstwertgefühl</td><td>sich selbst etwas beweisen</td></tr>
+<tr><td>G</td><td>Schule als Kontaktbörse</td><td>Kontakte durch Schule</td></tr>
+<tr><td>H</td><td>Chancenlos ohne Schulabschluss</td><td>keine Chancen ohne Abschluss</td></tr>
+<tr><td>I</td><td>Der Weg zum Traumberuf</td><td>Vorbereitung auf den Wunschberuf</td></tr>
+</table>
+</section>
+<section>
+<h2>Texte und Aufgaben</h2>
+<div class="text-card">
+<h3>Text 1</h3>
+<p>Ich will später unbedingt Regisseur werden. Als Regisseur ist man ja in einer Art Führungsposition und oft auf Reisen. Ich will aber alles lernen, auch wie es ist, als kleiner Kabelträger am Filmset zu arbeiten. Jetzt mache ich mein Abitur nach und bereite mich auf meine Bewerbung an der Hochschule für Film und Fernsehen vor. Abi braucht man zwar nicht unbedingt, aber es erhöht die Einstellungschancen.</p>
+<p><span class="tag">Traumberuf</span><span class="tag">Regisseur</span><span class="tag">Bewerbung</span><span class="tag">Einstellungschancen</span></p>
+<details><summary>Tipp zur richtigen Lösung</summary><p>Die Hauptidee ist nicht das Reisen. Die Person bereitet sich auf einen konkreten Beruf vor: Regisseur.</p></details>
+<label>Wähle die passende Überschrift:</label><select id="q1"><option value="">---</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select> <button class="check-btn" data-check="q1" data-answer="I" type="button">Prüfen</button><span class="feedback" id="fb_q1"></span>
+</div>
+<div class="text-card">
+<h3>Text 2</h3>
+<p>Ich bin schon mit 18 Mutter geworden. Meine Töchter sind jetzt vier und fünf Jahre alt, ich erziehe sie allein. Nebenbei die Schule auf die Reihe zu kriegen, ist nicht sehr einfach. Ich habe Glück, dass ich einen Kindergarten für die beiden gefunden habe. Ich lerne nachmittags, wenn sie noch nicht zu Hause sind, und abends, nachdem ich sie ins Bett gebracht habe. Später will ich auf jeden Fall studieren. Klappt es aber mit dem Abi nicht, könnte ich wieder als Außenhandelskauffrau arbeiten.</p>
+<p><span class="tag">Mutter</span><span class="tag">Kinder</span><span class="tag">Kindergarten</span><span class="tag">Lernen am Nachmittag und Abend</span></p>
+<details><summary>Tipp zur richtigen Lösung</summary><p>Es geht um Kinder, Schule und Zeitplanung. Achtung: Der Text sagt nicht, dass es unmöglich ist. Deshalb passt E nicht.</p></details>
+<label>Wähle die passende Überschrift:</label><select id="q2"><option value="">---</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select> <button class="check-btn" data-check="q2" data-answer="B" type="button">Prüfen</button><span class="feedback" id="fb_q2"></span>
+</div>
+<div class="text-card">
+<h3>Text 3</h3>
+<p>Ich habe vor fünf Jahren schon mal auf der Fachoberschule versucht, mein Abi zu machen, musste aber wegen schlechter Noten in Mathe und Physik die Schule wieder verlassen. Eine Weile lang habe ich gar nichts gemacht und danach eine Ausbildung zum Feinmechaniker. Das hat mir aber gar nicht gefallen. Auf einer Reise durch Südamerika habe ich mich schließlich dazu entschlossen, es noch mal zu probieren. Jetzt ist meine Motivation hier auf der Abendschule groß.</p>
+<p><span class="tag">schon mal versucht</span><span class="tag">noch mal probieren</span><span class="tag">zweiter Versuch</span></p>
+<details><summary>Tipp zur richtigen Lösung</summary><p>„schon mal versucht“ und „noch mal probieren“ zeigen klar: Es ist ein zweiter Anlauf.</p></details>
+<label>Wähle die passende Überschrift:</label><select id="q3"><option value="">---</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select> <button class="check-btn" data-check="q3" data-answer="A" type="button">Prüfen</button><span class="feedback" id="fb_q3"></span>
+</div>
+<div class="text-card">
+<h3>Text 4</h3>
+<p>Ich bin jetzt 29 und habe mich für diese Abendschule entschieden, weil hier nicht nur junge Leute eine Chance bekommen und man keine Schulgebühren zahlen muss. Ich habe zehn Jahre Berufserfahrung als Arzthelferin. Doch in letzter Zeit fehlte mir bei der Arbeit die Motivation. Ich fühlte mich unterfordert. Ich würde später gerne Medizin studieren und selbst eine Praxis eröffnen. Im besten Fall bin ich mit 37 mit dem Studium fertig, aber darüber mache ich mir keine Sorgen.</p>
+<p><span class="tag">29 Jahre</span><span class="tag">zehn Jahre Berufserfahrung</span><span class="tag">zurück zur Schule</span><span class="tag">Medizin studieren</span></p>
+<details><summary>Tipp zur richtigen Lösung</summary><p>Entscheidend ist: Die Person hat lange gearbeitet und geht jetzt wieder zur Schule.</p></details>
+<label>Wähle die passende Überschrift:</label><select id="q4"><option value="">---</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select> <button class="check-btn" data-check="q4" data-answer="C" type="button">Prüfen</button><span class="feedback" id="fb_q4"></span>
+</div>
+<div class="text-card">
+<h3>Text 5</h3>
+<p>Das Abitur mache ich in erster Linie für mich ganz persönlich. Ich halte mich für fähig genug. Früher habe ich als Maler gearbeitet. Aber als ich dann arbeitslos wurde, wollte ich mir beweisen, dass ich noch viel mehr kann. Anfangs war es natürlich seltsam. Man muss sich wieder an Autoritätspersonen gewöhnen und stundenlang auf einem Stuhl sitzen. Das fiel mir früher schwer. Aber jetzt will ich bis zum Abi durchhalten.</p>
+<p><span class="tag">für mich persönlich</span><span class="tag">fähig genug</span><span class="tag">mir beweisen</span><span class="tag">durchhalten</span></p>
+<details><summary>Tipp zur richtigen Lösung</summary><p>Der Schwerpunkt liegt darauf, sich selbst zu beweisen, dass man mehr kann. Das verweist auf Selbstwertgefühl.</p></details>
+<label>Wähle die passende Überschrift:</label><select id="q5"><option value="">---</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select> <button class="check-btn" data-check="q5" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_q5"></span>
+</div>
+
+</section>
+</main>
+</div>
+</section>
+<section class="page-section exam-content-hidden" id="teil2" data-exam-content="true">
+<div class="section-title">
+<h2>2. Leseverstehen Teil 2</h2>
+</div>
+<div class="embedded-page">
+<header>
+<h1>DSD II – Leseverstehen Teil 2</h1>
+<p>Intensivtraining: Richtig – Falsch – Der Text sagt dazu nichts</p>
+</header><main><div style="background:#eef6ff;padding:10px;border-radius:8px;margin-bottom:20px;">Interaktive Version: Du kannst jetzt direkt in die Felder schreiben.</div>
+<p class="print-note">Material für einen Schüler / eine Schülerin zur Vorbereitung auf den Prüfungsteil Leseverstehen.</p>
+<section class="box">
+<h2>Was prüft Teil 2?</h2>
+<p>In Teil 2 musst du Aussagen zum Text bewerten. Dabei gibt es drei Möglichkeiten:</p>
+<ul>
+<li><strong>Richtig</strong>: Die Information steht so im Text.</li>
+<li><strong>Falsch</strong>: Der Text sagt das Gegenteil.</li>
+<li><strong>Der Text sagt dazu nichts</strong>: Die Information kommt im Text nicht vor.</li>
+</ul>
+</section>
+<section class="box warning">
+<h2>Wichtige Strategie</h2>
+<p>Benutze kein eigenes Wissen. Entscheidend ist nur, was im Text steht.</p>
+<p>Achte besonders auf Wörter wie: <strong>alle, viele, wenige, nur, bereits, wahrscheinlich, noch nicht, immer, nie</strong>.</p>
+</section>
+<section>
+<h2>Originaltext: Ferien im All</h2>
+<div class="text">
+<p>Noch gibt es den Weltraumtourismus nicht, lediglich einige wenige Multimillionäre haben bereits ein Weltraumabenteuer erleben können. Obwohl noch manches in den Sternen steht, rückt der Weltraumtourismus in greifbare Nähe. Was man für einen individuellen Urlaub im Weltall bezahlen muss, ist noch weitgehend unbekannt, obwohl es genügend Leute gäbe, die eine solche Reise bezahlen könnten. Außerdem fühlen sich Menschen, die das Abenteuer in der Tiefsee suchen oder nur mit einem Seil gesichert in die Tiefe springen, wahrscheinlich auch im Weltall wohl. Für viele Touristen macht gerade das Risiko den Reiz aus, denn sie sind durchaus über die Gefahren informiert, die so eine Reise mit sich bringt. Deshalb kann man die Zukunft des Weltraumtourismus optimistisch sehen. Mit dem Weltraumtourismus ließe sich folglich ungeheuer viel Geld verdienen.</p>
+<p>Dies gilt vor allem, wenn man Weltraumhotels bauen würde. Dort könnte der Gast dann in der Schwerelosigkeit Sport treiben und ganz neue körperliche Erfahrungen machen, wie zum Beispiel dem eigenen Essen hinterherzuschweben. In Zonen mit künstlicher Gravitation kann er sich entspannen. Und bei allem, was er tut, kann er auf die blaue Erde gucken.</p>
+<p>Bis jetzt existiert aber noch nicht einmal ein Transportsystem, das viele Gäste auf einmal dorthin befördern könnte. Eine Rakete müsste wegen der enormen Kosten immer wieder einsetzbar sein. Wenn sich das Ganze rechnen soll, muss sich die Zahl der Interessenten erheblich steigern, denn die hohen Entwicklungskosten müssen auch wieder eingenommen werden. Außerdem schrecken die ökologischen Gefahren, zum Beispiel die enorme Abgasentwicklung, viele Investoren aus der Tourismusbranche ab. Diese sind in ihren Ausmaßen völlig ungeklärt und müssen noch erforscht werden.</p>
+<p>Wenn es gelänge, den Weltraumtourismus größeren Kundengruppen zugänglich zu machen, könnte auch die Wissenschaft davon profitieren. Die Wissenschaftler versprechen sich eine wesentlich höhere Akzeptanz ihrer Forschungspläne für den Weltraum, wenn möglichst viele Menschen das Gefühl haben, dass sie selbst auch einen persönlichen Nutzen davon haben. Das Interesse großer Reiseunternehmen wird man hingegen wohl nur durch die Aussicht auf hohe Gewinne wecken können.</p>
+<p>In etwa zehn Jahren wird der Abenteuerurlaub im Weltraum voraussichtlich zu einer richtigen Attraktion werden. Man kann dann die Schwerelosigkeit genießen und dabei gleichzeitig die Erde aus einer anderen Perspektive betrachten. Aber vorher muss man wahrscheinlich seine Ekelgefühle überwinden, denn aufbereiteten Urin statt Wasser zu trinken ist ja nicht jedermanns Sache. Das Wasser an Bord wird nämlich knapp sein, besonders bei mehrtägigen Flügen, und muss durch Recycling gewonnen werden. Wer das alles in Kauf nimmt, wird dann einfach nur sagen: Das war ein unvergessliches Abenteuer!</p>
+</div>
+</section>
+
+<section class="task">
+<h2>Aktivität 1 – Richtig, falsch oder nicht im Text?</h2>
+<p>Entscheide: <strong>R</strong> = richtig, <strong>F</strong> = falsch, <strong>N</strong> = Der Text sagt dazu nichts.</p>
+<table>
+<tr>
+<th>Nr.</th>
+<th>Aussage</th>
+<th>R / F / N</th>
+<th>Prüfen</th>
+</tr>
+<tr><td>1</td><td>Viele Menschen haben schon Urlaub im Weltall gemacht.</td><td class="answer"><select id="t2a1"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a1" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_t2a1"></span></td></tr>
+<tr><td>2</td><td>Weltraumtourismus könnte wirtschaftlich erfolgreich sein.</td><td class="answer"><select id="t2a2"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a2" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_t2a2"></span></td></tr>
+<tr><td>3</td><td>In Weltraumhotels könnte man Sport machen.</td><td class="answer"><select id="t2a3"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a3" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_t2a3"></span></td></tr>
+<tr><td>4</td><td>Die ersten Raketen für Touristen existieren bereits.</td><td class="answer"><select id="t2a4"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a4" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_t2a4"></span></td></tr>
+<tr><td>5</td><td>Die ökologischen Probleme sind komplett erforscht.</td><td class="answer"><select id="t2a5"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a5" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_t2a5"></span></td></tr>
+<tr><td>6</td><td>Wissenschaftler sehen mögliche Vorteile im Weltraumtourismus.</td><td class="answer"><select id="t2a6"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a6" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_t2a6"></span></td></tr>
+<tr><td>7</td><td>Im Weltraum wird genug Wasser vorhanden sein.</td><td class="answer"><select id="t2a7"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a7" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_t2a7"></span></td></tr>
+<tr><td>8</td><td>Manche Menschen finden gerade das Risiko interessant.</td><td class="answer"><select id="t2a8"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a8" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_t2a8"></span></td></tr>
+<tr><td>9</td><td>Kinder interessieren sich besonders für Weltraumreisen.</td><td class="answer"><select id="t2a9"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a9" data-answer="N" type="button">Prüfen</button><span class="feedback" id="fb_t2a9"></span></td></tr>
+<tr><td>10</td><td>Man könnte die Erde aus einer anderen Perspektive sehen.</td><td class="answer"><select id="t2a10"><option value="">---</option><option>R</option><option>F</option><option>N</option></select></td><td><button class="check-btn" data-check="t2a10" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_t2a10"></span></td></tr>
+</table>
+</section>
+
+
+<section class="task">
+<h2>Aktivität 2 – Mini-Prüfung unter Zeitdruck</h2>
+<p><strong>Zeit:</strong> 6 Minuten</p>
+<table>
+<tr>
+<th>Nr.</th>
+<th>Aussage</th>
+<th>R / F / N</th>
+</tr>
+<tr><td>1</td><td>Weltraumtourismus existiert heute schon für normale Touristen.</td><td class="answer"><select id="mini1"><option value="">---</option><option>R</option><option>F</option><option>N</option></select> <button class="check-btn" data-check="mini1" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_mini1"></span></td></tr>
+<tr><td>2</td><td>Das Risiko macht die Reisen für manche Menschen attraktiv.</td><td class="answer"><select id="mini2"><option value="">---</option><option>R</option><option>F</option><option>N</option></select> <button class="check-btn" data-check="mini2" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_mini2"></span></td></tr>
+<tr><td>3</td><td>Wissenschaftler sehen nur Nachteile.</td><td class="answer"><select id="mini3"><option value="">---</option><option>R</option><option>F</option><option>N</option></select> <button class="check-btn" data-check="mini3" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_mini3"></span></td></tr>
+<tr><td>4</td><td>Recycling wird im Weltraum wichtig sein.</td><td class="answer"><select id="mini4"><option value="">---</option><option>R</option><option>F</option><option>N</option></select> <button class="check-btn" data-check="mini4" data-answer="R" type="button">Prüfen</button><span class="feedback" id="fb_mini4"></span></td></tr>
+<tr><td>5</td><td>Die Preise für Weltraumreisen sind genau bekannt.</td><td class="answer"><select id="mini5"><option value="">---</option><option>R</option><option>F</option><option>N</option></select> <button class="check-btn" data-check="mini5" data-answer="F" type="button">Prüfen</button><span class="feedback" id="fb_mini5"></span></td></tr>
+</table>
+</section>
+
+<section class="box">
+<h2>Letzte Tipps für die Prüfung</h2>
+<ul>
+<li>Lies zuerst die Aussagen.</li>
+<li>Markiere Schlüsselwörter.</li>
+<li>Suche im Text nach Synonymen.</li>
+<li>Unterscheide genau zwischen „falsch“ und „nicht im Text“.</li>
+<li>Frage dich immer: Steht das wirklich im Text?</li>
+</ul>
+</section>
+</main>
+</div>
+</section>
+
+
+
+
+<section class="page-section" id="fullscreen-box">
+  <div class="section-title"><h2>Prüfungsmodus</h2></div>
+  <p>Bitte starte die Übung im Vollbildmodus. Wenn du die Seite verlässt oder eine andere Registerkarte öffnest, wird dies registriert.</p>
+  <button type="button" class="send" onclick="startePruefung()">Prüfung starten / Vollbildmodus</button>
+  <span id="fullscreenStatus" class="feedback"></span>
+</section>
+
+
+<section class="page-section timerbox" id="timerBox">
+  <div class="section-title"><h2>Zeitlimit: 40 Minuten</h2></div>
+  <p><strong>Verbleibende Zeit:</strong> <span id="timerDisplayBox">40:00</span></p>
+  <button type="button" class="send" onclick="startePruefung()">Prüfung starten</button>
+  <span id="timerStatus" class="feedback"></span>
+</section>
+
+<section class="page-section exam-content-hidden" id="kontrolle" data-exam-content="true">
+  <div class="section-title"><h2>Arbeitsmodus</h2></div>
+  <p><strong>Hinweis:</strong> Während der Übung wird registriert, wenn die Seite verlassen, minimiert oder eine andere Registerkarte geöffnet wird.</p>
+  <p id="leaveWarning" class="feedback bad"></p>
+</section>
+
+<section class="page-section sendbox exam-content-hidden" id="senden" data-exam-content="true">
+  <div class="section-title"><h2>Ergebnis an den Lehrer senden</h2></div>
+  <p>Wenn du fertig bist, kannst du dein Ergebnis senden. Du musst nicht alle Aufgaben bearbeiten.</p>
+  <button id="sendButton" class="send" onclick="senden()">Ergebnis senden</button>
+  <div id="sendStatus" class="sendstatus"></div>
+</section>
+
+</div>
+
+<script>
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbx20KPVEPJplaTMPckVWKMLOsJ2IDSJ3frFRyeLkdJtHDRL0kwLev_pFbl3Kp88f5WAlw/exec";
+const aufgabenStatus = {};
+const seitenVerlassenEvents = [];
+let verlassenZaehler = 0;
+
+const ZEITLIMIT_SEKUNDEN = 40 * 60;
+let pruefungGestartet = false;
+let pruefungBeendet = false;
+let startZeit = null;
+let timerInterval = null;
+let restSekunden = ZEITLIMIT_SEKUNDEN;
+let vollbildVerlassen = 0;
+
+function registriereSeitenwechsel(typ){
+  verlassenZaehler++;
+  const now = new Date();
+  const eintrag = `${now.toLocaleDateString("de-DE")} ${now.toLocaleTimeString("de-DE")} – ${typ}`;
+  seitenVerlassenEvents.push(eintrag);
+
+  const warnung = document.getElementById("leaveWarning");
+  if(warnung){
+    warnung.textContent = `⚠️ Seitenwechsel registriert: ${verlassenZaehler}`;
+  }
+}
+
+document.addEventListener("visibilitychange", function(){
+  if(document.hidden){
+    registriereSeitenwechsel("Die Seite wurde verlassen / anderer Tab geöffnet / Fenster minimiert");
+  }
+});
+
+window.addEventListener("blur", function(){
+  registriereSeitenwechsel("Fenster hat den Fokus verloren");
+});
+
+window.addEventListener("beforeunload", function(event){
+  registriereSeitenwechsel("Versuch, die Seite zu schließen oder neu zu laden");
+  event.preventDefault();
+  event.returnValue = "Möchtest du die Seite wirklich verlassen?";
+});
+
+function feedback(id, richtig, loesung) {
+  const fb = document.getElementById("fb_" + id);
+  if (!fb) {
+    alert(richtig ? "Richtig" : "Falsch. Richtige Lösung: " + loesung);
+    return;
+  }
+  fb.textContent = richtig ? " ✅ Richtig" : " ❌ Falsch. Richtige Lösung: " + loesung;
+  fb.className = richtig ? "feedback ok" : "feedback bad";
+}
+
+function leerFeedback(id) {
+  const fb = document.getElementById("fb_" + id);
+  if (!fb) {
+    alert("Bitte zuerst eine Antwort wählen.");
+    return;
+  }
+  fb.textContent = " ⚠️ Bitte zuerst eine Antwort wählen.";
+  fb.className = "feedback bad";
+}
+
+document.addEventListener("click", function(event) {
+  const btn = event.target.closest("button[data-check]");
+  if (!btn) return;
+
+  const id = btn.dataset.check;
+  const loesung = btn.dataset.answer;
+  const feld = document.getElementById(id);
+  const wert = feld ? feld.value : "";
+
+  if (!wert) {
+    leerFeedback(id);
+    return;
+  }
+
+  const richtig = wert === loesung;
+
+  aufgabenStatus[id] = {
+    antwort: wert,
+    loesung: loesung,
+    richtig: richtig,
+    versucht: true,
+    versuche: (aufgabenStatus[id]?.versuche || 0) + 1
+  };
+
+  feedback(id, richtig, loesung);
+});
+
+function sammleErgebnisse(){
+  const ids = ["q1","q2","q3","q4","q5","t2a1","t2a2","t2a3","t2a4","t2a5","t2a6","t2a7","t2a8","t2a9","t2a10","mini1","mini2","mini3","mini4","mini5"];
+  let gemacht = 0, richtig = 0, versucheGesamt = 0;
+  const details = [];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    const status = aufgabenStatus[id];
+    const antwort = el ? el.value : "";
+
+    if(status && status.versucht){
+      gemacht++;
+      if(status.richtig) richtig++;
+      versucheGesamt += status.versuche || 1;
+      details.push(`${id}: Antwort=${status.antwort || "-"} | Lösung=${status.loesung} | ${status.richtig ? "richtig" : "falsch"} | Versuche=${status.versuche || 1}`);
+    } else if(antwort){
+      gemacht++;
+      details.push(`${id}: Antwort=${antwort} | noch nicht geprüft`);
+    } else {
+      details.push(`${id}: nicht gemacht`);
+    }
+  });
+
+  const now = new Date();
+  const zd = zeitDaten();
+  return {
+    name: document.getElementById("studentName") ? document.getElementById("studentName").value.trim() : "",
+    datum: now.toLocaleDateString("de-DE"),
+    uhrzeit: now.toLocaleTimeString("de-DE"),
+    zeitstempel: now.toISOString(),
+    zeitlimitMinuten: zd.zeitlimitMinuten,
+    zeitGenutztSekunden: zd.zeitGenutztSekunden,
+    zeitGenutzt: zd.zeitGenutzt,
+    restzeitSekunden: zd.restzeitSekunden,
+    restzeit: zd.restzeit,
+    zeitAbgelaufen: zd.zeitAbgelaufen,
+    vollbildVerlassen: vollbildVerlassen,
+    uebungenGemacht: gemacht,
+    richtig: richtig,
+    versucheGesamt: versucheGesamt,
+    erfolgsquote: gemacht > 0 ? Math.round((richtig / gemacht) * 100) + "%" : "0%",
+    details: details.join("\n")
+  };
+}
+
+
+
+function formatZeit(sekunden){
+  const m = Math.floor(sekunden / 60).toString().padStart(2, "0");
+  const s = Math.floor(sekunden % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function aktualisiereTimer(){
+  const zeit = formatZeit(Math.max(0, restSekunden));
+  const display = document.getElementById("timerDisplay");
+  const displayBox = document.getElementById("timerDisplayBox");
+  if(display) display.textContent = zeit;
+  if(displayBox) displayBox.textContent = zeit;
+}
+
+function startePruefung(){
+  if(pruefungGestartet) return;
+
+  const nameField = document.getElementById("studentName");
+  const timerStatus = document.getElementById("timerStatus");
+  if(nameField && !nameField.value.trim()){
+    if(timerStatus){
+      timerStatus.textContent = " ❌ Bitte zuerst den Namen eingeben.";
+      timerStatus.className = "feedback bad";
+    }
+    return;
+  }
+
+  document.querySelectorAll('[data-exam-content="true"]').forEach(sec => sec.classList.remove("exam-content-hidden"));
+  const nav = document.getElementById("examNav");
+  if(nav) nav.classList.remove("exam-content-hidden");
+
+  const el = document.documentElement;
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen();
+  }
+
+  pruefungGestartet = true;
+  pruefungBeendet = false;
+  startZeit = new Date();
+
+  const status = document.getElementById("timerStatus");
+  if(status){
+    status.textContent = " ✅ Prüfung läuft im Vollbildmodus.";
+    status.className = "feedback ok";
+  }
+
+  aktualisiereTimer();
+
+  timerInterval = setInterval(function(){
+    restSekunden--;
+    aktualisiereTimer();
+
+    if(restSekunden <= 0){
+      beendePruefungWegenZeit();
+    }
+  }, 1000);
+}
+
+function beendePruefungWegenZeit(){
+  if(pruefungBeendet) return;
+  pruefungBeendet = true;
+  restSekunden = 0;
+  aktualisiereTimer();
+
+  if(timerInterval) clearInterval(timerInterval);
+
+  const box = document.getElementById("timerBox");
+  if(box) box.classList.add("timer-ended");
+
+  const status = document.getElementById("timerStatus");
+  if(status){
+    status.textContent = " ⛔ Die Zeit ist abgelaufen. Die Antworten sind gesperrt.";
+    status.className = "feedback bad";
+  }
+
+  document.querySelectorAll("select, input, textarea").forEach(el => {
+    if(el.id !== "studentName") el.disabled = true;
+  });
+
+  document.querySelectorAll("button.check-btn").forEach(btn => btn.disabled = true);
+
+  registriereSeitenwechsel("Zeit abgelaufen nach 40 Minuten");
+}
+
+function zeitDaten(){
+  const jetzt = new Date();
+  let genutzt = 0;
+  if(startZeit){
+    genutzt = Math.floor((jetzt - startZeit) / 1000);
+  } else {
+    genutzt = 0;
+  }
+  if(genutzt > ZEITLIMIT_SEKUNDEN) genutzt = ZEITLIMIT_SEKUNDEN;
+
+  return {
+    zeitlimitMinuten: 40,
+    zeitGenutztSekunden: genutzt,
+    zeitGenutzt: formatZeit(genutzt),
+    restzeitSekunden: restSekunden,
+    restzeit: formatZeit(Math.max(0, restSekunden)),
+    zeitAbgelaufen: pruefungBeendet && restSekunden <= 0 ? "JA" : "NEIN"
+  };
+}
+
+function starteVollbild(){
+  const el = document.documentElement;
+  const status = document.getElementById("fullscreenStatus");
+
+  if (el.requestFullscreen) {
+    el.requestFullscreen();
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+  } else if (el.msRequestFullscreen) {
+    el.msRequestFullscreen();
+  }
+
+  if(status){
+    status.textContent = " ✅ Vollbildmodus aktiviert.";
+    status.className = "feedback ok";
+  }
+  if(!pruefungGestartet){ startePruefung(); }
+}
+
+document.addEventListener("fullscreenchange", function(){
+  if(!document.fullscreenElement){
+    vollbildVerlassen++;
+    registriereSeitenwechsel("Vollbildmodus wurde verlassen");
+    const fs = document.getElementById("fullscreenStatus");
+    if(fs){
+      fs.textContent = " ⚠️ Vollbildmodus wurde verlassen.";
+      fs.className = "feedback bad";
+    }
+  }
+});
+
+async function senden(){
+  const btn = document.getElementById("sendButton");
+  const status = document.getElementById("sendStatus");
+  const daten = sammleErgebnisse();
+
+  if(!daten.name){
+    status.innerHTML = "❌ Bitte zuerst den Namen eingeben.";
+    return;
+  }
+
+  if(!WEBAPP_URL || WEBAPP_URL.includes("PEGA_AQUI")){
+    status.innerHTML = "❌ Bitte zuerst die Google-Apps-Script-Web-App-URL im HTML einfügen.";
+    return;
+  }
+
+  btn.innerHTML = "Senden...";
+  btn.disabled = true;
+  status.innerHTML = "⏳ Ergebnis wird gesendet...";
+
+  try{
+    await fetch(WEBAPP_URL, {
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(daten)
+    });
+
+    btn.innerHTML = "✓ Gesendet";
+    btn.style.backgroundColor = "#2e7d32";
+    btn.disabled = true;
+    status.innerHTML = `✅ Gesendet. Bearbeitet: ${daten.uebungenGemacht}. Richtig: ${daten.richtig}. Versuche: ${daten.versucheGesamt}.`;
+  } catch(error){
+    btn.innerHTML = "Ergebnis senden";
+    btn.disabled = false;
+    status.innerHTML = "❌ Fehler beim Senden. Bitte URL und Internetverbindung prüfen.";
+  }
+}
+/*
+Google Apps Script:
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  if (!e || !e.postData || !e.postData.contents) {
+    sheet.appendRow(["Prueba manual", new Date(), "Sin datos postData"]);
+    return ContentService.createTextOutput("No postData received");
+  }
+
+  const data = JSON.parse(e.postData.contents);
+  const verdacht = Number(data.seitenwechsel || 0) >= 3 || Number(data.vollbildVerlassen || 0) >= 1 ? "JA" : "NEIN";
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow([
+      "Name",
+      "Datum",
+      "Uhrzeit",
+      "Zeitlimit Minuten",
+      "Zeit genutzt",
+      "Restzeit",
+      "Zeit abgelaufen",
+      "Übungen gemacht",
+      "Richtig",
+      "Versuche gesamt",
+      "Erfolgsquote",
+      "Seitenwechsel",
+      "Vollbild verlassen",
+      "Verdacht",
+      "Seitenwechsel Details",
+      "Antworten / Details"
+    ]);
+  }
+
+  sheet.appendRow([
+    data.name || "",
+    data.datum || "",
+    data.uhrzeit || "",
+    data.zeitlimitMinuten || 40,
+    data.zeitGenutzt || "",
+    data.restzeit || "",
+    data.zeitAbgelaufen || "NEIN",
+    data.uebungenGemacht || 0,
+    data.richtig || 0,
+    data.versucheGesamt || 0,
+    data.erfolgsquote || "",
+    data.seitenwechsel || 0,
+    data.vollbildVerlassen || 0,
+    verdacht,
+    data.seitenwechselDetails || "",
+    data.details || ""
+  ]);
+
+  return ContentService.createTextOutput("ok");
+}
+*/
+</script>
+
+</body>
+</html>
