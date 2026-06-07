@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>B2 / DSD II – Grafik beschreiben</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f3f6f8;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    header {
+      background: #0f766e;
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    main {
+      max-width: 1050px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+    section {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    h1, h2, h3 { margin-top: 0; }
+    h2 {
+      color: #0f766e;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 8px;
+    }
+    .ziel, .hinweis, .produkt {
+      padding: 12px;
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+    .ziel { background: #ecfdf5; border-left: 5px solid #10b981; }
+    .hinweis { background: #fffbeb; border-left: 5px solid #f59e0b; }
+    .produkt { background: #eff6ff; border-left: 5px solid #3b82f6; }
+    .zeit {
+      display: inline-block;
+      background: #ccfbf1;
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #d9f99d;
+    }
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .satzbausteine span {
+      display: inline-block;
+      background: #eef2ff;
+      margin: 4px;
+      padding: 6px 9px;
+      border-radius: 999px;
+    }
+    .grafikbox {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .bars {
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      gap: 28px;
+      height: 260px;
+      margin: 20px auto;
+      border-left: 2px solid #334155;
+      border-bottom: 2px solid #334155;
+      max-width: 620px;
+      padding-left: 10px;
+    }
+    .barwrap { width: 95px; text-align: center; }
+    .bar {
+      background: #0ea5e9;
+      color: white;
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      font-weight: bold;
+      border-radius: 6px 6px 0 0;
+      padding-top: 6px;
+    }
+    .label { font-size: 0.9rem; margin-top: 8px; }
+    .checklist li { margin-bottom: 8px; }
+
+    .antwort-feld {
+      width: 70px;
+      height: 36px;
+      border: 1px solid #94a3b8;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    @media print {
+      body { background: white; }
+      section { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+      textarea { min-height: 120px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>B2 / DSD II – Grafik beschreiben und auswerten</h1>
+  <p>Übungsseite für den schriftlichen Ausdruck</p>
+</header>
+
+<main>
+  <section>
+    <h2>Idee der Übung</h2>
+    <p>Die Schülerinnen trainieren eine vollständige Grafikbeschreibung nach fünf Schritten: Einleitung, Datenbeschreibung, Auffälligkeiten, Auswertung und Fazit.</p>
+    <div class="ziel"><strong>Lernziel:</strong> Die Schüler*innen können eine Grafik strukturiert beschreiben, zentrale Daten vergleichen und eine begründete Auswertung formulieren.</div>
+    <div class="hinweis"><strong>Prüfungsfokus B2 / DSD II:</strong> Im Hauptteil werden nur Daten beschrieben. Die eigene Meinung und Interpretation kommen erst in der Auswertung.</div>
+  </section>
+
+  <section>
+    <h2>Grafik: Internetnutzung nach Altersgruppen in Deutschland 2023</h2>
+    <p><strong>Quelle:</strong> Statista / Bundesministerium für Digitales, fiktive Beispieldaten</p>
+    <p><strong>Durchschnitt gesamt:</strong> 79 % | <strong>Vergleich 2013:</strong> gesamt 72 %, Altersgruppe 65+ nur 28 %</p>
+
+    <div class="grafikbox">
+      <h3>Tägliche Internetnutzung in %</h3>
+      <div class="bars">
+        <div class="barwrap"><div class="bar" style="height: 242px;">97%</div><div class="label">14–24 Jahre</div></div>
+        <div class="barwrap"><div class="bar" style="height: 228px;">91%</div><div class="label">25–44 Jahre</div></div>
+        <div class="barwrap"><div class="bar" style="height: 198px;">79%</div><div class="label">45–64 Jahre</div></div>
+        <div class="barwrap"><div class="bar" style="height: 120px;">48%</div><div class="label">65+ Jahre</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Erste Übung: Lückentext mit Wortschatzhilfe</h2>
+    <span class="zeit">10 Minuten</span>
+
+    <p>Ergänze die fehlenden Wörter mit Hilfe der Wortliste.</p>
+
+    <div class="hinweis">
+      <strong>Wortliste:</strong><br>
+      verdoppelt · 97 · Statista · benutzerfreundlicher · 48 · hohen · 79 · Videoanrufe · veranschaulicht · gestiegen · 2023 · über 65-Jährigen · 91
+    </div>
+
+    <h3>1. Einleitung</h3>
+    <textarea>
+Die Grafik __________ die tägliche Internetnutzung verschiedener Altersgruppen in Deutschland.
+Die Daten stammen aus dem Jahr __________ und wurden von __________ veröffentlicht.
+    </textarea>
+
+    <h3>2. Hauptteil</h3>
+    <textarea>
+Insgesamt nutzen __________ Prozent der Bevölkerung das Internet täglich.
+Den höchsten Wert erreichen die 14- bis 24-Jährigen mit __________ Prozent.
+Die Gruppe der 25- bis 44-Jährigen liegt bei __________ Prozent.
+Den niedrigsten Wert verzeichnet die Gruppe der __________ mit nur __________ Prozent.
+    </textarea>
+
+    <h3>3. Auffälligkeiten</h3>
+    <textarea>
+Besonders auffällig ist, dass die Internetnutzung bei älteren Menschen stark __________ ist.
+Im Vergleich zu 2013 hat sich die Nutzungsrate der Gruppe 65+ fast __________.
+    </textarea>
+
+    <h3>4. Auswertung</h3>
+    <textarea>
+Ein möglicher Grund hierfür ist, dass digitale Geräte heute __________ sind.
+Außerdem könnte die Corona-Pandemie dazu geführt haben, dass ältere Menschen häufiger __________ nutzen.
+    </textarea>
+
+    <h3>5. Fazit</h3>
+    <textarea>
+Zusammenfassend lässt sich sagen, dass die Internetnutzung in Deutschland insgesamt auf einem __________ Niveau liegt.
+    </textarea>
+
+    <div class="produkt">
+      <strong>Ziel:</strong> Die Lernenden wiederholen wichtige Redemittel und typische Formulierungen der Grafikbeschreibung.
+    </div>
+  </section>
+
+  
+  <section>
+    <h2>Wortspiel: Grafik-Wortschatz</h2>
+    <span class="zeit">10 Minuten</span>
+
+    <p>Ordne die Wörter den passenden Bedeutungen zu. Schreibe den richtigen Buchstaben in die rechte Spalte.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Wort / Ausdruck</th>
+          <th>Bedeutung</th>
+          <th>Lösung</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1. veranschaulichen</td>
+          <td>A. etwas wird größer oder mehr</td>
+          <td><input class="antwort-feld" type="text" maxlength="1" aria-label="Lösung eintragen"></td>
+        </tr>
+        <tr>
+          <td>2. der Anteil</td>
+          <td>B. etwas mit Zahlen oder Bildern deutlich zeigen</td>
+          <td><input class="antwort-feld" type="text" maxlength="1" aria-label="Lösung eintragen"></td>
+        </tr>
+        <tr>
+          <td>3. steigen</td>
+          <td>C. ein Teil von einer Gesamtmenge</td>
+          <td><input class="antwort-feld" type="text" maxlength="1" aria-label="Lösung eintragen"></td>
+        </tr>
+        <tr>
+          <td>4. der Durchschnitt</td>
+          <td>D. der kleinste Wert in einer Grafik</td>
+          <td><input class="antwort-feld" type="text" maxlength="1" aria-label="Lösung eintragen"></td>
+        </tr>
+        <tr>
+          <td>5. der niedrigste Wert</td>
+          <td>E. ein Mittelwert aus mehreren Zahlen</td>
+          <td><input class="antwort-feld" type="text" maxlength="1" aria-label="Lösung eintragen"></td>
+        </tr>
+        <tr>
+          <td>6. auffällig</td>
+          <td>F. besonders sichtbar oder bemerkenswert</td>
+          <td><input class="antwort-feld" type="text" maxlength="1" aria-label="Lösung eintragen"></td>
+        </tr>
+      </tbody>
+    </table>
+<div class="produkt">
+      <strong>Ziel:</strong> Die Schülerinnen festigen wichtigen Wortschatz für die Beschreibung und Auswertung von Grafiken.
+    </div>
+  </section>
+
+</main>
+</body>
+</html>
