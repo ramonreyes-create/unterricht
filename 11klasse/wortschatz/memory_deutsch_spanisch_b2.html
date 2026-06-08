@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Deutsch–Spanisch B2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#1f2937}
+header{background:linear-gradient(135deg,#7c3aed,#1cb0f6);color:white;text-align:center;padding:38px 18px}
+header h1{font-size:2.2rem;margin-bottom:8px}
+header p{font-size:1.05rem}
+.container{max-width:1180px;margin:auto;padding:24px 16px}
+.cardbox{background:white;border-radius:22px;padding:22px;box-shadow:0 10px 25px rgba(0,0,0,.08);margin-bottom:22px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+button,select{border:none;border-radius:14px;padding:12px 16px;font-weight:900;font-size:15px;cursor:pointer}
+button{background:#7c3aed;color:white;box-shadow:0 4px 0 #5b21b6}
+button:hover{background:#6d28d9}
+select{background:#eef2ff;color:#4338ca;border:2px solid #c7d2fe}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}
+.stat{background:#f8fafc;border-radius:16px;padding:14px;text-align:center;font-weight:900}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:13px}
+.memory-card{height:105px;perspective:900px;cursor:pointer}
+.inner{height:100%;position:relative;transition:transform .35s;transform-style:preserve-3d}
+.memory-card.flipped .inner,.memory-card.matched .inner{transform:rotateY(180deg)}
+.front,.back{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;font-weight:900;box-shadow:0 6px 14px rgba(0,0,0,.10)}
+.front{background:linear-gradient(135deg,#7c3aed,#1cb0f6);color:white;font-size:1.7rem}
+.back{transform:rotateY(180deg);background:white;border:3px solid #7c3aed;color:#111827;font-size:1rem}
+.memory-card.matched .back{background:#dcfce7;border-color:#16a34a;color:#166534}
+.type-de{border-color:#2563eb!important}
+.type-es{border-color:#f97316!important}
+.badge{display:inline-block;background:#eef2ff;color:#4338ca;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:900;margin:3px}
+.message{text-align:center;font-size:1.15rem;font-weight:900;margin-top:16px;min-height:30px}
+.ok{color:#16a34a} .wrong{color:#dc2626}
+.small{font-size:13px;color:#6b7280;text-align:center;margin-top:10px}
+@media(max-width:600px){.memory-card{height:90px}.back{font-size:.9rem}header h1{font-size:1.7rem}}
+</style>
+</head>
+<body>
+<header>
+<h1>🧠 Memory Deutsch–Spanisch B2</h1>
+<p>Finde die passenden Paare: deutsches Wort + spanische Bedeutung.</p>
+</header>
+<main class="container">
+<section class="cardbox">
+<div class="controls">
+<select id="lessonSelect" onchange="startGame()">
+<option value="umwelt">🌱 Umwelt</option>
+<option value="medien">📱 Medien</option>
+<option value="schule">🏫 Schule</option>
+<option value="zukunft">🚀 Zukunft</option>
+<option value="alle">⭐ Alle Themen gemischt</option>
+</select>
+<select id="pairCount" onchange="startGame()">
+<option value="8">8 Paare</option>
+<option value="12" selected>12 Paare</option>
+<option value="16">16 Paare</option>
+<option value="20">20 Paare</option>
+</select>
+<button onclick="startGame()">🔄 Neu starten</button>
+<button onclick="showAll()">👀 Kurz zeigen</button>
+</div>
+<div class="stats">
+<div class="stat">✅ Paare<br><span id="matched">0</span>/<span id="totalPairs">0</span></div>
+<div class="stat">🔁 Versuche<br><span id="attempts">0</span></div>
+<div class="stat">⏱️ Zeit<br><span id="time">00:00</span></div>
+<div class="stat">📚 Thema<br><span id="topicName">Umwelt</span></div>
+</div>
+<p class="small">Tipp: Wähle zuerst ein Thema und dann die Anzahl der Paare. Bei „Alle Themen“ werden Wörter gemischt.</p>
+</section>
+<section class="cardbox">
+<div id="game" class="grid"></div>
+<div id="message" class="message"></div>
+</section>
+</main>
+<script>
+const lessons = {
+  "umwelt": [
+    {
+      "de": "Umweltschutz",
+      "es": "protección del medioambiente"
+    },
+    {
+      "de": "um",
+      "es": "para"
+    },
+    {
+      "de": "wäre",
+      "es": "sería"
+    },
+    {
+      "de": "einführen",
+      "es": "introducir"
+    },
+    {
+      "de": "Müll",
+      "es": "basura"
+    },
+    {
+      "de": "verbrauchen",
+      "es": "consumir"
+    },
+    {
+      "de": "globales",
+      "es": "global"
+    },
+    {
+      "de": "als",
+      "es": "que"
+    },
+    {
+      "de": "teil",
+      "es": "participan"
+    },
+    {
+      "de": "pflanzen",
+      "es": "plantar"
+    },
+    {
+      "de": "wichtiger",
+      "es": "más importantes"
+    },
+    {
+      "de": "recyceln",
+      "es": "reciclar"
+    },
+    {
+      "de": "hoch",
+      "es": "alta"
+    },
+    {
+      "de": "bedroht",
+      "es": "amenazados"
+    },
+    {
+      "de": "wegwerfen",
+      "es": "botar / tirar"
+    },
+    {
+      "de": "erneuerbare",
+      "es": "renovable"
+    },
+    {
+      "de": "leben",
+      "es": "vivir"
+    },
+    {
+      "de": "Alltag",
+      "es": "vida cotidiana"
+    },
+    {
+      "de": "soziale",
+      "es": "sociales"
+    },
+    {
+      "de": "Klimawandels",
+      "es": "cambio climático"
+    }
+  ],
+  "medien": [
+    {
+      "de": "in",
+      "es": "en"
+    },
+    {
+      "de": "obwohl",
+      "es": "aunque"
+    },
+    {
+      "de": "überprüfen",
+      "es": "verificar"
+    },
+    {
+      "de": "kommunizieren",
+      "es": "comunicarse"
+    },
+    {
+      "de": "schnell",
+      "es": "rápidamente"
+    },
+    {
+      "de": "abhängig",
+      "es": "dependientes"
+    },
+    {
+      "de": "damit",
+      "es": "para que"
+    },
+    {
+      "de": "teilen",
+      "es": "compartir"
+    },
+    {
+      "de": "besteht",
+      "es": "consiste"
+    },
+    {
+      "de": "abgelenkt",
+      "es": "distraído"
+    },
+    {
+      "de": "nutzen",
+      "es": "usar / aprovechar"
+    },
+    {
+      "de": "Daten",
+      "es": "datos"
+    },
+    {
+      "de": "achten",
+      "es": "prestar atención"
+    },
+    {
+      "de": "verändern",
+      "es": "cambiar"
+    },
+    {
+      "de": "zuverlässig",
+      "es": "confiable"
+    },
+    {
+      "de": "bewerten",
+      "es": "evaluar"
+    },
+    {
+      "de": "nachzudenken",
+      "es": "reflexionar"
+    },
+    {
+      "de": "belastend",
+      "es": "agobiante / dañino"
+    },
+    {
+      "de": "sprechen",
+      "es": "hablar"
+    },
+    {
+      "de": "Alltag",
+      "es": "vida cotidiana"
+    }
+  ],
+  "schule": [
+    {
+      "de": "Leistungsdruck",
+      "es": "presión académica"
+    },
+    {
+      "de": "wären",
+      "es": "serían"
+    },
+    {
+      "de": "verstehen",
+      "es": "entender"
+    },
+    {
+      "de": "um",
+      "es": "para"
+    },
+    {
+      "de": "wichtig",
+      "es": "importante"
+    },
+    {
+      "de": "fördern",
+      "es": "apoyar / fomentar"
+    },
+    {
+      "de": "machen",
+      "es": "hacer"
+    },
+    {
+      "de": "konzentrieren",
+      "es": "concentrarse"
+    },
+    {
+      "de": "obwohl",
+      "es": "aunque"
+    },
+    {
+      "de": "stärken",
+      "es": "fortalecer"
+    },
+    {
+      "de": "Mitbestimmung",
+      "es": "participación en decisiones"
+    },
+    {
+      "de": "vorbereiten",
+      "es": "preparar"
+    },
+    {
+      "de": "lernt",
+      "es": "aprende"
+    },
+    {
+      "de": "arbeiten",
+      "es": "trabajan"
+    },
+    {
+      "de": "Stress",
+      "es": "estrés"
+    },
+    {
+      "de": "verbessern",
+      "es": "mejorar"
+    },
+    {
+      "de": "umgehen",
+      "es": "tratarse"
+    },
+    {
+      "de": "erweitern",
+      "es": "ampliar"
+    },
+    {
+      "de": "Aufgaben",
+      "es": "tareas"
+    },
+    {
+      "de": "bekommen",
+      "es": "recibir"
+    }
+  ],
+  "zukunft": [
+    {
+      "de": "studieren",
+      "es": "estudiar"
+    },
+    {
+      "de": "um",
+      "es": "por"
+    },
+    {
+      "de": "würde",
+      "es": "haría"
+    },
+    {
+      "de": "um",
+      "es": "para"
+    },
+    {
+      "de": "arbeiten",
+      "es": "trabajar"
+    },
+    {
+      "de": "Rolle",
+      "es": "papel / rol"
+    },
+    {
+      "de": "kennen",
+      "es": "conocer"
+    },
+    {
+      "de": "kennenzulernen",
+      "es": "conocer"
+    },
+    {
+      "de": "ab",
+      "es": "depende"
+    },
+    {
+      "de": "wichtiger",
+      "es": "más importantes"
+    },
+    {
+      "de": "verändern",
+      "es": "cambiar"
+    },
+    {
+      "de": "sein",
+      "es": "ser / estar"
+    },
+    {
+      "de": "erhöhen",
+      "es": "aumentar"
+    },
+    {
+      "de": "ergreifen",
+      "es": "escoger"
+    },
+    {
+      "de": "informieren",
+      "es": "informarse"
+    },
+    {
+      "de": "lernen",
+      "es": "aprender"
+    },
+    {
+      "de": "aber",
+      "es": "pero"
+    },
+    {
+      "de": "erfüllt",
+      "es": "realiza / llena"
+    },
+    {
+      "de": "wertvoll",
+      "es": "valiosas"
+    },
+    {
+      "de": "finde",
+      "es": "encuentre"
+    }
+  ]
+};
+const topicLabels={umwelt:'Umwelt',medien:'Medien',schule:'Schule',zukunft:'Zukunft',alle:'Alle Themen'};
+let cards=[]; let flipped=[]; let matched=0; let attempts=0; let timer=null; let seconds=0; let locked=false;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function formatTime(s){const m=Math.floor(s/60);const sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
+function startTimer(){clearInterval(timer);seconds=0;document.getElementById('time').textContent='00:00';timer=setInterval(()=>{seconds++;document.getElementById('time').textContent=formatTime(seconds)},1000)}
+function getPairs(){
+  const lesson=document.getElementById('lessonSelect').value;
+  const count=Number(document.getElementById('pairCount').value);
+  let pool=[];
+  if(lesson==='alle'){Object.keys(lessons).forEach(k=>pool=pool.concat(lessons[k].map(x=>({...x,topic:k}))))}
+  else{pool=lessons[lesson].map(x=>({...x,topic:lesson}));}
+  return shuffle(pool).slice(0,Math.min(count,pool.length));
+}
+function startGame(){
+  const lesson=document.getElementById('lessonSelect').value;
+  document.getElementById('topicName').textContent=topicLabels[lesson];
+  const pairs=getPairs(); matched=0; attempts=0; flipped=[]; locked=false;
+  cards=[];
+  pairs.forEach((p,idx)=>{cards.push({id:idx,type:'de',text:p.de,match:idx});cards.push({id:idx,type:'es',text:p.es,match:idx});});
+  shuffle(cards);
+  document.getElementById('matched').textContent=matched;
+  document.getElementById('attempts').textContent=attempts;
+  document.getElementById('totalPairs').textContent=pairs.length;
+  document.getElementById('message').textContent='';
+  render(); startTimer();
+}
+function render(){
+  const game=document.getElementById('game'); game.innerHTML='';
+  cards.forEach((c,i)=>{
+    const div=document.createElement('div'); div.className='memory-card'; div.dataset.index=i;
+    div.innerHTML=`<div class="inner"><div class="front">?</div><div class="back ${c.type==='de'?'type-de':'type-es'}">${c.text}</div></div>`;
+    div.onclick=()=>flip(i); game.appendChild(div);
+  });
+}
+function flip(i){
+  if(locked) return;
+  const el=document.querySelector(`[data-index="${i}"]`);
+  if(el.classList.contains('flipped')||el.classList.contains('matched')) return;
+  el.classList.add('flipped'); flipped.push(i);
+  if(flipped.length===2) checkPair();
+}
+function checkPair(){
+  locked=true; attempts++; document.getElementById('attempts').textContent=attempts;
+  const [a,b]=flipped; const ca=cards[a], cb=cards[b]; const msg=document.getElementById('message');
+  if(ca.match===cb.match && ca.type!==cb.type){
+    document.querySelector(`[data-index="${a}"]`).classList.add('matched');
+    document.querySelector(`[data-index="${b}"]`).classList.add('matched');
+    matched++; document.getElementById('matched').textContent=matched;
+    msg.textContent='✅ Richtiges Paar!'; msg.className='message ok';
+    flipped=[]; locked=false;
+    if(matched===Number(document.getElementById('totalPairs').textContent)){clearInterval(timer); msg.textContent=`🎉 Fertig! Zeit: ${formatTime(seconds)} · Versuche: ${attempts}`;}
+  } else {
+    msg.textContent='❌ Nicht passend. Versuch es noch einmal.'; msg.className='message wrong';
+    setTimeout(()=>{document.querySelector(`[data-index="${a}"]`).classList.remove('flipped');document.querySelector(`[data-index="${b}"]`).classList.remove('flipped');flipped=[];locked=false;},900);
+  }
+}
+function showAll(){
+  document.querySelectorAll('.memory-card').forEach(c=>c.classList.add('flipped'));
+  setTimeout(()=>{document.querySelectorAll('.memory-card:not(.matched)').forEach(c=>c.classList.remove('flipped'))},1800);
+}
+window.onload=startGame;
+</script>
+</body>
+</html>
