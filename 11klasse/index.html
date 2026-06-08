@@ -253,20 +253,15 @@
 
 <script>
   function getISOWeekNumber(date) {
-    const tempDate = new Date(date.valueOf());
-    const dayNumber = (date.getDay() + 6) % 7;
+    // Sichere ISO-Kalenderwoche: Montag = Wochenbeginn, Donnerstag bestimmt die KW.
+    // Die UTC-Berechnung verhindert Verschiebungen durch Zeitzonen des Browsers.
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
 
-    tempDate.setDate(tempDate.getDate() - dayNumber + 3);
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
 
-    const firstThursday = tempDate.valueOf();
-
-    tempDate.setMonth(0, 1);
-
-    if (tempDate.getDay() !== 4) {
-      tempDate.setMonth(0, 1 + ((4 - tempDate.getDay()) + 7) % 7);
-    }
-
-    return 1 + Math.ceil((firstThursday - tempDate) / 604800000);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
   }
 
   const aktuelleKW = getISOWeekNumber(new Date());
@@ -298,6 +293,8 @@
     },
     {
       ferien: true,
+      kwStart: 26,
+      kwEnd: 27,
       titel: "Winterferien",
       datum: "22.06 – 03.07",
       thema: "Keine regulären Stunden",
@@ -337,14 +334,17 @@
       card.classList.add("ferien");
     }
 
-    if (woche.kw === aktuelleKW) {
+    const istAktuell = woche.kw === aktuelleKW ||
+      (woche.kwStart && woche.kwEnd && aktuelleKW >= woche.kwStart && aktuelleKW <= woche.kwEnd);
+
+    if (istAktuell) {
       card.classList.add("active");
     }
 
     const titel = woche.ferien ? woche.titel : "KW " + woche.kw;
     const tag = woche.ferien
       ? "Information"
-      : (woche.kw === aktuelleKW ? "Aktuelle Woche" : "Materialien öffnen");
+      : (istAktuell ? "Aktuelle Woche" : "Materialien öffnen");
 
     card.innerHTML = `
       <div>
