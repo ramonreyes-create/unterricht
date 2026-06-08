@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSD I – Leserbrief Lückentext</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937;line-height:1.7}
+header{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:white;padding:55px 20px;text-align:center}
+header h1{font-size:2.5rem;margin-bottom:10px}
+header p{font-size:1.1rem;opacity:.95}
+.container{max-width:1100px;margin:auto;padding:35px 20px 60px}
+.card{background:white;border-radius:22px;padding:28px;box-shadow:0 8px 22px rgba(15,23,42,.10);margin-bottom:25px}
+.section-title{color:#1e40af;margin-bottom:15px}
+.wordbank{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.word{background:#dbeafe;color:#1e40af;padding:8px 13px;border-radius:999px;font-weight:800}
+.opinions{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.opinion{background:#f8fafc;border-left:6px solid #2563eb;border-radius:16px;padding:18px}
+.opinion h3{color:#1e40af;margin-bottom:8px}
+.letter{font-size:1.05rem}
+select{padding:8px 10px;margin:0 4px;border-radius:10px;border:2px solid #cbd5e1;font-size:1rem;background:#fff;color:#1f2937;font-weight:700}
+select.correct{border-color:#16a34a;background:#dcfce7}
+select.wrong{border-color:#dc2626;background:#fee2e2}
+.btn{background:#2563eb;color:white;border:none;padding:13px 20px;border-radius:14px;font-weight:900;cursor:pointer;margin:8px 8px 8px 0;font-size:1rem}
+.btn:hover{background:#1d4ed8}
+.btn.secondary{background:#64748b}
+.result{margin-top:18px;padding:16px;border-radius:16px;font-weight:900;display:none}
+.result.ok{display:block;background:#dcfce7;color:#166534}
+.result.bad{display:block;background:#fee2e2;color:#991b1b}
+.footer-name{margin-top:18px}
+input{padding:10px;border-radius:10px;border:2px solid #cbd5e1;font-size:1rem;width:260px;max-width:100%}
+@media(max-width:700px){header h1{font-size:2rem}.card{padding:20px}select{display:block;margin:8px 0;width:100%}}
+</style>
+</head>
+<body>
+<header>
+<h1>DSD I – Schriftliche Kommunikation</h1>
+<p>Leserbrief · Lückentext · Wiedergabe – Erfahrung – Meinung</p>
+</header>
+
+<main class="container">
+
+<section class="card">
+<h2 class="section-title">Thema: Soll die Schule später beginnen?</h2>
+<p><strong>Aufgabe:</strong> Ergänze den Leserbrief mit den passenden Wörtern aus der Wortbank.</p>
+<div class="wordbank">
+<span class="word">Meinung</span>
+<span class="word">persönlich</span>
+<span class="word">Freizeit</span>
+<span class="word">gelesen</span>
+<span class="word">anders</span>
+<span class="word">später</span>
+<span class="word">müde</span>
+<span class="word">Erfahrung</span>
+<span class="word">konzentrieren</span>
+<span class="word">Zusammenfassend</span>
+<span class="word">finde</span>
+<span class="word">Leistungen</span>
+</div>
+</section>
+
+<section class="card">
+<h2 class="section-title">Meinungen von Jugendlichen</h2>
+<div class="opinions">
+<div class="opinion">
+<h3>Lena (15 Jahre, Hamburg)</h3>
+<p>„Ich finde, die Schule sollte erst um 9 Uhr beginnen. Viele Jugendliche schlafen zu wenig und sind morgens sehr müde. In der ersten Stunde kann ich mich oft nicht gut konzentrieren. Ein späterer Schulbeginn könnte die Leistungen verbessern.“</p>
+</div>
+<div class="opinion">
+<h3>Paul (16 Jahre, München)</h3>
+<p>„Für mich ist der frühe Unterricht kein Problem. Ich stehe jeden Tag um 6 Uhr auf und bin daran gewöhnt. Wenn die Schule später beginnen würde, hätte ich am Nachmittag weniger Zeit für Fußballtraining und Freunde.“</p>
+</div>
+<div class="opinion">
+<h3>Sara (15 Jahre, Berlin)</h3>
+<p>„Ich bin für einen späteren Schulbeginn. Jugendliche brauchen mehr Schlaf als Erwachsene. Wenn wir ausgeruhter wären, könnten wir besser lernen und wären im Unterricht aktiver.“</p>
+</div>
+<div class="opinion">
+<h3>Tom (16 Jahre, Köln)</h3>
+<p>„Ich sehe das anders. Wenn die Schule später beginnt, endet sie auch später. Dann hätte ich weniger Freizeit und weniger Zeit für meine Hobbys. Deshalb finde ich die jetzigen Unterrichtszeiten besser.“</p>
+</div>
+</div>
+</section>
+
+<section class="card letter">
+<h2 class="section-title">Leserbrief – Fehlende Wörter</h2>
+
+<p><strong>Liebe Redaktion,</strong></p>
+
+<p>ich habe die Meinungen zum Thema Schulbeginn <select data-answer="gelesen"></select>.</p>
+
+<p>Lena ist der <select data-answer="Meinung"></select>, dass die Schule <select data-answer="später"></select> beginnen sollte. Sie sagt, dass viele Jugendliche morgens <select data-answer="müde"></select> sind und sich nicht gut <select data-answer="konzentrieren"></select> können. Außerdem glaubt sie, dass sich die schulischen <select data-answer="Leistungen"></select> verbessern könnten.</p>
+
+<p>Auch Sara unterstützt diese Idee. Sie meint, dass Jugendliche mehr Schlaf brauchen und deshalb besser lernen würden.</p>
+
+<p>Paul sieht das Thema <select data-answer="anders"></select>. Er möchte nachmittags genug Zeit für Sport und seine <select data-answer="Freizeit"></select> haben.</p>
+
+<p>Tom hat eine ähnliche Meinung. Er findet schlecht, dass die Schule später endet und dadurch weniger Zeit für Hobbys bleibt.</p>
+
+<p>Ich habe selbst die <select data-answer="Erfahrung"></select> gemacht, dass ich morgens oft sehr müde bin und mich in der ersten Stunde nicht immer gut konzentrieren kann.</p>
+
+<p><select data-answer="persönlich"></select> denke ich, dass ein späterer Schulbeginn sinnvoll wäre.</p>
+
+<p>Ich <select data-answer="finde"></select>, dass viele Jugendliche davon profitieren könnten.</p>
+
+<p><select data-answer="Zusammenfassend"></select> kann man sagen, dass ein späterer Schulbeginn sowohl Vor- als auch Nachteile hat.</p>
+
+<p><strong>Mit freundlichen Grüßen</strong></p>
+<p class="footer-name"><input type="text" placeholder="Name"></p>
+
+<button class="btn" onclick="checkAnswers()">Prüfen</button>
+<button class="btn secondary" onclick="resetAnswers()">Neu starten</button>
+
+<div id="result" class="result"></div>
+</section>
+</main>
+
+<script>
+const words=["Meinung","persönlich","Freizeit","gelesen","anders","später","müde","Erfahrung","konzentrieren","Zusammenfassend","finde","Leistungen"];
+
+function shuffle(array){
+  return [...array].sort(()=>Math.random()-0.5);
+}
+
+function fillSelects(){
+  const selects=document.querySelectorAll("select");
+  const shuffledWords=shuffle(words);
+  selects.forEach(select=>{
+    select.innerHTML='<option value="">---</option>';
+    shuffledWords.forEach(word=>{
+      const option=document.createElement("option");
+      option.value=word;
+      option.textContent=word;
+      select.appendChild(option);
+    });
+  });
+}
+
+function checkAnswers(){
+  const selects=document.querySelectorAll("select");
+  let correct=0;
+  selects.forEach(select=>{
+    select.classList.remove("correct","wrong");
+    if(select.value===select.dataset.answer){
+      select.classList.add("correct");
+      correct++;
+    }else{
+      select.classList.add("wrong");
+    }
+  });
+  const result=document.getElementById("result");
+  const total=selects.length;
+  const percent=Math.round((correct/total)*100);
+  if(correct===total){
+    result.className="result ok";
+    result.innerHTML=`✅ Sehr gut! Alles richtig. Ergebnis: ${correct}/${total} (${percent}%)`;
+  }else{
+    result.className="result bad";
+    result.innerHTML=`❌ Noch nicht alles richtig. Ergebnis: ${correct}/${total} (${percent}%)`;
+  }
+}
+
+function resetAnswers(){
+  document.querySelectorAll("select").forEach(select=>{
+    select.value="";
+    select.classList.remove("correct","wrong");
+  });
+  const result=document.getElementById("result");
+  result.className="result";
+  result.innerHTML="";
+}
+
+fillSelects();
+</script>
+</body>
+</html>
