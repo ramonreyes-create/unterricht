@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSD II SK – Duales Studium mit Markieren</title>
+<style>
+:root{
+  --blue:#174ea6;--green:#1f7a55;--ink:#172033;--muted:#667085;--bg:#f4f7fb;--card:#fff;
+  --line:#d8e0ee;--gold:#ffbf3f;--red:#b42318;--soft:#eef4ff;--yellow:#fff59d;
+  --markblue:#b8dcff;--markgreen:#bdf4cf;--markred:#ffcbc4;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+.start-screen{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#12386c,#174ea6 55%,#1f7a55);color:#fff;padding:24px}
+.start-card{max-width:780px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:28px;padding:32px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.start-card h1{font-size:clamp(32px,5vw,56px);margin:0 0 12px}
+.start-card p{font-size:18px;line-height:1.5}
+.start-card input{margin:8px 0;background:#fff}
+.app{display:none}
+header{background:linear-gradient(135deg,#12386c,#174ea6 58%,#1f7a55);color:#fff;padding:20px 18px}
+.wrap{max-width:1320px;margin:auto}
+header h1{margin:0;font-size:clamp(24px,3vw,38px)}
+header p{margin:6px 0 0;opacity:.95}
+.toolbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:10px 18px;box-shadow:0 8px 18px rgba(23,46,90,.08)}
+.toolbar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{border:0;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer;background:#e8eef8;color:#12386c}
+button.primary{background:var(--blue);color:#fff}
+button.green{background:var(--green);color:#fff}
+button.red{background:var(--red);color:#fff}
+button.yellow{background:#facc15;color:#3f2f00}
+button.markblue{background:var(--markblue);color:#06345f}
+button.markgreen{background:var(--markgreen);color:#064823}
+button.markred{background:var(--markred);color:#6b120c}
+.timer{margin-left:auto;background:#fff3c4;color:#6a4600;padding:9px 14px;border-radius:999px;font-weight:900}
+main{max-width:1320px;margin:auto;padding:18px 14px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 24px rgba(23,46,90,.09);margin-bottom:16px}
+.exam-sheet{border:2px solid #222;border-radius:4px;background:#fff;box-shadow:none}
+.exam-title{text-align:center;font-family:Georgia,serif;font-weight:700;font-size:21px;margin-bottom:3px}
+.exam-author{text-align:center;font-size:13px;margin-bottom:14px}
+.source{font-size:13px;border-top:1px solid #222;margin-top:12px;padding-top:8px}
+.text{columns:2;column-gap:26px;line-height:1.55;text-align:justify}
+.material-mini .text{columns:1;font-size:14px;line-height:1.45;max-height:270px;overflow:auto}
+.material-mini{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+h2{margin:0 0 12px;font-size:26px}
+h3{margin:14px 0 8px}
+.sidebar{position:sticky;top:76px}
+.sidebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 8px 20px rgba(23,46,90,.07)}
+.sidebox h3{margin:0 0 10px;color:var(--blue)}
+.sidebox ul{margin:0;padding-left:18px;line-height:1.5}
+.key{position:relative;border-bottom:2px dotted var(--green);color:#0f5f43;font-weight:700;cursor:help}
+.key:hover::after{content:attr(data-es);position:absolute;left:0;top:1.45em;z-index:50;background:#172033;color:#fff;padding:7px 10px;border-radius:10px;font-size:13px;white-space:nowrap;box-shadow:0 8px 18px rgba(0,0,0,.25)}
+.graph-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:18px;align-items:center}
+.pie{width:190px;height:190px;border-radius:50%;background:conic-gradient(#174ea6 0 12%,#d8d8d8 12% 100%);margin:auto;position:relative;border:2px solid #333}
+.pie::after{content:"51";position:absolute;left:84px;top:85px;font-weight:700}
+.pie-label{font-size:13px;text-align:center;margin-top:8px}
+.legend{display:flex;gap:12px;justify-content:center;font-size:13px;margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:4px;background:#174ea6}
+.legend span:nth-child(2)::before{background:#d8d8d8;border:1px solid #999}
+.bar-chart{display:grid;gap:10px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 40px;align-items:center;gap:8px;font-size:13px}
+.bar-bg{height:22px;background:#eef2f7;border:1px solid #cdd5e1;border-radius:4px;overflow:hidden}
+.bar{height:100%;background:linear-gradient(90deg,#174ea6,#1f7a55)}
+.task{background:#fffdf5;border-left:6px solid var(--gold)}
+.task ul{line-height:1.8}
+input,textarea{width:100%;border:1px solid #c9d4e5;border-radius:14px;padding:12px;font-size:16px;font-family:Arial,Helvetica,sans-serif}
+textarea{min-height:280px;line-height:1.5;resize:vertical}
+.help{background:#eef7f1;border-left:5px solid var(--green);padding:12px;border-radius:14px;line-height:1.5;margin:10px 0}
+.structure{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}
+.step{background:var(--soft);border:1px solid #cfe0ff;border-radius:16px;padding:12px}
+.step b{display:block;margin-bottom:6px;color:var(--blue)}
+.count{color:var(--muted);font-size:14px;margin-top:6px}
+.part{display:none}.part.active{display:block}
+.status{display:none;margin-top:10px;background:#eef7f1;border:1px solid #b8e2c5;border-radius:14px;padding:12px;font-weight:800}
+.highlightbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;position:sticky;top:66px;z-index:8}
+mark.hl-yellow{background:var(--yellow);padding:1px 2px;border-radius:3px}
+mark.hl-blue{background:var(--markblue);padding:1px 2px;border-radius:3px}
+mark.hl-green{background:var(--markgreen);padding:1px 2px;border-radius:3px}
+mark.hl-red{background:var(--markred);padding:1px 2px;border-radius:3px}
+.kw-list{display:flex;flex-wrap:wrap;gap:6px}
+.kw{background:#f2f5fb;border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:13px}
+footer{text-align:center;color:var(--muted);padding:28px}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.sidebar{position:static}.timer{margin-left:0}.material-mini{grid-template-columns:1fr}.text{columns:1}.graph-grid{grid-template-columns:1fr}}
+@media print{.toolbar,.sidebar,button,.start-screen,.highlightbar{display:none!important}.app{display:block!important}body{background:#fff}.card{box-shadow:none}.layout{display:block}.text{columns:2}.exam-sheet{break-inside:avoid}}
+</style>
+</head>
+<body>
+<section class="start-screen" id="startScreen">
+  <div class="start-card">
+    <h1>DSD II – Schriftliche Kommunikation</h1>
+    <p><strong>Thema:</strong> Duales Studium: Studium plus Berufsausbildung</p>
+    <p>Nach dem Start öffnet sich die Prüfung im Vollbildmodus. In jeder Phase sieht die Schülerin das passende Material direkt auf dem Bildschirm und kann wichtige Stellen farbig markieren.</p>
+    <input id="startName" placeholder="Name der Schülerin">
+    <input id="startKlasse" placeholder="Klasse / Kurs">
+    <p><button class="primary" onclick="startExam()">Prüfung starten</button></p>
+  </div>
+</section>
+
+<div class="app" id="app">
+<header><div class="wrap"><h1>Schriftliche Kommunikation – DSD II</h1><p>Modellsatz B2 · Duales Studium · 140 Minuten</p></div></header>
+<div class="toolbar"><div class="wrap">
+  <button class="primary" onclick="showPart('material')">Material</button>
+  <button onclick="showPart('inhalt')">1. Inhaltsangabe</button>
+  <button onclick="showPart('grafik')">2. Grafikauswertung</button>
+  <button onclick="showPart('eroerterung')">3. Erörterung</button>
+  <button onclick="window.print()">Drucken / PDF</button>
+  <div class="timer" id="timer">140:00</div>
+</div></div>
+
+<main>
+<div class="highlightbar">
+  <strong>Markieren:</strong>
+  <button class="yellow" onclick="highlightSelection('hl-yellow')">🟨</button>
+  <button class="markblue" onclick="highlightSelection('hl-blue')">🟦</button>
+  <button class="markgreen" onclick="highlightSelection('hl-green')">🟩</button>
+  <button class="markred" onclick="highlightSelection('hl-red')">🟥</button>
+  <button onclick="clearHighlights()">Markierungen löschen</button>
+</div>
+
+<div class="layout"><div>
+<section class="card task">
+<h2>Aufgabe</h2>
+<p>Schreiben Sie einen <strong>zusammenhängenden Text</strong> zum Thema:</p>
+<h3>„Duales Studium: Studium plus Berufsausbildung“</h3>
+<ul>
+<li>Arbeiten Sie wichtige Aussagen aus dem Text heraus.</li>
+<li>Werten Sie die Grafik anhand wichtiger Daten aus.</li>
+<li>Was spricht für ein duales Studium? Was spricht dagegen? Nehmen Sie in Form einer ausgearbeiteten Argumentation zu dieser Frage Stellung.</li>
+</ul>
+<p><strong>Sie haben insgesamt 140 Minuten Zeit.</strong></p>
+</section>
+
+<section id="material" class="part active">
+<div id="fullMaterial"></div>
+</section>
+
+<section id="inhalt" class="part">
+<section class="card">
+<h2>Material für die Inhaltsangabe</h2>
+<div class="help">Markieren Sie im Text zentrale Aussagen: Thema, Definition, Vorteile, Nachteile, Schlussgedanke.</div>
+<div id="textOnlyMaterial" class="exam-sheet card"></div>
+</section>
+<section class="card"><h2>1. Inhaltsangabe</h2>
+<div class="help">Die Inhaltsangabe braucht: Einleitung zum Thema, Basissatz und Textwiedergabe.</div>
+<div class="structure">
+<div class="step"><b>Einleitung zum Thema</b>Kurze Einführung in Ausbildung, Studium und Berufswahl.</div>
+<div class="step"><b>Basissatz</b>Titel, Autor, Quelle, Datum und Thema nennen.</div>
+<div class="step"><b>Textwiedergabe</b>Wichtige Aussagen neutral und in eigenen Worten wiedergeben.</div>
+</div>
+<textarea id="txt_inhalt" oninput="countWords('txt_inhalt','count_inhalt')" placeholder="Inhaltsangabe hier schreiben..."></textarea>
+<div class="count" id="count_inhalt">0 Wörter</div>
+<button class="green" onclick="sendPart('Inhaltsangabe','txt_inhalt','status_inhalt')">Inhaltsangabe senden</button>
+<div id="status_inhalt" class="status"></div>
+</section></section>
+
+<section id="grafik" class="part">
+<section class="card">
+<h2>Material für die Grafikauswertung</h2>
+<div class="help">Markieren Sie wichtige Zahlen: Befragte, höchste Werte, niedrigere Werte, Auffälligkeiten und mögliche Interpretation.</div>
+<div id="graphicOnlyMaterial" class="exam-sheet card"></div>
+</section>
+<section class="card"><h2>2. Grafikauswertung</h2>
+<div class="help">Die Grafikauswertung braucht: Einleitung, Basissatz, Hauptteil, Auffälligkeit, Auswertung und Fazit/Interpretation.</div>
+<div class="structure">
+<div class="step"><b>Einleitung</b>Zum Thema der Grafik hinführen.</div>
+<div class="step"><b>Basissatz</b>Titel, Quelle, Jahr, Thema und Befragte nennen.</div>
+<div class="step"><b>Hauptteil</b>Wichtige Zahlen nennen und vergleichen.</div>
+<div class="step"><b>Auffälligkeit</b>Besonders auffällige Werte hervorheben.</div>
+<div class="step"><b>Auswertung</b>Die Zahlen erklären.</div>
+<div class="step"><b>Fazit / Interpretation</b>Kurze Schlussfolgerung formulieren.</div>
+</div>
+<textarea id="txt_grafik" oninput="countWords('txt_grafik','count_grafik')" placeholder="Grafikauswertung hier schreiben..."></textarea>
+<div class="count" id="count_grafik">0 Wörter</div>
+<button class="green" onclick="sendPart('Grafikauswertung','txt_grafik','status_grafik')">Grafikauswertung senden</button>
+<div id="status_grafik" class="status"></div>
+</section></section>
+
+<section id="eroerterung" class="part">
+<section class="card">
+<h2>Material für die Erörterung</h2>
+<div class="help">Markieren Sie Pro-Argumente grün und Contra-Argumente rot. Nutzen Sie Text und Grafik als Belege.</div>
+<div class="material-mini">
+  <div id="miniTextMaterial" class="exam-sheet card"></div>
+  <div id="miniGraphicMaterial" class="exam-sheet card"></div>
+</div>
+</section>
+<section class="card"><h2>3. Lineare Erörterung</h2>
+<div class="help">Die Erörterung beginnt mit einer Soll-Frage und enthält Meinung, Behauptungen, Begründungen, Beispiele/Belege, Zusammenfassung, Schlussfolgerung, Fazit/Ausblick.</div>
+<div class="structure">
+<div class="step"><b>Soll-Frage</b>Sollte man ein duales Studium nach dem Schulabschluss wählen?</div>
+<div class="step"><b>Eigene Meinung</b>Klare Position formulieren.</div>
+<div class="step"><b>Behauptungen</b>Mehrere starke Aussagen zum Thema.</div>
+<div class="step"><b>Begründungen</b>Jede Behauptung erklären.</div>
+<div class="step"><b>Beispiele / Belege</b>Konkrete Beispiele oder Daten verwenden.</div>
+<div class="step"><b>Zusammenfassung</b>Wichtigste Argumente bündeln.</div>
+<div class="step"><b>Schlussfolgerung</b>Logische Konsequenz formulieren.</div>
+<div class="step"><b>Fazit / Ausblick</b>Abschließende Bewertung und Blick in die Zukunft.</div>
+</div>
+<textarea id="txt_eroerterung" oninput="countWords('txt_eroerterung','count_eroerterung')" placeholder="Lineare Erörterung hier schreiben..."></textarea>
+<div class="count" id="count_eroerterung">0 Wörter</div>
+<button class="green" onclick="sendPart('Lineare Erörterung','txt_eroerterung','status_eroerterung')">Erörterung senden</button>
+<div id="status_eroerterung" class="status"></div>
+</section></section>
+</div>
+
+<aside class="sidebar">
+<div class="sidebox"><h3>Meine Schlüsselwörter</h3><div id="keywordList" class="kw-list"><span class="count">Noch keine Markierungen.</span></div></div>
+<div class="sidebox" id="help_inhalt"><h3>Redemittel: Inhaltsangabe</h3><ul><li>Das Thema ... ist heute besonders wichtig, weil ...</li><li>Im Text „...“ von ... geht es um ...</li><li>Der Text wurde am ... auf ... veröffentlicht.</li><li>Der Autor erklärt, dass ...</li><li>Außerdem wird erwähnt, dass ...</li><li>Zusammenfassend zeigt der Text, dass ...</li></ul></div>
+<div class="sidebox" id="help_grafik"><h3>Redemittel: Grafikauswertung</h3><ul><li>Die Grafik informiert über ...</li><li>Die Daten stammen aus ...</li><li>Befragt wurden ...</li><li>Der höchste Wert liegt bei ...</li><li>Auffällig ist, dass ...</li><li>Im Vergleich dazu ...</li><li>Daraus kann man schließen, dass ...</li></ul></div>
+<div class="sidebox" id="help_eroerterung"><h3>Redemittel: Erörterung</h3><ul><li>Sollte man ...?</li><li>Meiner Meinung nach sollte man ...</li><li>Eine wichtige Behauptung ist, dass ...</li><li>Das lässt sich damit begründen, dass ...</li><li>Ein Beispiel dafür ist ...</li><li>Zusammenfassend lässt sich sagen, dass ...</li><li>Für die Zukunft wäre es sinnvoll, ...</li></ul></div>
+<div class="sidebox"><h3>Hinweis</h3><p class="count">Markieren: Textstelle auswählen und oben eine Farbe wählen. Grüne Wörter zeigen beim Darüberfahren die spanische Bedeutung.</p></div>
+</aside></div></main>
+<footer>DSD II SK · Modellsatz B2 · Duales Studium</footer>
+</div>
+
+<script>
+const SCRIPT_URL = "PEGAR_AQUI_LA_URL_DE_TU_APPS_SCRIPT";
+let timerInterval=null;let seconds=140*60;
+
+const textMaterial = `
+<div class="exam-title">Duales Studium: Studium plus Berufsausbildung</div><div class="exam-author">von Gerd Bahr</div>
+<div class="text selectable">
+<p>Für viele Schüler gibt es nach dem Abitur nur zwei Alternativen: entweder an einer Universität studieren oder in einem Betrieb eine <span class="key" data-es="formación profesional">Ausbildung</span> machen. Dass es eine Kombination aus beidem gibt, ist den meisten noch nicht bekannt. Dieses Studium nennt sich duales Studium, weil man eine <span class="key" data-es="formación profesional + estudios">Berufsausbildung</span> mit einem Studium verbindet.</p>
+<p>Im <span class="key" data-es="empresa">Betrieb</span> bekommen die Studierenden praktische Erfahrungen. Gleichzeitig besuchen sie eine <span class="key" data-es="institución de educación superior">Hochschule</span> und lernen dort die theoretischen Grundlagen. Besonders in Bereichen wie Informatik, Wirtschaft, Technik oder Chemie wird diese Form der Ausbildung immer beliebter.</p>
+<p>Ein <span class="key" data-es="ventaja">Vorteil</span> des dualen Studiums ist, dass die Studierenden schon während des Studiums Geld verdienen und früh Kontakte zu einem Unternehmen aufbauen. Außerdem können sie das, was sie an der Hochschule lernen, direkt in der <span class="key" data-es="práctica">Praxis</span> anwenden. Dadurch sind ihre <span class="key" data-es="oportunidades laborales">Berufschancen</span> nach dem Abschluss oft sehr gut.</p>
+<p>Allerdings ist ein duales Studium auch <span class="key" data-es="exigente">anspruchsvoll</span>. Die Studierenden müssen nicht nur Vorlesungen besuchen und Prüfungen schreiben, sondern auch im Betrieb arbeiten. Sie haben deshalb weniger freie Zeit als andere Studierende. Manche fühlen sich durch den Wechsel zwischen Hochschule und Betrieb stark belastet.</p>
+<p>In der Regel schließen die Studierenden nach mehreren Jahren sowohl die Berufsausbildung als auch das Studium ab. Danach können sie häufig in dem Unternehmen weiterarbeiten, in dem sie ausgebildet wurden. Für viele junge Menschen ist das duale Studium deshalb eine interessante Möglichkeit, Theorie und Praxis miteinander zu verbinden. Trotzdem darf man den möglichen <span class="key" data-es="desventaja">Nachteil</span> der hohen Belastung nicht unterschätzen.</p>
+</div>
+<div class="source"><strong>Quelle:</strong> www.studium-und-beruf.de &nbsp;&nbsp; 31.03.2026 &nbsp;&nbsp; (für Prüfungszwecke bearbeitet)</div>`;
+
+const graphicMaterial = `
+<h2 style="font-family:Georgia,serif;text-align:center;font-size:20px;">Befragung von Absolventen des dualen Informatikstudiums an der Universität Köln</h2>
+<div class="graph-grid selectable">
+<div><h3>Würden Sie sich wieder für ein duales Studium entscheiden?</h3><div class="pie"></div><div class="pie-label">Befragt wurden 58 Absolventen</div><div class="legend"><span>nein: 7</span><span>ja: 51</span></div></div>
+<div><h3>Gründe für die Wiederwahl des Studiengangs</h3><div class="bar-chart">
+<div class="bar-row"><div>Praxisbezug</div><div class="bar-bg"><div class="bar" style="width:88%"></div></div><strong>44</strong></div>
+<div class="bar-row"><div>Finanzielle Unterstützung</div><div class="bar-bg"><div class="bar" style="width:32%"></div></div><strong>16</strong></div>
+<div class="bar-row"><div>Gute Zukunftsaussichten</div><div class="bar-bg"><div class="bar" style="width:24%"></div></div><strong>12</strong></div>
+<div class="bar-row"><div>Guter Bildungsweg</div><div class="bar-bg"><div class="bar" style="width:20%"></div></div><strong>10</strong></div>
+</div></div></div>
+<div class="source"><strong>Quelle:</strong> TNS Infratest Sozialforschung, 31.03.2009 (für Prüfungszwecke bearbeitet)</div>`;
+
+document.getElementById("fullMaterial").innerHTML = '<section class="card exam-sheet">'+textMaterial+'</section><section class="card exam-sheet">'+graphicMaterial+'</section>';
+document.getElementById("textOnlyMaterial").innerHTML = textMaterial;
+document.getElementById("graphicOnlyMaterial").innerHTML = graphicMaterial;
+document.getElementById("miniTextMaterial").innerHTML = textMaterial;
+document.getElementById("miniGraphicMaterial").innerHTML = graphicMaterial;
+
+function startExam(){
+  const n=document.getElementById("startName").value.trim();
+  if(!n){alert("Bitte Namen eintragen.");return;}
+  document.getElementById("startScreen").style.display="none";
+  document.getElementById("app").style.display="block";
+  if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().catch(()=>{});}
+  startTimer();
+}
+function startTimer(){
+  if(timerInterval)return;
+  timerInterval=setInterval(()=>{
+    seconds--;
+    if(seconds<=0){clearInterval(timerInterval);seconds=0;alert("Die Arbeitszeit ist beendet.");}
+    const m=String(Math.floor(seconds/60)).padStart(2,"0");
+    const s=String(seconds%60).padStart(2,"0");
+    document.getElementById("timer").textContent=m+":"+s;
+  },1000);
+}
+function showPart(id){
+  document.querySelectorAll(".part").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+function words(text){return text.trim()?text.trim().split(/\s+/).filter(Boolean).length:0}
+function countWords(id,countId){document.getElementById(countId).textContent=words(document.getElementById(id).value)+" Wörter"}
+
+function highlightSelection(cls){
+  const sel = window.getSelection();
+  if(!sel || sel.rangeCount===0 || sel.toString().trim()==="") return;
+  const range = sel.getRangeAt(0);
+  const container = range.commonAncestorContainer;
+  const parentEl = container.nodeType===1 ? container : container.parentElement;
+  if(!parentEl.closest(".selectable")){
+    alert("Bitte nur im Text oder in der Grafik markieren.");
+    return;
+  }
+  const mark = document.createElement("mark");
+  mark.className = cls;
+  try{
+    range.surroundContents(mark);
+  }catch(e){
+    const content = range.extractContents();
+    mark.appendChild(content);
+    range.insertNode(mark);
+  }
+  sel.removeAllRanges();
+  updateKeywords();
+}
+function updateKeywords(){
+  const marks = document.querySelectorAll("mark");
+  const words = [];
+  marks.forEach(m=>{
+    const t=m.textContent.trim();
+    if(t && !words.includes(t)) words.push(t);
+  });
+  const box=document.getElementById("keywordList");
+  if(words.length===0){box.innerHTML='<span class="count">Noch keine Markierungen.</span>';return;}
+  box.innerHTML=words.slice(0,30).map(w=>`<span class="kw">${w}</span>`).join("");
+}
+function clearHighlights(){
+  document.querySelectorAll("mark").forEach(m=>{
+    const text=document.createTextNode(m.textContent);
+    m.replaceWith(text);
+  });
+  updateKeywords();
+}
+
+async function sendPart(partName, textId, statusId){
+  const text=document.getElementById(textId).value.trim();
+  const status=document.getElementById(statusId);
+  const name=document.getElementById("startName").value.trim();
+  const klasse=document.getElementById("startKlasse").value.trim();
+  const keywords=[...document.querySelectorAll("#keywordList .kw")].map(x=>x.textContent).join(", ");
+  if(!text){alert("Bitte zuerst den Text schreiben.");return;}
+  if(SCRIPT_URL.includes("PEGAR_AQUI")){alert("Falta pegar la URL del Apps Script en SCRIPT_URL.");return;}
+  const payload={datum:new Date().toISOString(),name,klasse,thema:"Duales Studium: Studium plus Berufsausbildung",teil:partName,text,woerter:words(text),restzeit:document.getElementById("timer").textContent,markierungen:keywords};
+  try{
+    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    status.style.display="block";status.textContent=partName+" wurde gesendet. Wörter: "+payload.woerter;
+  }catch(e){alert("Fehler beim Senden. Bitte Script-URL prüfen.");}
+}
+</script>
+</body>
+</html>
