@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>9. Klasse – DSD I Semester-Rallye</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f7fb;margin:0;color:#1f2937}
+header{background:linear-gradient(135deg,#1f4e79,#2f75b5);color:white;text-align:center;padding:28px}
+main{max-width:1050px;margin:24px auto;background:white;padding:28px;border-radius:18px;box-shadow:0 4px 16px #0002}
+.card{border:1px solid #d5e1ef;border-radius:14px;padding:18px;margin:18px 0;background:#fff}
+.info{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;background:#eef5fb;padding:15px;border-radius:12px}
+input{padding:10px;border:1px solid #bbb;border-radius:8px;width:100%;box-sizing:border-box}
+button{background:#1f4e79;color:white;border:0;border-radius:10px;padding:12px 18px;font-weight:bold;cursor:pointer;margin:6px}
+button:disabled{background:#999}
+.option{display:block;width:100%;text-align:left;background:#f8fbff;color:#111;border:1px solid #cbd8e6;margin:8px 0;padding:12px;border-radius:10px}
+.option.selected{background:#dbeafe;border-color:#2563eb;font-weight:bold}
+.option.correct{background:#dcfce7;border-color:#16a34a}
+.option.wrong{background:#fee2e2;border-color:#dc2626}
+.hidden{display:none}
+.progress{height:18px;background:#e5e7eb;border-radius:999px;overflow:hidden}
+.bar{height:100%;background:#2e7d32;width:0%}
+.timer{font-size:22px;font-weight:bold;color:#1f4e79}
+.result{font-size:20px;font-weight:bold;background:#eef5fb;padding:16px;border-radius:12px}
+.warning{background:#fff3cd;border:1px solid #e0a800;padding:12px;border-radius:10px;font-weight:bold}
+.tag{display:inline-block;background:#eef5fb;color:#1f4e79;border-radius:999px;padding:5px 10px;font-size:13px;font-weight:bold}
+.saved{color:#1f4e79;font-weight:bold}
+.review{border-left:6px solid #ddd}
+.review.ok{border-left-color:#16a34a}
+.review.bad{border-left-color:#dc2626}
+.small{font-size:13px;color:#555}
+</style>
+</head>
+<body>
+<header>
+<h1>9. Klasse – DSD I Semester-Rallye</h1>
+<p>40 Minuten · Feedback: Antwort gespeichert · Lösungen erst am Ende · 50% = Note 4,0</p>
+</header>
+
+<main>
+<section id="start">
+<div class="warning">Beim Start wird Vollbild aktiviert. Seitenwechsel und Verlassen des Vollbildmodus werden registriert.</div>
+<div class="info">
+<div><b>Name</b><br><input id="name" placeholder="Name"></div>
+<div><b>Klasse</b><br><input id="klasse" value="9. Klasse"></div>
+<div><b>Zeit</b><br><span class="timer">40:00</span></div>
+</div>
+<br>
+<button onclick="startExam()">Starten</button>
+</section>
+
+<section id="exam" class="hidden">
+<div class="info">
+<div><b>Name:</b> <span id="showName"></span></div>
+<div><b>Klasse:</b> <span id="showKlasse"></span></div>
+<div><b>Zeit:</b> <span id="timer" class="timer">40:00</span></div>
+</div>
+<div class="card">
+<div class="progress"><div id="bar" class="bar"></div></div>
+<p><b>Fortschritt:</b> <span id="count">0/45</span></p>
+<p class="small">Du kannst deine Antwort ändern, solange du die Aktivität noch nicht beendet hast.</p>
+</div>
+<div id="questionBox"></div>
+<button onclick="finishExam()">Aktivität beenden und Lösungen anzeigen</button>
+</section>
+
+<section id="results" class="hidden">
+<h2>Ergebnis</h2>
+<div id="resultBox" class="result"></div>
+<div id="categoryBox"></div>
+<h2>Lösungen und deine Antworten</h2>
+<div id="reviewBox"></div>
+<button id="sendBtn" onclick="sendResults()">Arbeit an den Lehrer senden</button>
+<div id="sendStatus"></div>
+</section>
+</main>
+
+<script>
+const WEBAPP_URL = "PEGAR_AQUI_URL_DEL_SCRIPT";
+let questions = [{"cat": "Wortschatz", "q": "Wähle den richtigen Artikel: ___ Erfahrung", "opts": ["der", "die", "das"], "ans": "die"}, {"cat": "Wortschatz", "q": "Wähle den richtigen Artikel: ___ Vorteil", "opts": ["der", "die", "das"], "ans": "der"}, {"cat": "Wortschatz", "q": "Wähle den richtigen Artikel: ___ Problem", "opts": ["der", "die", "das"], "ans": "das"}, {"cat": "Wortschatz", "q": "Wähle den richtigen Plural: der Nachteil", "opts": ["die Nachteile", "die Nachteilen", "die Nachteils"], "ans": "die Nachteile"}, {"cat": "Wortschatz", "q": "Wähle den richtigen Plural: die Meinung", "opts": ["die Meinungen", "die Meinen", "die Meinunges"], "ans": "die Meinungen"}, {"cat": "Wortschatz", "q": "Was bedeutet „sinnvoll“?", "opts": ["razonable / con sentido", "difícil", "obligatorio"], "ans": "razonable / con sentido"}, {"cat": "Wortschatz", "q": "Was bedeutet „unterstützen“?", "opts": ["apoyar", "criticar", "olvidar"], "ans": "apoyar"}, {"cat": "Wortschatz", "q": "Was bedeutet „die Leistung“?", "opts": ["el rendimiento", "la experiencia", "el problema"], "ans": "el rendimiento"}, {"cat": "Satzbau", "q": "Welcher Satz ist richtig?", "opts": ["Weil Jugendliche mehr Schlaf brauchen.", "Weil brauchen Jugendliche mehr Schlaf.", "Weil Jugendliche brauchen mehr Schlaf."], "ans": "Weil Jugendliche mehr Schlaf brauchen."}, {"cat": "Satzbau", "q": "Welcher Satz ist richtig?", "opts": ["Ich denke, dass die Schule später beginnen sollte.", "Ich denke, dass sollte die Schule später beginnen.", "Ich denke, dass die Schule sollte später beginnen."], "ans": "Ich denke, dass die Schule später beginnen sollte."}, {"cat": "Satzbau", "q": "Welcher Satz ist richtig?", "opts": ["Wenn ich mehr schlafe, kann ich mich besser konzentrieren.", "Wenn ich mehr schlafe, ich kann mich besser konzentrieren.", "Wenn schlafe ich mehr, kann ich mich besser konzentrieren."], "ans": "Wenn ich mehr schlafe, kann ich mich besser konzentrieren."}, {"cat": "Satzbau", "q": "Welcher Satz ist richtig?", "opts": ["Deshalb unterstütze ich diese Idee.", "Deshalb ich unterstütze diese Idee.", "Deshalb diese Idee ich unterstütze."], "ans": "Deshalb unterstütze ich diese Idee."}, {"cat": "Satzbau", "q": "Welcher Satz ist richtig?", "opts": ["Außerdem könnten die Leistungen besser werden.", "Außerdem die Leistungen könnten besser werden.", "Außerdem besser könnten die Leistungen werden."], "ans": "Außerdem könnten die Leistungen besser werden."}, {"cat": "Satzbau", "q": "Welcher Satz ist richtig?", "opts": ["Aus eigener Erfahrung kann ich sagen, dass ich morgens oft müde bin.", "Aus eigener Erfahrung ich kann sagen, dass ich morgens oft müde bin.", "Aus eigener Erfahrung kann ich sagen, dass bin ich morgens oft müde."], "ans": "Aus eigener Erfahrung kann ich sagen, dass ich morgens oft müde bin."}, {"cat": "Satzbau", "q": "Welche Fortsetzung passt? Ich finde diese Idee sinnvoll, weil ...", "opts": ["viele Jugendliche mehr Energie haben.", "haben viele Jugendliche mehr Energie.", "viele Jugendliche haben mehr Energie."], "ans": "viele Jugendliche mehr Energie haben."}, {"cat": "Satzbau", "q": "Welche Fortsetzung passt? Zusammenfassend kann man sagen, dass ...", "opts": ["ein späterer Schulbeginn viele Vorteile hat.", "hat ein späterer Schulbeginn viele Vorteile.", "ein späterer Schulbeginn hat viele Vorteile."], "ans": "ein späterer Schulbeginn viele Vorteile hat."}, {"cat": "Adjektivdeklination", "q": "Das ist ein interessant___ Thema.", "opts": ["-es", "-e", "-en"], "ans": "-es"}, {"cat": "Adjektivdeklination", "q": "Ich habe einen gut___ Freund.", "opts": ["-en", "-er", "-e"], "ans": "-en"}, {"cat": "Adjektivdeklination", "q": "Die neu___ Schule ist modern.", "opts": ["-e", "-en", "-er"], "ans": "-e"}, {"cat": "Adjektivdeklination", "q": "Wir sprechen über ein wichtig___ Problem.", "opts": ["-es", "-en", "-e"], "ans": "-es"}, {"cat": "Adjektivdeklination", "q": "Mit meinem neu___ Handy lerne ich Vokabeln.", "opts": ["-en", "-em", "-es"], "ans": "-en"}, {"cat": "Adjektivdeklination", "q": "In einer groß___ Stadt gibt es viele Schulen.", "opts": ["-en", "-e", "-er"], "ans": "-en"}, {"cat": "Adjektivdeklination", "q": "Für die jung___ Menschen ist Schlaf wichtig.", "opts": ["-en", "-e", "-er"], "ans": "-en"}, {"cat": "Adjektivdeklination", "q": "Trotz des schlecht___ Wetters gehen wir zur Schule.", "opts": ["-en", "-es", "-em"], "ans": "-en"}, {"cat": "Leserbrief", "q": "Welche Formulierung passt zur Einleitung?", "opts": ["Ich habe die Meinungen zum Thema gelesen.", "Mit freundlichen Grüßen", "Zusammenfassend kann man sagen"], "ans": "Ich habe die Meinungen zum Thema gelesen."}, {"cat": "Leserbrief", "q": "Welche Formulierung gibt eine fremde Meinung wieder?", "opts": ["Lena findet, dass ...", "Meiner Meinung nach ...", "Ich habe erlebt, dass ..."], "ans": "Lena findet, dass ..."}, {"cat": "Leserbrief", "q": "Welche Formulierung passt zur eigenen Erfahrung?", "opts": ["Aus eigener Erfahrung kann ich sagen, dass ...", "Paul meint, dass ...", "Zusammenfassend ..."], "ans": "Aus eigener Erfahrung kann ich sagen, dass ..."}, {"cat": "Leserbrief", "q": "Welche Formulierung passt zur eigenen Meinung?", "opts": ["Meiner Meinung nach ...", "Lena sagt, dass ...", "Im Text steht, dass ..."], "ans": "Meiner Meinung nach ..."}, {"cat": "Leserbrief", "q": "Welche Formulierung passt zum Schluss?", "opts": ["Zusammenfassend kann man sagen, dass ...", "Ich habe die Meinungen gelesen", "Ein Vorteil ist, dass ..."], "ans": "Zusammenfassend kann man sagen, dass ..."}, {"cat": "Leserbrief", "q": "Welche Struktur ist richtig?", "opts": ["Einleitung – Meinungen – Erfahrung – Meinung – Schluss", "Schluss – Meinung – Einleitung – Erfahrung", "Erfahrung – Schluss – Grafik – Meinung"], "ans": "Einleitung – Meinungen – Erfahrung – Meinung – Schluss"}, {"cat": "Vorteile und Nachteile", "q": "Jugendliche können länger schlafen.", "opts": ["Vorteil", "Nachteil", "Erfahrung"], "ans": "Vorteil"}, {"cat": "Vorteile und Nachteile", "q": "Die Schule endet später.", "opts": ["Nachteil", "Vorteil", "Einleitung"], "ans": "Nachteil"}, {"cat": "Vorteile und Nachteile", "q": "Die Konzentration verbessert sich.", "opts": ["Vorteil", "Nachteil", "Schluss"], "ans": "Vorteil"}, {"cat": "Vorteile und Nachteile", "q": "Es bleibt weniger Zeit für Hobbys.", "opts": ["Nachteil", "Vorteil", "Meinung"], "ans": "Nachteil"}, {"cat": "Vorteile und Nachteile", "q": "Die Leistungen könnten besser werden.", "opts": ["Vorteil", "Nachteil", "Anrede"], "ans": "Vorteil"}, {"cat": "Konnektoren", "q": "Ich bin oft müde, ___ ich zu wenig schlafe.", "opts": ["weil", "deshalb", "außerdem"], "ans": "weil"}, {"cat": "Konnektoren", "q": "Ich schlafe mehr. ___ kann ich mich besser konzentrieren.", "opts": ["Deshalb", "Weil", "Dass"], "ans": "Deshalb"}, {"cat": "Konnektoren", "q": "Viele Jugendliche sind müde. ___ haben sie Stress.", "opts": ["Außerdem", "Weil", "Dass"], "ans": "Außerdem"}, {"cat": "Konnektoren", "q": "Ich denke, ___ mehr Schlaf wichtig ist.", "opts": ["dass", "weil", "wenn"], "ans": "dass"}, {"cat": "Konnektoren", "q": "___ die Schule später beginnt, haben Jugendliche mehr Zeit zum Schlafen.", "opts": ["Wenn", "Dass", "Deshalb"], "ans": "Wenn"}, {"cat": "Textfunktion", "q": "„Ich bin morgens oft müde.“ Welche Funktion hat der Satz?", "opts": ["Eigene Erfahrung", "Fremde Meinung", "Schluss"], "ans": "Eigene Erfahrung"}, {"cat": "Textfunktion", "q": "„Sara sagt, dass Jugendliche mehr Schlaf brauchen.“ Welche Funktion hat der Satz?", "opts": ["Wiedergabe einer Meinung", "Eigene Meinung", "Anrede"], "ans": "Wiedergabe einer Meinung"}, {"cat": "Textfunktion", "q": "„Ich unterstütze diese Idee.“ Welche Funktion hat der Satz?", "opts": ["Eigene Meinung", "Fremde Meinung", "Vorteil"], "ans": "Eigene Meinung"}, {"cat": "Textfunktion", "q": "„Ein Nachteil ist, dass die Schule später endet.“ Welche Funktion hat der Satz?", "opts": ["Nachteil", "Einleitung", "Erfahrung"], "ans": "Nachteil"}, {"cat": "Textfunktion", "q": "„Zusammenfassend kann man sagen, dass ...“ Welche Funktion hat der Satz?", "opts": ["Schluss", "Erfahrung", "Wortschatz"], "ans": "Schluss"}];
+
+function shuffleArray(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+questions = shuffleArray(questions).map(q=>{
+  q.opts = shuffleArray([...q.opts]);
+  return q;
+});
+
+let answers = {};
+let started = false;
+let seconds = 40*60;
+let timerInterval = null;
+let pageEvents = [];
+let fullscreenLeaves = 0;
+let tabLeaves = 0;
+let startTime = null;
+
+function registerEvent(type){
+ if(!started) return;
+ pageEvents.push(new Date().toLocaleString()+" - "+type);
+ if(type.includes("Vollbild")) fullscreenLeaves++;
+ if(type.includes("Tab") || type.includes("Fokus")) tabLeaves++;
+}
+document.addEventListener("visibilitychange",()=>{ if(document.hidden) registerEvent("Tab gewechselt / Seite verborgen"); });
+window.addEventListener("blur",()=>registerEvent("Fokus verloren"));
+document.addEventListener("fullscreenchange",()=>{ if(started && !document.fullscreenElement) registerEvent("Vollbild verlassen"); });
+
+async function startExam(){
+ const n=document.getElementById("name").value.trim();
+ const k=document.getElementById("klasse").value.trim();
+ if(!n){alert("Bitte Namen eingeben.");return;}
+ try{await document.documentElement.requestFullscreen();}catch(e){}
+ started=true; startTime=new Date();
+ document.getElementById("showName").textContent=n;
+ document.getElementById("showKlasse").textContent=k;
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("exam").classList.remove("hidden");
+ renderQuestions();
+ timerInterval=setInterval(tick,1000);
+}
+
+function tick(){
+ seconds--;
+ const m=Math.floor(seconds/60), s=seconds%60;
+ document.getElementById("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+ if(seconds<=0) finishExam();
+}
+
+function renderQuestions(){
+ const box=document.getElementById("questionBox");
+ box.innerHTML="";
+ questions.forEach((item,i)=>{
+  const div=document.createElement("div");
+  div.className="card";
+  div.innerHTML=`<span class="tag">${item.cat}</span><h3>${i+1}. ${item.q}</h3><div id="opts${i}"></div><div id="fb${i}" class="saved"></div>`;
+  box.appendChild(div);
+  const opts=document.getElementById("opts"+i);
+  item.opts.forEach(opt=>{
+   const b=document.createElement("button");
+   b.className="option";
+   b.textContent=opt;
+   b.onclick=()=>selectAnswer(i,opt);
+   opts.appendChild(b);
+  });
+ });
+}
+
+function selectAnswer(i,opt){
+ answers[i]=opt;
+ const opts=document.querySelectorAll("#opts"+i+" .option");
+ opts.forEach(b=>{
+   b.classList.remove("selected");
+   if(b.textContent===opt) b.classList.add("selected");
+ });
+ document.getElementById("fb"+i).innerHTML="Antwort gespeichert.";
+ updateProgress();
+}
+
+function updateProgress(){
+ const done=Object.keys(answers).length;
+ document.getElementById("count").textContent=done+"/"+questions.length;
+ document.getElementById("bar").style.width=(done/questions.length*100)+"%";
+}
+
+function calculateScore(){
+ let score=0;
+ questions.forEach((q,i)=>{
+   if(answers[i]===q.ans) score++;
+ });
+ return score;
+}
+
+function calculateGrade(score,max){
+ const p=score/max;
+ let grade;
+ if(p<0.5) grade=1+(p/0.5)*3;
+ else grade=4+((p-0.5)/0.5)*3;
+ return Math.round(grade*10)/10;
+}
+
+function finishExam(){
+ clearInterval(timerInterval);
+ document.getElementById("exam").classList.add("hidden");
+ document.getElementById("results").classList.remove("hidden");
+ const score=calculateScore();
+ const max=questions.length;
+ const percent=Math.round(score/max*100);
+ const grade=calculateGrade(score,max);
+ document.getElementById("resultBox").innerHTML=`Punkte: ${score}/${max}<br>Prozent: ${percent}%<br>Note: ${grade}<br>50% = Note 4,0`;
+
+ const cats={};
+ questions.forEach((q,i)=>{
+  if(!cats[q.cat]) cats[q.cat]={ok:0,total:0};
+  cats[q.cat].total++;
+  if(answers[i]===q.ans) cats[q.cat].ok++;
+ });
+ let html="<h3>Ergebnis nach Bereichen</h3>";
+ Object.keys(cats).forEach(c=>{html+=`<p><b>${c}:</b> ${cats[c].ok}/${cats[c].total}</p>`;});
+ document.getElementById("categoryBox").innerHTML=html;
+
+ let review="";
+ questions.forEach((q,i)=>{
+   const user=answers[i] || "Keine Antwort";
+   const ok=user===q.ans;
+   review+=`<div class="card review ${ok?'ok':'bad'}">
+     <span class="tag">${q.cat}</span>
+     <h3>${i+1}. ${q.q}</h3>
+     <p><b>Deine Antwort:</b> ${user}</p>
+     <p><b>Richtige Antwort:</b> ${q.ans}</p>
+   </div>`;
+ });
+ document.getElementById("reviewBox").innerHTML=review;
+}
+
+async function sendResults(){
+ const status=document.getElementById("sendStatus");
+ const btn=document.getElementById("sendBtn");
+ btn.disabled=true; btn.textContent="Senden...";
+ const max=questions.length, score=calculateScore(), percent=Math.round(score/max*100), grade=calculateGrade(score,max);
+ const payload={
+  datum:new Date().toLocaleString(),
+  name:document.getElementById("showName").textContent,
+  klasse:document.getElementById("showKlasse").textContent,
+  aktivitaet:"9. Klasse DSD I Semester-Rallye erweitert",
+  punkte:score,
+  max:max,
+  prozent:percent,
+  note:grade,
+  vollbildVerlassen:fullscreenLeaves,
+  tabWechsel:tabLeaves,
+  ereignisse:pageEvents.join(" | "),
+  antworten:JSON.stringify(answers),
+  fragen:JSON.stringify(questions)
+ };
+ if(WEBAPP_URL==="PEGAR_AQUI_URL_DEL_SCRIPT"){
+   console.log(payload);
+   status.innerHTML="✅ Gesendet (Testmodus: Apps-Script-URL fehlt noch)";
+   btn.textContent="Gesendet";
+   return;
+ }
+ try{
+  await fetch(WEBAPP_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)});
+  status.innerHTML="✅ Gesendet";
+  btn.textContent="Gesendet";
+ }catch(e){
+  status.innerHTML="❌ Fehler beim Senden";
+  btn.disabled=false; btn.textContent="Arbeit an den Lehrer senden";
+ }
+}
+</script>
+</body>
+</html>
