@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSD II SK – Megastädte</title>
+<style>
+:root{--blue:#174ea6;--green:#1f7a55;--ink:#172033;--muted:#667085;--bg:#f4f7fb;--line:#d8e0ee;--gold:#ffbf3f;--red:#b42318;--soft:#eef4ff;--yellow:#fff59d;--markblue:#b8dcff;--markgreen:#bdf4cf;--markred:#ffcbc4}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
+.start-screen{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#12386c,#174ea6 55%,#1f7a55);color:#fff;padding:24px}
+.start-card{max-width:780px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:28px;padding:32px;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.start-card h1{font-size:clamp(32px,5vw,56px);margin:0 0 12px}.start-card p{font-size:18px;line-height:1.5}.start-card input{margin:8px 0;background:#fff}
+.app{display:none}header{background:linear-gradient(135deg,#12386c,#174ea6 58%,#1f7a55);color:#fff;padding:20px 18px}.wrap{max-width:1320px;margin:auto}
+header h1{margin:0;font-size:clamp(24px,3vw,38px)}header p{margin:6px 0 0;opacity:.95}
+.toolbar{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:10px 18px;box-shadow:0 8px 18px rgba(23,46,90,.08)}
+.toolbar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{border:0;border-radius:999px;padding:10px 14px;font-weight:800;cursor:pointer;background:#e8eef8;color:#12386c}
+button.primary{background:var(--blue);color:#fff}button.green{background:var(--green);color:#fff}button.yellow{background:#facc15;color:#3f2f00}button.markblue{background:var(--markblue);color:#06345f}button.markgreen{background:var(--markgreen);color:#064823}button.markred{background:var(--markred);color:#6b120c}
+.timer{margin-left:auto;background:#fff3c4;color:#6a4600;padding:9px 14px;border-radius:999px;font-weight:900}
+main{max-width:1320px;margin:auto;padding:18px 14px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:16px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 24px rgba(23,46,90,.09);margin-bottom:16px}
+.exam-sheet{border:2px solid #222;border-radius:4px;background:#fff;box-shadow:none}.exam-title{text-align:center;font-family:Georgia,serif;font-weight:700;font-size:21px;margin-bottom:3px}.exam-author{text-align:center;font-size:13px;margin-bottom:14px}.source{font-size:13px;border-top:1px solid #222;margin-top:12px;padding-top:8px}
+.text{columns:2;column-gap:26px;line-height:1.55;text-align:justify}.material-mini .text{columns:1;font-size:14px;line-height:1.45;max-height:320px;overflow:auto}
+h2{margin:0 0 12px;font-size:26px}h3{margin:14px 0 8px}.sidebar{position:sticky;top:76px}.sidebox{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 8px 20px rgba(23,46,90,.07)}.sidebox h3{margin:0 0 10px;color:var(--blue)}.sidebox ul{margin:0;padding-left:18px;line-height:1.5}
+.key{position:relative;border-bottom:2px dotted var(--green);color:#0f5f43;font-weight:700;cursor:help}.key:hover::after{content:attr(data-es);position:absolute;left:0;top:1.45em;z-index:50;background:#172033;color:#fff;padding:7px 10px;border-radius:10px;font-size:13px;white-space:nowrap;box-shadow:0 8px 18px rgba(0,0,0,.25)}
+.task{background:#fffdf5;border-left:6px solid var(--gold)}.task ul{line-height:1.8}
+input,textarea{width:100%;border:1px solid #c9d4e5;border-radius:14px;padding:12px;font-size:16px;font-family:Arial,Helvetica,sans-serif}textarea{min-height:300px;line-height:1.5;resize:vertical}
+.help{background:#eef7f1;border-left:5px solid var(--green);padding:12px;border-radius:14px;line-height:1.5;margin:10px 0}.structure{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}.step{background:var(--soft);border:1px solid #cfe0ff;border-radius:16px;padding:12px}.step b{display:block;margin-bottom:6px;color:var(--blue)}.count{color:var(--muted);font-size:14px;margin-top:6px}
+.part{display:none}.part.active{display:block}.status{display:none;margin-top:10px;background:#eef7f1;border:1px solid #b8e2c5;border-radius:14px;padding:12px;font-weight:800}
+.highlightbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;position:sticky;top:66px;z-index:8}
+mark.hl-yellow{background:var(--yellow);padding:1px 2px;border-radius:3px}mark.hl-blue{background:var(--markblue);padding:1px 2px;border-radius:3px}mark.hl-green{background:var(--markgreen);padding:1px 2px;border-radius:3px}mark.hl-red{background:var(--markred);padding:1px 2px;border-radius:3px}
+.kw-list{display:flex;flex-wrap:wrap;gap:6px}.kw{background:#f2f5fb;border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:13px}
+footer{text-align:center;color:var(--muted);padding:28px}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.sidebar{position:static}.timer{margin-left:0}.text{columns:1}}
+</style>
+</head>
+<body>
+<section class="start-screen" id="startScreen"><div class="start-card">
+<h1>DSD II – Schriftliche Kommunikation</h1>
+<p><strong>Thema:</strong> Wachsende Megastädte</p>
+<p>Heute bearbeitest du nur zwei Teile: <strong>1. Inhaltsangabe</strong> und <strong>2. Meinung / Stellungnahme</strong>. Nach dem Start öffnet sich die Aufgabe im Vollbildmodus.</p>
+<input id="startName" placeholder="Name der Schülerin"><input id="startKlasse" placeholder="Klasse / Kurs">
+<p><button class="primary" onclick="startExam()">Prüfung starten</button></p>
+</div></section>
+
+<div class="app" id="app">
+<header><div class="wrap"><h1>Schriftliche Kommunikation – DSD II</h1><p>Megastädte · Inhaltsangabe und Meinung · 90 Minuten</p></div></header>
+<div class="toolbar"><div class="wrap">
+<button class="primary" onclick="showPart('material')">Material</button>
+<button onclick="showPart('inhalt')">1. Inhaltsangabe</button>
+<button onclick="showPart('meinung')">2. Meinung</button>
+<div class="timer" id="timer">90:00</div>
+</div></div>
+
+<main>
+<div class="highlightbar"><strong>Markieren:</strong><button class="yellow" onclick="highlightSelection('hl-yellow')">🟨</button><button class="markblue" onclick="highlightSelection('hl-blue')">🟦</button><button class="markgreen" onclick="highlightSelection('hl-green')">🟩</button><button class="markred" onclick="highlightSelection('hl-red')">🟥</button><button onclick="clearHighlights()">Markierungen löschen</button></div>
+
+<div class="layout"><div>
+<section class="card task"><h2>Aufgabe</h2><p>Schreiben Sie einen <strong>zusammenhängenden Text</strong> zum Thema:</p><h3>„Wachsende Megastädte“</h3><ul><li>Arbeiten Sie wichtige Aussagen aus dem Text heraus.</li><li>Nehmen Sie Stellung zum Thema: <strong>Sind Megastädte eher eine Chance oder ein Problem?</strong></li><li>Begründen Sie Ihre Meinung mit Argumenten und Beispielen.</li></ul><p><strong>Sie haben insgesamt 90 Minuten Zeit.</strong></p></section>
+
+<section id="material" class="part active"><div id="fullMaterial"></div></section>
+
+<section id="inhalt" class="part"><section class="card"><h2>Material für die Inhaltsangabe</h2><div class="help">Markieren Sie im Text zentrale Aussagen: Thema, Definition, Gründe für Stadtwachstum, Probleme und mögliche Lösungen.</div><div id="textOnlyMaterial" class="exam-sheet card"></div></section>
+<section class="card"><h2>1. Inhaltsangabe</h2><div class="help">Die Inhaltsangabe braucht: Einleitung zum Thema, Basissatz und Textwiedergabe. Schreiben Sie neutral und ohne eigene Meinung.</div><div class="structure"><div class="step"><b>Einleitung zum Thema</b>Kurze Einführung in Stadtwachstum und Megastädte.</div><div class="step"><b>Basissatz</b>Titel, Autor, Quelle, Datum und Thema nennen.</div><div class="step"><b>Textwiedergabe</b>Wichtige Aussagen neutral und in eigenen Worten wiedergeben.</div></div><textarea id="txt_inhalt" oninput="countWords('txt_inhalt','count_inhalt')" placeholder="Inhaltsangabe hier schreiben..."></textarea><div class="count" id="count_inhalt">0 Wörter</div><button class="green" onclick="sendPart('Inhaltsangabe','txt_inhalt','status_inhalt')">Inhaltsangabe senden</button><div id="status_inhalt" class="status"></div></section></section>
+
+<section id="meinung" class="part"><section class="card"><h2>Material für die Meinung</h2><div class="help">Markieren Sie Vorteile grün, Probleme rot und mögliche Lösungen blau.</div><div class="material-mini"><div id="miniTextMaterial" class="exam-sheet card"></div></div></section>
+<section class="card"><h2>2. Meinung / Stellungnahme</h2><div class="help">Beantworten Sie die Frage: <strong>Sind Megastädte eher eine Chance oder ein Problem?</strong></div><div class="structure"><div class="step"><b>Einleitung</b>Kurze Hinführung zum Thema.</div><div class="step"><b>Eigene Meinung</b>Klare Position formulieren.</div><div class="step"><b>Argumente</b>Mindestens zwei Argumente nennen.</div><div class="step"><b>Begründungen</b>Die Argumente erklären.</div><div class="step"><b>Beispiele / Belege</b>Textinformationen oder eigene Beispiele verwenden.</div><div class="step"><b>Fazit</b>Kurze Schlussfolgerung formulieren.</div></div><textarea id="txt_meinung" oninput="countWords('txt_meinung','count_meinung')" placeholder="Meinung / Stellungnahme hier schreiben..."></textarea><div class="count" id="count_meinung">0 Wörter</div><button class="green" onclick="sendPart('Meinung','txt_meinung','status_meinung')">Meinung senden</button><div id="status_meinung" class="status"></div></section></section>
+</div>
+
+<aside class="sidebar">
+<div class="sidebox"><h3>Meine Schlüsselwörter</h3><div id="keywordList" class="kw-list"><span class="count">Noch keine Markierungen.</span></div></div>
+<div class="sidebox"><h3>Redemittel: Inhaltsangabe</h3><ul><li>Das Thema ... ist heute besonders wichtig, weil ...</li><li>Im Text „...“ geht es um ...</li><li>Der Text wurde auf ... veröffentlicht.</li><li>Der Autor erklärt, dass ...</li><li>Außerdem wird erwähnt, dass ...</li><li>Zusammenfassend zeigt der Text, dass ...</li></ul></div>
+<div class="sidebox"><h3>Redemittel: Meinung</h3><ul><li>Meiner Meinung nach ...</li><li>Ich bin der Ansicht, dass ...</li><li>Ein wichtiges Argument ist, dass ...</li><li>Das liegt daran, dass ...</li><li>Ein Beispiel dafür ist ...</li><li>Allerdings muss man auch bedenken, dass ...</li><li>Zusammenfassend kann man sagen, dass ...</li></ul></div>
+<div class="sidebox"><h3>Arbeitsmodus</h3><p id="controlStatusBox" class="count"><strong>Kontrolle:</strong><br>Seitenwechsel / Fokusverlust: 0<br>Vollbild verlassen: 0</p></div>
+</aside></div></main><footer>DSD II SK · Megastädte · Inhaltsangabe und Meinung</footer></div>
+
+<script>
+const SCRIPT_URL="https://script.google.com/macros/s/AKfycbx-tgYijxp2bleSBhETYyIUXET0Xu1h_vyUSXKTujAK26lShoCL6Nm2E9YUfMtQjGymcg/exec";
+let timerInterval=null,seconds=90*60,examStarted=false,seitenwechsel=0,vollbildVerlassen=0,kontrollEvents=[],startZeit="",startZeitISO="";
+const textMaterial=`<div class="exam-title">Wachsende Megastädte</div><div class="exam-author">Immer mehr Menschen wohnen in der Stadt<br>Autor unbekannt</div><div class="text selectable"><p>Das Zusammenwachsen von Innenstädten und Vorstädten lässt riesige Stadtgebiete entstehen, und so haben sich die größten Städte der Welt zu so genannten <span class="key" data-es="megaciudades">Megastädten</span> entwickelt, die mehr als 10 Millionen Einwohner haben.</p><p>Noch vor 100 Jahren war London mit 6,5 Millionen Bewohnern die größte Stadt der Welt. Gegen das heutige Tokio mit fast 35 Millionen Menschen erscheint das geradezu provinziell. Mittlerweile gibt es weltweit 22 Megastädte mit mehr als zehn Millionen Einwohnern. Die Welt wird städtisch – allerorts.</p><p>Jährlich ziehen etwa 60 Millionen Menschen vom Land in die Städte, weil sie dort ein besseres Leben erwarten. Da das Leben auf dem Land zunehmend schwieriger wird, hoffen sie auf Arbeit und bessere Bildungs- und Wohnmöglichkeiten in der Stadt.</p><p>Doch wo liegen die Grenzen für eine funktionierende Stadt? Forscher glauben, dass in Städten, die sich um ein einziges Zentrum gruppieren, bei zehn bis 15 Millionen Einwohnern die <span class="key" data-es="límite crítico">Schmerzgrenze</span> erreicht ist. Dann nehmen Verkehrsstaus und Luftverschmutzung so überhand, dass Menschen und vor allem die Wirtschaft wieder aus der Innenstadt fliehen.</p><p>Die Menschen in der Stadt müssen anfangen, ökologischer zu leben – recyceln, Energie sparen, Autoverkehr reduzieren – damit Megastädte nicht zum Problem der Menschheit werden.</p></div><div class="source"><strong>Quelle:</strong> www.welt.de/wissenschaft, letzter Download im September 2008, zu Prüfungszwecken bearbeitet</div>`;
+document.getElementById("fullMaterial").innerHTML='<section class="card exam-sheet">'+textMaterial+'</section>';
+document.getElementById("textOnlyMaterial").innerHTML=textMaterial;
+document.getElementById("miniTextMaterial").innerHTML=textMaterial;
+function startExam(){const n=document.getElementById("startName").value.trim();if(!n){alert("Bitte Namen eintragen.");return;}examStarted=true;startZeit=new Date().toLocaleString("de-DE");startZeitISO=new Date().toISOString();kontrollEvents.push(startZeit+" – Prüfung gestartet");document.getElementById("startScreen").style.display="none";document.getElementById("app").style.display="block";if(document.documentElement.requestFullscreen){document.documentElement.requestFullscreen().catch(()=>{});}startTimer();}
+function startTimer(){if(timerInterval)return;timerInterval=setInterval(()=>{seconds--;if(seconds<=0){clearInterval(timerInterval);seconds=0;alert("Die Arbeitszeit ist beendet.");}const m=String(Math.floor(seconds/60)).padStart(2,"0"),s=String(seconds%60).padStart(2,"0");document.getElementById("timer").textContent=m+":"+s;},1000)}
+function showPart(id){document.querySelectorAll(".part").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo(0,0)}
+function words(t){return t.trim()?t.trim().split(/\s+/).filter(Boolean).length:0}
+function countWords(id,countId){document.getElementById(countId).textContent=words(document.getElementById(id).value)+" Wörter"}
+function highlightSelection(cls){const sel=window.getSelection();if(!sel||sel.rangeCount===0||sel.toString().trim()==="")return;const range=sel.getRangeAt(0),container=range.commonAncestorContainer,parentEl=container.nodeType===1?container:container.parentElement;if(!parentEl.closest(".selectable")){alert("Bitte nur im Text markieren.");return;}const mark=document.createElement("mark");mark.className=cls;try{range.surroundContents(mark)}catch(e){const content=range.extractContents();mark.appendChild(content);range.insertNode(mark)}sel.removeAllRanges();updateKeywords()}
+function updateKeywords(){const marks=document.querySelectorAll("mark"),arr=[];marks.forEach(m=>{const t=m.textContent.trim();if(t&&!arr.includes(t))arr.push(t)});const box=document.getElementById("keywordList");box.innerHTML=arr.length?arr.slice(0,30).map(w=>`<span class="kw">${w}</span>`).join(""):'<span class="count">Noch keine Markierungen.</span>'}
+function clearHighlights(){document.querySelectorAll("mark").forEach(m=>{m.replaceWith(document.createTextNode(m.textContent))});updateKeywords()}
+function registerControlEvent(type){if(!examStarted)return;kontrollEvents.push(new Date().toLocaleString("de-DE")+" – "+type);updateControlStatus()}
+function updateControlStatus(){document.getElementById("controlStatusBox").innerHTML="<strong>Kontrolle:</strong><br>Seitenwechsel / Fokusverlust: "+seitenwechsel+"<br>Vollbild verlassen: "+vollbildVerlassen}
+function isInFullscreen(){return !!(document.fullscreenElement||document.webkitFullscreenElement||document.mozFullScreenElement||document.msFullscreenElement)}
+function handleFullscreenExit(){if(examStarted&&!isInFullscreen()){vollbildVerlassen++;registerControlEvent("Vollbildmodus wurde verlassen")}}
+document.addEventListener("visibilitychange",()=>{if(examStarted&&document.visibilityState==="hidden"){seitenwechsel++;registerControlEvent("Andere Registerkarte geöffnet / Seite verlassen / Fenster minimiert")}});
+window.addEventListener("blur",()=>{if(examStarted){seitenwechsel++;registerControlEvent("Browserfenster hat den Fokus verloren")}});
+document.addEventListener("fullscreenchange",handleFullscreenExit);document.addEventListener("webkitfullscreenchange",handleFullscreenExit);document.addEventListener("mozfullscreenchange",handleFullscreenExit);document.addEventListener("MSFullscreenChange",handleFullscreenExit);
+window.addEventListener("pagehide",()=>{if(examStarted){seitenwechsel++;registerControlEvent("Seite wurde verlassen")}});
+window.addEventListener("beforeunload",()=>{if(examStarted){registerControlEvent("Versuch, die Seite neu zu laden oder zu schließen")}});
+window.addEventListener("focus",()=>{if(examStarted){registerControlEvent("Fenster wieder aktiv")}});
+
+async function sendPart(partName,textId,statusId){const text=document.getElementById(textId).value.trim(),status=document.getElementById(statusId),name=document.getElementById("startName").value.trim(),klasse=document.getElementById("startKlasse").value.trim(),keywords=[...document.querySelectorAll("#keywordList .kw")].map(x=>x.textContent).join(", ");if(!text){alert("Bitte zuerst den Text schreiben.");return;}const payload={datum:new Date().toISOString(),name,klasse,thema:"Wachsende Megastädte",teil:partName,text,woerter:words(text),restzeit:document.getElementById("timer").textContent,markierungen:keywords,seitenwechsel,vollbildVerlassen,verdacht:(seitenwechsel>=3||vollbildVerlassen>=1)?"JA":"NEIN",kontrollDetails:kontrollEvents.join("\n")};try{await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});status.style.display="block";status.textContent=partName+" wurde gesendet. Wörter: "+payload.woerter}catch(e){alert("Fehler beim Senden. Bitte Script-URL prüfen.")}}
+</script></body></html>
