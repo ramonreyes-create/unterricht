@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umwelt – Leseverstehen und Wortschatzspiele</title>
+<style>
+:root{
+  --green:#2f7d5b;
+  --light:#eef8f2;
+  --blue:#2f6fa3;
+  --yellow:#fff2bf;
+  --red:#b64a4a;
+  --text:#25352d;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Century Gothic", Arial, sans-serif;
+  font-size:16px;
+  background:linear-gradient(#eef7f1,#f7f9fc);
+  color:var(--text);
+}
+header{
+  background:linear-gradient(135deg,#2f7d5b,#5fa77f);
+  color:white;
+  text-align:center;
+  padding:28px 18px;
+}
+header h1{margin:0 0 8px}
+main{max-width:1000px;margin:22px auto;padding:0 16px 40px}
+section{
+  background:white;
+  margin-bottom:20px;
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+h2{color:var(--green);margin-top:0}
+h3{color:var(--blue)}
+.textbox{
+  background:#f9fcfa;
+  border-left:6px solid var(--green);
+  padding:18px;
+  line-height:1.65;
+  border-radius:12px;
+}
+.question{padding:12px 0;border-bottom:1px solid #e5ece8}
+.question:last-child{border-bottom:none}
+button{
+  border:none;
+  border-radius:11px;
+  padding:10px 15px;
+  background:var(--blue);
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+  margin:5px;
+}
+button:hover{filter:brightness(.95)}
+button.secondary{background:#6c7e74}
+select,input[type=text]{
+  padding:9px 11px;
+  border:1px solid #b8c6be;
+  border-radius:9px;
+  font-size:1rem;
+}
+.result{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  background:var(--light);
+  border-radius:10px;
+  font-weight:bold;
+}
+.wordbank{
+  background:var(--yellow);
+  padding:12px;
+  border-radius:10px;
+  margin:10px 0;
+}
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.card{
+  min-height:80px;
+  background:#eaf2ff;
+  color:#213b56;
+  border:2px solid #c7d8ee;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.card.hidden{background:var(--green);color:transparent}
+.card.matched{background:#d9f2df;border-color:#75ad80;color:#1f4f2b}
+.match-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.match-grid div{padding:10px;background:#f5f7fa;border-radius:10px}
+.small{font-size:.92rem;color:#5c6b63}
+@media(max-width:650px){
+  .memory-grid{grid-template-columns:repeat(2,1fr)}
+  .match-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>♻️ Umwelt – Leseverstehen und Wortschatz</h1>
+  <p>Einfache Übungen und Spiele</p>
+</header>
+
+<main>
+
+<section>
+  <h2>1. Leseverstehen</h2>
+  <div class="textbox">
+    <h3>Die Umweltdetektive</h3>
+    <p>
+      An der Erich-Kästner-Schule gibt es seit diesem Schuljahr eine neue Gruppe:
+      die Umweltdetektive. Zwölf Schülerinnen und Schüler treffen sich jeden Mittwoch
+      nach dem Unterricht. Ihr Ziel ist es, die Schule umweltfreundlicher zu machen.
+    </p>
+    <p>
+      Zuerst untersuchen sie den Müll auf dem Schulhof. Sie stellen fest, dass viele
+      Plastikflaschen, Papierverpackungen und Essensreste auf dem Boden liegen.
+      Deshalb stellen sie neue Mülleimer für Papier, Biomüll, Glas und Restmüll auf.
+      Außerdem hängen sie Plakate mit einfachen Regeln auf.
+    </p>
+    <p>
+      Die Gruppe beschäftigt sich auch mit dem Schutz der Wälder und der Bedeutung
+      des Wassers. In einer Aktion sammeln die Schülerinnen und Schüler Geld für den
+      Schutz der Regenwälder. Sie erklären den anderen Klassen, warum die Zerstörung
+      der Wälder den Lebensraum vieler Tiere bedroht.
+    </p>
+    <p>
+      Am Ende des Monats ist der Schulhof sauberer. Auch der Wasserverbrauch sinkt,
+      weil viele Schülerinnen und Schüler beim Händewaschen besser aufpassen.
+      Die Umweltdetektive sind stolz, denn jede kleine Aktion ist wichtig für die
+      Zukunft der Erde.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>2. Richtig oder falsch?</h2>
+  <div class="question">
+    1. Die Umweltdetektive treffen sich am Mittwoch.
+    <select id="rf1"><option value="">–</option><option value="r">richtig</option><option value="f">falsch</option></select>
+  </div>
+  <div class="question">
+    2. Die Gruppe besteht aus zwanzig Schülerinnen und Schülern.
+    <select id="rf2"><option value="">–</option><option value="r">richtig</option><option value="f">falsch</option></select>
+  </div>
+  <div class="question">
+    3. Auf dem Schulhof liegt viel Müll.
+    <select id="rf3"><option value="">–</option><option value="r">richtig</option><option value="f">falsch</option></select>
+  </div>
+  <div class="question">
+    4. Die Gruppe sammelt Geld für den Schutz der Regenwälder.
+    <select id="rf4"><option value="">–</option><option value="r">richtig</option><option value="f">falsch</option></select>
+  </div>
+  <div class="question">
+    5. Der Wasserverbrauch steigt am Ende des Monats.
+    <select id="rf5"><option value="">–</option><option value="r">richtig</option><option value="f">falsch</option></select>
+  </div>
+  <button onclick="checkRF()">Prüfen</button>
+  <div id="rfResult" class="result"></div>
+</section>
+
+<section>
+  <h2>3. Lückentext</h2>
+  <div class="wordbank"><b>Wortbank:</b> Müll – Wasser – Tiere – Regenwälder – Erde – Mülleimer</div>
+  <p>Die Umweltdetektive finden viel <select id="l1"><option></option><option>Müll</option><option>Wasser</option><option>Tiere</option></select> auf dem Schulhof.</p>
+  <p>Sie stellen neue <select id="l2"><option></option><option>Mülleimer</option><option>Regenwälder</option><option>Erde</option></select> auf.</p>
+  <p>Die Gruppe sammelt Geld für den Schutz der <select id="l3"><option></option><option>Regenwälder</option><option>Tiere</option><option>Wasser</option></select>.</p>
+  <p>Die Wälder sind der Lebensraum vieler <select id="l4"><option></option><option>Tiere</option><option>Mülleimer</option><option>Erde</option></select>.</p>
+  <p>Die Schülerinnen achten besser auf den Verbrauch von <select id="l5"><option></option><option>Wasser</option><option>Müll</option><option>Regenwälder</option></select>.</p>
+  <p>Jede Aktion ist wichtig für die Zukunft der <select id="l6"><option></option><option>Erde</option><option>Tiere</option><option>Mülleimer</option></select>.</p>
+  <button onclick="checkLuecke()">Prüfen</button>
+  <div id="lResult" class="result"></div>
+</section>
+
+<section>
+  <h2>4. Was passt zusammen?</h2>
+  <div class="match-grid">
+    <div>
+      <p>1. der Schutz</p>
+      <p>2. die Bedeutung</p>
+      <p>3. die Zukunft</p>
+      <p>4. der Lebensraum</p>
+      <p>5. die Zerstörung</p>
+      <p>6. die Aktion</p>
+    </div>
+    <div>
+      <p>A. der Tiere</p>
+      <p>B. des Wassers</p>
+      <p>C. der Erde</p>
+      <p>D. der Wälder</p>
+      <p>E. der Umweltdetektive</p>
+      <p>F. der Regenwälder</p>
+    </div>
+  </div>
+  <p>
+    1. <input id="m1" type="text" size="2">
+    2. <input id="m2" type="text" size="2">
+    3. <input id="m3" type="text" size="2">
+    4. <input id="m4" type="text" size="2">
+    5. <input id="m5" type="text" size="2">
+    6. <input id="m6" type="text" size="2">
+  </p>
+  <button onclick="checkMatch()">Prüfen</button>
+  <div id="mResult" class="result"></div>
+</section>
+
+<section>
+  <h2>5. Memory</h2>
+  <p>Finde die Paare: Deutsch und Spanisch.</p>
+  <div id="memory" class="memory-grid"></div>
+  <div id="memoryInfo" class="result" style="display:block">Paare: 0 / 6</div>
+  <button class="secondary" onclick="startMemory()">Neu mischen</button>
+</section>
+
+<section>
+  <h2>6. Welches Wort passt nicht?</h2>
+  <div class="question">
+    1. Papier – Glas – Biomüll – <b>Fahrrad</b><br>
+    <select id="odd1"><option value="">Bitte wählen</option><option>Papier</option><option>Glas</option><option>Biomüll</option><option>Fahrrad</option></select>
+  </div>
+  <div class="question">
+    2. Wald – Regenwald – Baum – <b>Plastikflasche</b><br>
+    <select id="odd2"><option value="">Bitte wählen</option><option>Wald</option><option>Regenwald</option><option>Baum</option><option>Plastikflasche</option></select>
+  </div>
+  <div class="question">
+    3. schützen – sammeln – trennen – <b>zerstören</b><br>
+    <select id="odd3"><option value="">Bitte wählen</option><option>schützen</option><option>sammeln</option><option>trennen</option><option>zerstören</option></select>
+  </div>
+  <div class="question">
+    4. sauber – umweltfreundlich – nachhaltig – <b>schmutzig</b><br>
+    <select id="odd4"><option value="">Bitte wählen</option><option>sauber</option><option>umweltfreundlich</option><option>nachhaltig</option><option>schmutzig</option></select>
+  </div>
+  <button onclick="checkOdd()">Prüfen</button>
+  <div id="oddResult" class="result"></div>
+</section>
+
+<section>
+  <h2>7. Wörter ordnen</h2>
+  <p>Ordne die Buchstaben.</p>
+  <div class="question">1. LÜML → <input id="o1" type="text"></div>
+  <div class="question">2. SARWES → <input id="o2" type="text"></div>
+  <div class="question">3. DLAW → <input id="o3" type="text"></div>
+  <div class="question">4. RTEIE → <input id="o4" type="text"></div>
+  <div class="question">5. TLWEMU → <input id="o5" type="text"></div>
+  <button onclick="checkOrder()">Prüfen</button>
+  <div id="oResult" class="result"></div>
+</section>
+
+<section>
+  <h2>8. Mini-Abschlussquiz</h2>
+  <div class="question">
+    Was bedeutet „die Zukunft der Erde“?<br>
+    <button onclick="quiz(this,true)">el futuro de la Tierra</button>
+    <button onclick="quiz(this,false)">la protección de los animales</button>
+  </div>
+  <div class="question">
+    Was bedeutet „der Schutz der Regenwälder“?<br>
+    <button onclick="quiz(this,false)">la destrucción de los bosques</button>
+    <button onclick="quiz(this,true)">la protección de las selvas tropicales</button>
+  </div>
+  <div class="question">
+    Was bedeutet „die Bedeutung des Wassers“?<br>
+    <button onclick="quiz(this,true)">la importancia del agua</button>
+    <button onclick="quiz(this,false)">el consumo de basura</button>
+  </div>
+  <p id="quizInfo" class="small">Klicke auf eine Antwort.</p>
+</section>
+
+</main>
+
+<script>
+function showResult(id,score,total){
+  const el=document.getElementById(id);
+  el.style.display="block";
+  el.textContent="Du hast "+score+" von "+total+" Punkten.";
+}
+function checkRF(){
+  const a=["r","f","r","r","f"]; let s=0;
+  a.forEach((x,i)=>{if(document.getElementById("rf"+(i+1)).value===x)s++;});
+  showResult("rfResult",s,5);
+}
+function checkLuecke(){
+  const a=["Müll","Mülleimer","Regenwälder","Tiere","Wasser","Erde"]; let s=0;
+  a.forEach((x,i)=>{if(document.getElementById("l"+(i+1)).value===x)s++;});
+  showResult("lResult",s,6);
+}
+function checkMatch(){
+  const a=["F","B","C","A","D","E"]; let s=0;
+  a.forEach((x,i)=>{if(document.getElementById("m"+(i+1)).value.trim().toUpperCase()===x)s++;});
+  showResult("mResult",s,6);
+}
+function checkOdd(){
+  const a=["Fahrrad","Plastikflasche","zerstören","schmutzig"]; let s=0;
+  a.forEach((x,i)=>{if(document.getElementById("odd"+(i+1)).value===x)s++;});
+  showResult("oddResult",s,4);
+}
+function checkOrder(){
+  const a=["müll","wasser","wald","tiere","umwelt"]; let s=0;
+  a.forEach((x,i)=>{if(document.getElementById("o"+(i+1)).value.trim().toLowerCase()===x)s++;});
+  showResult("oResult",s,5);
+}
+function quiz(btn,correct){
+  const info=document.getElementById("quizInfo");
+  if(correct){info.textContent="Richtig! ✓";info.style.color="green";}
+  else{info.textContent="Noch einmal versuchen.";info.style.color="crimson";}
+}
+
+/* Memory */
+const pairs=[
+  ["der Müll","la basura"],
+  ["der Wald","el bosque"],
+  ["das Wasser","el agua"],
+  ["die Tiere","los animales"],
+  ["schützen","proteger"],
+  ["trennen","separar"]
+];
+let first=null,lock=false,matched=0;
+function startMemory(){
+  const items=[];
+  pairs.forEach((p,i)=>{
+    items.push({text:p[0],pair:i});
+    items.push({text:p[1],pair:i});
+  });
+  items.sort(()=>Math.random()-.5);
+  const box=document.getElementById("memory");
+  box.innerHTML="";
+  matched=0;first=null;lock=false;
+  document.getElementById("memoryInfo").textContent="Paare: 0 / 6";
+  items.forEach(item=>{
+    const c=document.createElement("div");
+    c.className="card hidden";
+    c.textContent=item.text;
+    c.dataset.pair=item.pair;
+    c.onclick=()=>flip(c);
+    box.appendChild(c);
+  });
+}
+function flip(card){
+  if(lock || card.classList.contains("matched") || !card.classList.contains("hidden"))return;
+  card.classList.remove("hidden");
+  if(!first){first=card;return;}
+  if(first.dataset.pair===card.dataset.pair){
+    first.classList.add("matched");card.classList.add("matched");
+    matched++;
+    document.getElementById("memoryInfo").textContent="Paare: "+matched+" / 6";
+    first=null;
+  }else{
+    lock=true;
+    setTimeout(()=>{
+      first.classList.add("hidden");card.classList.add("hidden");
+      first=null;lock=false;
+    },800);
+  }
+}
+startMemory();
+</script>
+</body>
+</html>
