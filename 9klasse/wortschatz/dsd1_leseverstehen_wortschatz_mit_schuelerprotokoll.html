@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSD I – Wortschatztraining Leseverstehen</title>
+<style>
+:root{
+  --blue:#46539a;
+  --light:#f2f4fb;
+  --green:#2f7d5b;
+  --yellow:#fff3c8;
+  --red:#b64a4a;
+  --text:#252a3a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Century Gothic", Arial, sans-serif;
+  background:linear-gradient(#eef0f8,#f8f9fc);
+  color:var(--text);
+}
+header{
+  background:linear-gradient(135deg,#46539a,#6978bf);
+  color:white;
+  text-align:center;
+  padding:28px 18px;
+}
+header h1{margin:0 0 8px;font-size:2rem}
+main{max-width:1050px;margin:22px auto;padding:0 16px 40px}
+section{
+  background:white;
+  margin-bottom:22px;
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+h2{color:var(--blue);margin-top:0}
+h3{color:var(--green);margin-top:24px}
+.level{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  background:#e8ecfb;
+  color:var(--blue);
+  font-size:.9rem;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+.wordbank{
+  background:var(--yellow);
+  padding:12px;
+  border-radius:10px;
+  margin:12px 0;
+}
+.question{
+  padding:11px 0;
+  border-bottom:1px solid #e7e9f0;
+}
+.question:last-child{border-bottom:none}
+select,input[type=text]{
+  padding:9px 11px;
+  border:1px solid #bdc4d8;
+  border-radius:9px;
+  font-size:1rem;
+}
+input[type=text]{min-width:180px}
+button{
+  border:none;
+  border-radius:11px;
+  padding:10px 15px;
+  background:var(--blue);
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+  margin:5px;
+}
+button:hover{filter:brightness(.95)}
+button.secondary{background:#6f7b75}
+.result{
+  display:none;
+  margin-top:12px;
+  padding:12px;
+  background:#eef7f1;
+  border-radius:10px;
+  font-weight:bold;
+}
+.memory-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.card{
+  min-height:76px;
+  background:#eaf0ff;
+  border:2px solid #cbd5f2;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.card.hidden{background:var(--blue);color:transparent}
+.card.matched{background:#dff2e7;border-color:#78b38c;color:#245a35}
+.match-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.match-grid div{
+  background:#f6f7fb;
+  padding:12px;
+  border-radius:10px;
+}
+.sentence-box{
+  background:#f7f9fc;
+  padding:12px;
+  border-radius:10px;
+  margin:8px 0;
+}
+.small{font-size:.92rem;color:#606878}
+@media(max-width:650px){
+  .memory-grid{grid-template-columns:repeat(2,1fr)}
+  .match-grid{grid-template-columns:1fr}
+  input[type=text]{min-width:140px}
+}
+
+/* ===== Schülerprotokoll und Vollbildmodus ===== */
+body.locked{overflow:hidden}
+.student-bar{
+  position:sticky;top:0;z-index:80;
+  background:#172033;color:white;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:10px 16px;
+  box-shadow:0 4px 14px rgba(0,0,0,.22)
+}
+.student-info{font-weight:bold;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.student-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.student-actions button{margin:0;padding:8px 12px;font-size:.9rem}
+.login-overlay,.fullscreen-overlay{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(20,26,45,.97);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px
+}
+.overlay-box{
+  width:min(520px,100%);
+  background:white;border-radius:20px;padding:26px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35)
+}
+.overlay-box h2{margin-top:0}
+.overlay-box label{display:block;font-weight:bold;margin:12px 0 6px}
+.overlay-box input,.overlay-box select{width:100%;min-width:0}
+.hidden-overlay{display:none!important}
+.stats-panel{
+  max-width:1050px;margin:18px auto 0;padding:0 16px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px
+}
+.stat-card{
+  background:white;border-radius:14px;padding:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  text-align:center
+}
+.stat-value{font-size:1.55rem;font-weight:bold;color:var(--blue)}
+.progress-track{height:10px;background:#e3e7f2;border-radius:999px;overflow:hidden;margin-top:7px}
+.progress-fill{height:100%;background:var(--green);width:0;transition:.3s}
+.record-panel{
+  max-width:1050px;margin:0 auto 22px;padding:0 16px
+}
+.record-card{
+  background:white;border-radius:18px;padding:20px;
+  box-shadow:0 8px 22px rgba(0,0,0,.08)
+}
+.record-table{width:100%;border-collapse:collapse;margin-top:14px}
+.record-table th,.record-table td{
+  padding:9px;border-bottom:1px solid #e7e9f0;text-align:left;font-size:.88rem
+}
+.record-table th{background:#f3f5fb}
+.exercise-done{outline:3px solid #77b98f}
+.fullscreen-overlay .overlay-box{text-align:center}
+.fullscreen-overlay h2{color:var(--red)}
+@media(max-width:760px){
+  .student-bar{align-items:flex-start;flex-direction:column}
+  .student-actions{width:100%}
+  .student-actions button{flex:1}
+  .stats-panel{grid-template-columns:repeat(2,1fr)}
+  .record-table th:nth-child(4),.record-table td:nth-child(4){display:none}
+}
+@media print{
+  .student-bar,.stats-panel,.fullscreen-overlay,.login-overlay,.record-actions{display:none!important}
+  body{background:white}
+}
+
+</style>
+</head>
+<body class="locked">
+
+<div id="loginOverlay" class="login-overlay">
+  <div class="overlay-box">
+    <h2>Schülerregistrierung</h2>
+    <p>Bitte trage deine Daten ein. Danach wird die Übung im Vollbildmodus gestartet.</p>
+    <label for="studentName">Vor- und Nachname</label>
+    <input id="studentName" type="text" placeholder="z. B. Anna Müller">
+    <label for="studentClass">Klasse</label>
+    <input id="studentClass" type="text" placeholder="z. B. 9A">
+    <label for="studentCode">Schülercode</label>
+    <input id="studentCode" type="text" placeholder="z. B. 9A-12">
+    <button style="width:100%;margin-top:18px" onclick="startStudentSession()">Starten und Vollbild öffnen</button>
+    <p class="small">Die Daten und Ergebnisse werden auf diesem Gerät gespeichert.</p>
+  </div>
+</div>
+
+<div id="fullscreenOverlay" class="fullscreen-overlay hidden-overlay">
+  <div class="overlay-box">
+    <h2>Vollbildmodus wurde verlassen</h2>
+    <p>Die Übung ist gesperrt. Klicke auf den Button, um weiterzuarbeiten.</p>
+    <button onclick="enterFullscreen()">Zurück zum Vollbild</button>
+    <p class="small">Das Verlassen wurde im Schülerprotokoll registriert.</p>
+  </div>
+</div>
+
+<div class="student-bar">
+  <div><div id="studentInfo" class="student-info">Keine Schülerin angemeldet</div><div id="sheetStatus" style="font-size:.78rem;color:#cbd5e1;margin-top:3px">Google Sheets: nicht verbunden</div></div>
+  <div class="student-actions">
+    <button onclick="enterFullscreen()">⛶ Vollbild</button>
+    <button class="secondary" onclick="toggleRecord()">📋 Protokoll</button>
+    <button class="secondary" onclick="exportStudentCSV()">CSV</button>
+    <button style="background:#b64a4a" onclick="finishStudentSession()">Sitzung beenden</button>
+  </div>
+</div>
+
+<div class="stats-panel">
+  <div class="stat-card"><div>Bearbeitete Übungen</div><div id="statExercises" class="stat-value">0</div></div>
+  <div class="stat-card"><div>Erreichte Punkte</div><div id="statPoints" class="stat-value">0</div></div>
+  <div class="stat-card"><div>Arbeitszeit</div><div id="statTime" class="stat-value">00:00</div></div>
+  <div class="stat-card">
+    <div>Fortschritt</div><div id="statProgress" class="stat-value">0 %</div>
+    <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+  </div>
+</div>
+
+<div id="recordPanel" class="record-panel" style="display:none">
+  <div class="record-card">
+    <h2>Schülerprotokoll</h2>
+    <div class="record-actions">
+      <button onclick="exportStudentCSV()">CSV exportieren</button>
+      <button class="secondary" onclick="window.print()">Drucken</button>
+    </div>
+    <table class="record-table">
+      <thead><tr><th>Zeit</th><th>Aktion</th><th>Bereich</th><th>Details</th></tr></thead>
+      <tbody id="recordBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<header>
+  <h1>DSD I – Wortschatztraining</h1>
+  <p>Leseverstehen Teil 1–5: vom einfachen Wortschatz bis zur Anwendung</p>
+</header>
+
+<main>
+
+<section>
+  <h2>Thema 1: Haustiere</h2>
+
+  <div class="level">Stufe 1 – leicht</div>
+  <h3>A. Wort und Bedeutung</h3>
+  <div class="match-grid">
+    <div>
+      <p>1. das Haustier</p>
+      <p>2. die Allergie</p>
+      <p>3. der Lebensraum</p>
+      <p>4. das Spielzeug</p>
+      <p>5. füttern</p>
+      <p>6. verzichten</p>
+    </div>
+    <div>
+      <p>A. renunciar</p>
+      <p>B. alimentar</p>
+      <p>C. mascota</p>
+      <p>D. alergia</p>
+      <p>E. hábitat</p>
+      <p>F. juguete</p>
+    </div>
+  </div>
+  <p>1. <input id="h1" type="text" size="2"> 2. <input id="h2" type="text" size="2"> 3. <input id="h3" type="text" size="2"> 4. <input id="h4" type="text" size="2"> 5. <input id="h5" type="text" size="2"> 6. <input id="h6" type="text" size="2"></p>
+  <button onclick="checkLetters('h',['C','D','E','F','B','A'],'hRes1')">Prüfen</button>
+  <div id="hRes1" class="result"></div>
+
+  <div class="level">Stufe 2 – mittel</div>
+  <h3>B. Lückentext</h3>
+  <div class="wordbank"><b>Wortbank:</b> passen – brauchen – sollte – Spielzeug – Lebensraum – füttern</div>
+  <p>Ein Haustier muss zur Familie <select id="hl1"><option></option><option>passen</option><option>füttern</option><option>Spielzeug</option></select>.</p>
+  <p>Kleintiere <select id="hl2"><option></option><option>brauchen</option><option>sollte</option><option>Lebensraum</option></select> weniger Platz.</p>
+  <p>Bei einer Allergie <select id="hl3"><option></option><option>sollte</option><option>passt</option><option>füttern</option></select> man auf Tiere mit Fell verzichten.</p>
+  <p>Ein Tier ist kein <select id="hl4"><option></option><option>Spielzeug</option><option>Lebensraum</option><option>brauchen</option></select>.</p>
+  <p>Jedes Tier braucht einen sauberen <select id="hl5"><option></option><option>Lebensraum</option><option>Spielzeug</option><option>passt</option></select>.</p>
+  <p>Man muss das Tier regelmäßig <select id="hl6"><option></option><option>füttern</option><option>sollte</option><option>brauchen</option></select>.</p>
+  <button onclick="checkSelects('hl',['passen','brauchen','sollte','Spielzeug','Lebensraum','füttern'],'hRes2')">Prüfen</button>
+  <div id="hRes2" class="result"></div>
+
+  <div class="level">Stufe 3 – etwas schwieriger</div>
+  <h3>C. Satz ergänzen</h3>
+  <div class="sentence-box">1. Ein Haustier ist kein Spielzeug, sondern ein <input id="hc1" type="text">.</div>
+  <div class="sentence-box">2. Vor dem Kauf sollte man prüfen, ob jemand eine <input id="hc2" type="text"> hat.</div>
+  <div class="sentence-box">3. Ein Tier braucht genügend Platz und einen sauberen <input id="hc3" type="text">.</div>
+  <div class="sentence-box">4. Wer keine Zeit hat, sollte auf ein Haustier <input id="hc4" type="text">.</div>
+  <button onclick="checkText('hc',['lebewesen','allergie','lebensraum','verzichten'],'hRes3')">Prüfen</button>
+  <div id="hRes3" class="result"></div>
+</section>
+
+<section>
+  <h2>Thema 2: Anzeigen und Freizeitangebote</h2>
+
+  <div class="level">Stufe 1 – leicht</div>
+  <h3>A. Was ist das?</h3>
+  <div class="wordbank"><b>Wörter:</b> Theatergruppe – Nachhilfe – Wanderung – Hockey – Denksport – Aufführung</div>
+  <p>1. Hilfe beim Lernen: <select id="a1"><option></option><option>Nachhilfe</option><option>Hockey</option><option>Wanderung</option></select></p>
+  <p>2. Sport mit Schläger und Ball: <select id="a2"><option></option><option>Hockey</option><option>Denksport</option><option>Aufführung</option></select></p>
+  <p>3. Schach und Rätsel: <select id="a3"><option></option><option>Denksport</option><option>Nachhilfe</option><option>Theatergruppe</option></select></p>
+  <p>4. Die Präsentation eines Theaterstücks vor Publikum: <select id="a4"><option></option><option>Aufführung</option><option>Wanderung</option><option>Hockey</option></select></p>
+  <button onclick="checkSelects('a',['Nachhilfe','Hockey','Denksport','Aufführung'],'aRes1')">Prüfen</button>
+  <div id="aRes1" class="result"></div>
+
+  <div class="level">Stufe 2 – mittel</div>
+  <h3>B. Welches Verb passt?</h3>
+  <div class="wordbank"><b>Wortbank:</b> proben – teilnehmen – sich anmelden – trainieren – lösen – weitergeben</div>
+  <p>1. für ein Turnier <select id="av1"><option></option><option>trainieren</option><option>lösen</option><option>weitergeben</option></select></p>
+  <p>2. an einer Theatergruppe <select id="av2"><option></option><option>teilnehmen</option><option>proben</option><option>sich anmelden</option></select></p>
+  <p>3. für eine Aktivität <select id="av3"><option></option><option>sich anmelden</option><option>weitergeben</option><option>lösen</option></select></p>
+  <p>4. ein Theaterstück <select id="av4"><option></option><option>proben</option><option>trainieren</option><option>teilnehmen</option></select></p>
+  <p>5. Rätsel <select id="av5"><option></option><option>lösen</option><option>sich anmelden</option><option>proben</option></select></p>
+  <p>6. Wissen <select id="av6"><option></option><option>weitergeben</option><option>teilnehmen</option><option>trainieren</option></select></p>
+  <button onclick="checkSelects('av',['trainieren','teilnehmen','sich anmelden','proben','lösen','weitergeben'],'aRes2')">Prüfen</button>
+  <div id="aRes2" class="result"></div>
+
+  <div class="level">Stufe 3 – etwas schwieriger</div>
+  <h3>C. Welche Anzeige passt?</h3>
+  <p>1. Sofia möchte Schauspielerin werden. <select id="ac1"><option></option><option>Theatergruppe</option><option>Nachhilfe</option><option>Denksport</option></select></p>
+  <p>2. Ben möchte besser in Englisch werden. <select id="ac2"><option></option><option>Nachhilfe</option><option>Hockey</option><option>Wanderung</option></select></p>
+  <p>3. Tim liebt Berge und Natur. <select id="ac3"><option></option><option>Wanderung</option><option>Aufführung</option><option>Denksport</option></select></p>
+  <p>4. Lara sucht einen Mannschaftssport. <select id="ac4"><option></option><option>Hockey</option><option>Nachhilfe</option><option>Theatergruppe</option></select></p>
+  <button onclick="checkSelects('ac',['Theatergruppe','Nachhilfe','Wanderung','Hockey'],'aRes3')">Prüfen</button>
+  <div id="aRes3" class="result"></div>
+</section>
+
+<section>
+  <h2>Thema 3: Unterrichtsbeginn und Schlaf</h2>
+
+  <div class="level">Stufe 1 – leicht</div>
+  <h3>A. Deutsch – Spanisch</h3>
+  <div class="match-grid">
+    <div>
+      <p>1. der Schlafmangel</p>
+      <p>2. ausgeschlafen</p>
+      <p>3. sich konzentrieren</p>
+      <p>4. verschlafen</p>
+      <p>5. aufwachen</p>
+      <p>6. einschlafen</p>
+    </div>
+    <div>
+      <p>A. quedarse dormido</p>
+      <p>B. despertarse</p>
+      <p>C. falta de sueño</p>
+      <p>D. quedarse dormido y llegar tarde</p>
+      <p>E. descansado</p>
+      <p>F. concentrarse</p>
+    </div>
+  </div>
+  <p>1. <input id="s1" type="text" size="2"> 2. <input id="s2" type="text" size="2"> 3. <input id="s3" type="text" size="2"> 4. <input id="s4" type="text" size="2"> 5. <input id="s5" type="text" size="2"> 6. <input id="s6" type="text" size="2"></p>
+  <button onclick="checkLetters('s',['C','E','F','D','B','A'],'sRes1')">Prüfen</button>
+  <div id="sRes1" class="result"></div>
+
+  <div class="level">Stufe 2 – mittel</div>
+  <h3>B. Richtig oder falsch?</h3>
+  <div class="question">1. Ausgeschlafene Schüler können sich besser konzentrieren. <select id="sr1"><option></option><option value="r">richtig</option><option value="f">falsch</option></select></div>
+  <div class="question">2. Schlafmangel bedeutet, dass man zu viel schläft. <select id="sr2"><option></option><option value="r">richtig</option><option value="f">falsch</option></select></div>
+  <div class="question">3. Wer verschläft, wacht zu spät auf. <select id="sr3"><option></option><option value="r">richtig</option><option value="f">falsch</option></select></div>
+  <div class="question">4. Einschlafen bedeutet wach werden. <select id="sr4"><option></option><option value="r">richtig</option><option value="f">falsch</option></select></div>
+  <button onclick="checkSelects('sr',['r','f','r','f'],'sRes2')">Prüfen</button>
+  <div id="sRes2" class="result"></div>
+
+  <div class="level">Stufe 3 – etwas schwieriger</div>
+  <h3>C. Satzbau</h3>
+  <p>Ordne die Wörter im Kopf und schreibe den Satz.</p>
+  <div class="sentence-box">1. Schüler / ausgeschlafene / besser / lernen → <input id="sc1" type="text"></div>
+  <div class="sentence-box">2. Schlafmangel / viele / hat / Nachteile → <input id="sc2" type="text"></div>
+  <div class="sentence-box">3. Jugendliche / später / oft / einschlafen → <input id="sc3" type="text"></div>
+  <button onclick="checkSentences()">Prüfen</button>
+  <div id="sRes3" class="result"></div>
+</section>
+
+<section>
+  <h2>Thema 4: Theater und Schauspiel</h2>
+
+  <div class="level">Stufe 1 – leicht</div>
+  <h3>A. Wortschatz auswählen</h3>
+  <p>1. Ein Schauspieler spielt auf der <select id="t1"><option></option><option>Bühne</option><option>Probe</option><option>Buchhaltung</option></select>.</p>
+  <p>2. Vor der Aufführung gibt es eine <select id="t2"><option></option><option>Probe</option><option>Hauptrolle</option><option>Diplom</option></select>.</p>
+  <p>3. Die wichtigste Rolle heißt <select id="t3"><option></option><option>Hauptrolle</option><option>Publikum</option><option>Regie</option></select>.</p>
+  <p>4. Die Zuschauer heißen <select id="t4"><option></option><option>Publikum</option><option>Bühne</option><option>Kollegen</option></select>.</p>
+  <button onclick="checkSelects('t',['Bühne','Probe','Hauptrolle','Publikum'],'tRes1')">Prüfen</button>
+  <div id="tRes1" class="result"></div>
+
+  <div class="level">Stufe 2 – mittel</div>
+  <h3>B. Verb und Nomen</h3>
+  <div class="wordbank"><b>Wortbank:</b> eine Rolle spielen – Regie führen – ein Theater gründen – Texte auswendig lernen – Bühnenbilder bauen</div>
+  <p>1. Marco musste viele <select id="tv1"><option></option><option>Texte auswendig lernen</option><option>Regie führen</option><option>ein Theater gründen</option></select>.</p>
+  <p>2. In einem Stück kann man <select id="tv2"><option></option><option>eine Rolle spielen</option><option>Bühnenbilder bauen</option><option>ein Theater gründen</option></select>.</p>
+  <p>3. Ein Regisseur muss <select id="tv3"><option></option><option>Regie führen</option><option>eine Rolle spielen</option><option>Texte auswendig lernen</option></select>.</p>
+  <p>4. Für die Kulisse kann man <select id="tv4"><option></option><option>Bühnenbilder bauen</option><option>Regie führen</option><option>ein Theater gründen</option></select>.</p>
+  <p>5. Mit Kollegen kann man <select id="tv5"><option></option><option>ein Theater gründen</option><option>Texte auswendig lernen</option><option>eine Rolle spielen</option></select>.</p>
+  <button onclick="checkSelects('tv',['Texte auswendig lernen','eine Rolle spielen','Regie führen','Bühnenbilder bauen','ein Theater gründen'],'tRes2')">Prüfen</button>
+  <div id="tRes2" class="result"></div>
+
+  <div class="level">Stufe 3 – etwas schwieriger</div>
+  <h3>C. Definitionen</h3>
+  <div class="sentence-box">1. Eine Person, die vor Publikum spielt: <input id="td1" type="text"></div>
+  <div class="sentence-box">2. Der Ort, auf dem gespielt wird: <input id="td2" type="text"></div>
+  <div class="sentence-box">3. Das gemeinsame Üben vor einer Aufführung: <input id="td3" type="text"></div>
+  <div class="sentence-box">4. Die wichtigste Rolle in einem Stück: <input id="td4" type="text"></div>
+  <button onclick="checkText('td',['schauspieler','bühne','probe','hauptrolle'],'tRes3')">Prüfen</button>
+  <div id="tRes3" class="result"></div>
+</section>
+
+<section>
+  <h2>Thema 5: Sommerferien und Reisen</h2>
+
+  <div class="level">Stufe 1 – leicht</div>
+  <h3>A. Memory</h3>
+  <p>Finde die Paare: Deutsch und Spanisch.</p>
+  <div id="memory" class="memory-grid"></div>
+  <div id="memoryInfo" class="result" style="display:block">Paare: 0 / 8</div>
+  <button class="secondary" onclick="startMemory()">Neu mischen</button>
+
+  <div class="level">Stufe 2 – mittel</div>
+  <h3>B. Welches Wort passt?</h3>
+  <div class="wordbank"><b>Wortbank:</b> Zelt – Schlafsack – Rucksack – Aufnahme – Jugendcamp – Nachprüfung</div>
+  <p>1. Darin schläft man beim Camping: <select id="f1"><option></option><option>Zelt</option><option>Aufnahme</option><option>Nachprüfung</option></select></p>
+  <p>2. Darin trägt man Kleidung: <select id="f2"><option></option><option>Rucksack</option><option>Schlafsack</option><option>Jugendcamp</option></select></p>
+  <p>3. Darin schläft man warm: <select id="f3"><option></option><option>Schlafsack</option><option>Zelt</option><option>Aufnahme</option></select></p>
+  <p>4. Foto oder Video: <select id="f4"><option></option><option>Aufnahme</option><option>Jugendcamp</option><option>Rucksack</option></select></p>
+  <p>5. Ferien mit anderen Jugendlichen: <select id="f5"><option></option><option>Jugendcamp</option><option>Nachprüfung</option><option>Zelt</option></select></p>
+  <p>6. Eine Prüfung, die man später wiederholt: <select id="f6"><option></option><option>Nachprüfung</option><option>Aufnahme</option><option>Schlafsack</option></select></p>
+  <button onclick="checkSelects('f',['Zelt','Rucksack','Schlafsack','Aufnahme','Jugendcamp','Nachprüfung'],'fRes2')">Prüfen</button>
+  <div id="fRes2" class="result"></div>
+
+  <div class="level">Stufe 3 – etwas schwieriger</div>
+  <h3>C. Lückentext</h3>
+  <div class="wordbank"><b>Wortbank:</b> erleben – folgen – sich freuen auf – verbringen – vorbereiten – entscheiden</div>
+  <p>Ida macht viele Fotos, damit ihre Freunde sehen können, was sie in den Ferien <select id="fc1"><option></option><option>erlebt</option><option>entscheidet</option><option>verbringt</option></select>.</p>
+  <p>Viele Freunde <select id="fc2"><option></option><option>folgen</option><option>vorbereiten</option><option>entscheiden</option></select> ihr online.</p>
+  <p>Susa <select id="fc3"><option></option><option>verbringt</option><option>freut sich auf</option><option>folgt</option></select> eine Woche im Jugendcamp.</p>
+  <p>Annika muss sich auf eine Nachprüfung <select id="fc4"><option></option><option>vorbereiten</option><option>erleben</option><option>folgen</option></select>.</p>
+  <p>Emil kann sich nicht <select id="fc5"><option></option><option>entscheiden</option><option>verbringen</option><option>vorbereiten</option></select>, welcher Urlaub besser war.</p>
+  <button onclick="checkSelects('fc',['erlebt','folgen','verbringt','vorbereiten','entscheiden'],'fRes3')">Prüfen</button>
+  <div id="fRes3" class="result"></div>
+</section>
+
+</main>
+
+<script>
+function showResult(id,score,total){
+  const el=document.getElementById(id);
+  el.style.display="block";
+  el.textContent="Du hast "+score+" von "+total+" Punkten.";
+  registerExerciseResult(id,score,total);
+}
+function checkLetters(prefix,answers,resultId){
+  let s=0;
+  answers.forEach((a,i)=>{
+    if(document.getElementById(prefix+(i+1)).value.trim().toUpperCase()===a)s++;
+  });
+  showResult(resultId,s,answers.length);
+}
+function checkSelects(prefix,answers,resultId){
+  let s=0;
+  answers.forEach((a,i)=>{
+    if(document.getElementById(prefix+(i+1)).value===a)s++;
+  });
+  showResult(resultId,s,answers.length);
+}
+function checkText(prefix,answers,resultId){
+  let s=0;
+  answers.forEach((a,i)=>{
+    if(document.getElementById(prefix+(i+1)).value.trim().toLowerCase()===a)s++;
+  });
+  showResult(resultId,s,answers.length);
+}
+function checkSentences(){
+  const answers=[
+    "ausgeschlafene schüler lernen besser",
+    "schlafmangel hat viele nachteile",
+    "jugendliche schlafen oft später ein"
+  ];
+  let s=0;
+  answers.forEach((a,i)=>{
+    const val=document.getElementById("sc"+(i+1)).value.trim().toLowerCase().replace(/[.!?]/g,"");
+    if(val===a)s++;
+  });
+  showResult("sRes3",s,3);
+}
+
+/* Memory */
+const pairs=[
+  ["das Zelt","la carpa"],
+  ["der Schlafsack","el saco de dormir"],
+  ["der Rucksack","la mochila"],
+  ["die Wanderung","la caminata"],
+  ["die Aufnahme","la grabación / foto"],
+  ["das Erlebnis","la experiencia"],
+  ["die Nachprüfung","el examen de repetición"],
+  ["das Jugendcamp","el campamento juvenil"]
+];
+let first=null,lock=false,matched=0;
+
+function startMemory(){
+  const items=[];
+  pairs.forEach((p,i)=>{
+    items.push({text:p[0],pair:i});
+    items.push({text:p[1],pair:i});
+  });
+  items.sort(()=>Math.random()-.5);
+  const box=document.getElementById("memory");
+  box.innerHTML="";
+  matched=0;
+  first=null;
+  lock=false;
+  document.getElementById("memoryInfo").textContent="Paare: 0 / 8";
+  items.forEach(item=>{
+    const c=document.createElement("div");
+    c.className="card hidden";
+    c.textContent=item.text;
+    c.dataset.pair=item.pair;
+    c.onclick=()=>flip(c);
+    box.appendChild(c);
+  });
+}
+function flip(card){
+  if(lock || card.classList.contains("matched") || !card.classList.contains("hidden"))return;
+  card.classList.remove("hidden");
+  if(!first){first=card;return;}
+  if(first.dataset.pair===card.dataset.pair){
+    first.classList.add("matched");
+    card.classList.add("matched");
+    matched++;
+    document.getElementById("memoryInfo").textContent="Paare: "+matched+" / 8";
+    first=null;
+  }else{
+    lock=true;
+    setTimeout(()=>{
+      first.classList.add("hidden");
+      card.classList.add("hidden");
+      first=null;
+      lock=false;
+    },800);
+  }
+}
+startMemory();
+
+
+/* ===== Google-Sheets-Verbindung =====
+   Trage hier die Web-App-URL deines Google Apps Scripts ein.
+   Beispiel: https://script.google.com/macros/s/AKfycb.../exec
+*/
+const GOOGLE_SHEETS_WEB_APP_URL = "HIER_DEINE_GOOGLE_APPS_SCRIPT_URL_EINTRAGEN";
+
+function sheetsConfigured(){
+  return GOOGLE_SHEETS_WEB_APP_URL &&
+    !GOOGLE_SHEETS_WEB_APP_URL.includes("HIER_DEINE");
+}
+function setSheetStatus(text,ok=false){
+  const el=document.getElementById("sheetStatus");
+  if(!el)return;
+  el.textContent="Google Sheets: "+text;
+  el.style.color=ok?"#86efac":"#fcd34d";
+}
+async function sendToGoogleSheets(eventType,extra={}){
+  if(!currentStudent){
+    return {ok:false,reason:"no_student"};
+  }
+  if(!sheetsConfigured()){
+    setSheetStatus("URL fehlt");
+    return {ok:false,reason:"not_configured"};
+  }
+
+  const results=getResults();
+  const resultValues=Object.values(results);
+  const payload={
+    timestamp:new Date().toISOString(),
+    eventType,
+    studentName:currentStudent.name,
+    studentClass:currentStudent.cls,
+    studentCode:currentStudent.code,
+    pageTitle:document.title,
+    sessionMinutes:sessionStartedAt
+      ? Math.max(0,Math.round((Date.now()-sessionStartedAt)/60000))
+      : 0,
+    completedExercises:resultValues.length,
+    totalScore:resultValues.reduce((sum,r)=>sum+Number(r.score||0),0),
+    totalPossible:resultValues.reduce((sum,r)=>sum+Number(r.total||0),0),
+    results:results,
+    record:getRecord(),
+    ...extra
+  };
+
+  setSheetStatus("wird gesendet …");
+  try{
+    await fetch(GOOGLE_SHEETS_WEB_APP_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload),
+      keepalive:true
+    });
+    localStorage.setItem("dsd1_last_sheet_sync",new Date().toISOString());
+    setSheetStatus("gesendet",true);
+    return {ok:true};
+  }catch(error){
+    setSheetStatus("Sendefehler");
+    console.error("Google-Sheets-Fehler:",error);
+    return {ok:false,error:String(error)};
+  }
+}
+
+/* ===== Schülerprotokoll ===== */
+let currentStudent=null;
+let sessionStartedAt=null;
+let workTimer=null;
+let fullscreenExitAlreadyLogged=false;
+const TOTAL_EXERCISES=15;
+
+function storageId(){
+  return currentStudent ? (currentStudent.code || currentStudent.name).replace(/\s+/g,"_") : "unknown";
+}
+function recordKey(){return "dsd1_record_"+storageId()}
+function resultKey(){return "dsd1_results_"+storageId()}
+function getRecord(){return JSON.parse(localStorage.getItem(recordKey())||"[]")}
+function getResults(){return JSON.parse(localStorage.getItem(resultKey())||"{}")}
+function setResults(v){localStorage.setItem(resultKey(),JSON.stringify(v))}
+function addRecord(action,area="",details=""){
+  if(!currentStudent)return;
+  const rows=getRecord();
+  rows.unshift({
+    time:new Date().toLocaleString("de-DE"),
+    action,area,details
+  });
+  localStorage.setItem(recordKey(),JSON.stringify(rows));
+  renderStudentRecord();
+}
+function safe(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+async function startStudentSession(){
+  const name=document.getElementById("studentName").value.trim();
+  const cls=document.getElementById("studentClass").value.trim();
+  const code=document.getElementById("studentCode").value.trim();
+  if(!name||!cls||!code){alert("Bitte alle Felder ausfüllen.");return}
+  currentStudent={name,cls,code};
+  localStorage.setItem("dsd1_active_student",JSON.stringify(currentStudent));
+  sessionStartedAt=Date.now();
+  document.getElementById("studentInfo").textContent=`👤 ${name} · ${cls} · ${code}`;
+  document.getElementById("loginOverlay").classList.add("hidden-overlay");
+  document.body.classList.remove("locked");
+  addRecord("Sitzung gestartet","System","Anmeldung erfolgreich");
+  sendToGoogleSheets("session_start");
+  restoreStudentResults();
+  updateStudentStats();
+  startWorkTimer();
+  await enterFullscreen();
+}
+async function enterFullscreen(){
+  try{
+    if(!document.fullscreenElement)await document.documentElement.requestFullscreen();
+    document.getElementById("fullscreenOverlay").classList.add("hidden-overlay");
+    document.body.classList.remove("locked");
+    fullscreenExitAlreadyLogged=false;
+  }catch(e){
+    alert("Der Vollbildmodus konnte nicht aktiviert werden. Bitte erlaube Vollbild im Browser.");
+  }
+}
+function finishStudentSession(){
+  if(!currentStudent)return;
+  const mins=Math.max(1,Math.round((Date.now()-sessionStartedAt)/60000));
+  addRecord("Sitzung beendet","System",mins+" Minuten");
+  sendToGoogleSheets("session_end",{sessionMinutes:mins});
+  localStorage.removeItem("dsd1_active_student");
+  if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+  location.reload();
+}
+function registerExerciseResult(id,score,total){
+  if(!currentStudent)return;
+  const results=getResults();
+  const previous=results[id];
+  results[id]={score,total,time:new Date().toISOString()};
+  setResults(results);
+  const el=document.getElementById(id);
+  if(el)el.closest("section")?.classList.add("exercise-done");
+  addRecord(previous?"Ergebnis aktualisiert":"Übung geprüft",id,score+" / "+total+" Punkte");
+  sendToGoogleSheets("exercise_result",{exerciseId:id,score,total});
+  updateStudentStats();
+}
+function updateStudentStats(){
+  if(!currentStudent)return;
+  const results=getResults();
+  const values=Object.values(results);
+  const exercises=values.length;
+  const points=values.reduce((s,r)=>s+Number(r.score||0),0);
+  const possible=values.reduce((s,r)=>s+Number(r.total||0),0);
+  const progress=Math.min(100,Math.round(exercises/TOTAL_EXERCISES*100));
+  document.getElementById("statExercises").textContent=exercises;
+  document.getElementById("statPoints").textContent=possible?`${points} / ${possible}`:points;
+  document.getElementById("statProgress").textContent=progress+" %";
+  document.getElementById("progressFill").style.width=progress+"%";
+}
+function restoreStudentResults(){
+  const results=getResults();
+  Object.entries(results).forEach(([id,r])=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.style.display="block";
+      el.textContent="Gespeichertes Ergebnis: "+r.score+" von "+r.total+" Punkten.";
+      el.closest("section")?.classList.add("exercise-done");
+    }
+  });
+}
+function startWorkTimer(){
+  clearInterval(workTimer);
+  workTimer=setInterval(()=>{
+    if(!sessionStartedAt)return;
+    const sec=Math.floor((Date.now()-sessionStartedAt)/1000);
+    const min=String(Math.floor(sec/60)).padStart(2,"0");
+    const s=String(sec%60).padStart(2,"0");
+    document.getElementById("statTime").textContent=min+":"+s;
+  },1000);
+}
+function toggleRecord(){
+  const p=document.getElementById("recordPanel");
+  p.style.display=p.style.display==="none"?"block":"none";
+  renderStudentRecord();
+  if(p.style.display==="block")p.scrollIntoView({behavior:"smooth"});
+}
+function renderStudentRecord(){
+  const body=document.getElementById("recordBody");
+  if(!body)return;
+  body.innerHTML=getRecord().map(r=>`<tr><td>${safe(r.time)}</td><td>${safe(r.action)}</td><td>${safe(r.area)}</td><td>${safe(r.details)}</td></tr>`).join("");
+}
+function exportStudentCSV(){
+  if(!currentStudent)return;
+  const rows=[["Zeit","Aktion","Bereich","Details"],...getRecord().map(r=>[r.time,r.action,r.area,r.details])];
+  const csv=rows.map(row=>row.map(v=>`"${String(v).replaceAll('"','""')}"`).join(";")).join("\n");
+  const blob=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`DSD1_Protokoll_${currentStudent.code}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+document.addEventListener("fullscreenchange",()=>{
+  if(currentStudent&&!document.fullscreenElement){
+    document.getElementById("fullscreenOverlay").classList.remove("hidden-overlay");
+    document.body.classList.add("locked");
+    if(!fullscreenExitAlreadyLogged){
+      addRecord("Vollbild verlassen","Sicherheit","Übung wurde gesperrt");
+      sendToGoogleSheets("fullscreen_exit");
+      fullscreenExitAlreadyLogged=true;
+    }
+  }else{
+    document.getElementById("fullscreenOverlay").classList.add("hidden-overlay");
+    document.body.classList.remove("locked");
+  }
+});
+document.addEventListener("visibilitychange",()=>{
+  if(currentStudent)addRecord(document.hidden?"Tab verlassen":"Tab zurückgekehrt","Sicherheit",document.hidden?"Seite nicht sichtbar":"Seite wieder sichtbar");
+});
+window.addEventListener("blur",()=>{if(currentStudent)addRecord("Fensterfokus verloren","Sicherheit","Anderes Fenster möglicherweise aktiv")});
+window.addEventListener("load",()=>{
+  setSheetStatus(sheetsConfigured()?"bereit":"URL fehlt",sheetsConfigured());
+  const saved=localStorage.getItem("dsd1_active_student");
+  if(saved){
+    currentStudent=JSON.parse(saved);
+    sessionStartedAt=Date.now();
+    document.getElementById("studentInfo").textContent=`👤 ${currentStudent.name} · ${currentStudent.cls} · ${currentStudent.code}`;
+    document.getElementById("loginOverlay").classList.add("hidden-overlay");
+    document.body.classList.remove("locked");
+    restoreStudentResults();
+    updateStudentStats();
+    startWorkTimer();
+    addRecord("Sitzung wiederhergestellt","System","Seite neu geladen");
+    sendToGoogleSheets("session_restored");
+    document.getElementById("fullscreenOverlay").classList.remove("hidden-overlay");
+  }
+});
+
+</script>
+</body>
+</html>
