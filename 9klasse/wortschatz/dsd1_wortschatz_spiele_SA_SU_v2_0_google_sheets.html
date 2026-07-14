@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSD I – Große Wortschatz-Spielwelt 2.0</title>
+<style>
+:root{--blue:#46539a;--blue2:#6978bf;--green:#2f7d5b;--red:#b64a4a;--yellow:#fff3c8;--bg:#eef1f8;--text:#252a3a}
+*{box-sizing:border-box}body{margin:0;font-family:"Century Gothic",Arial,sans-serif;background:linear-gradient(#eef1f8,#fafbfe);color:var(--text)}
+header{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;text-align:center;padding:28px 18px}
+header h1{margin:0 0 8px}.bar{position:sticky;top:0;z-index:50;background:#172033;color:#fff;padding:10px 16px;display:flex;justify-content:space-between;gap:12px;align-items:center;box-shadow:0 3px 12px #0003}.bar button{margin:0}.wrap{max-width:1150px;margin:auto;padding:20px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.card,.game{background:white;border-radius:18px;box-shadow:0 8px 22px #00000014}.stat{padding:14px;text-align:center}.stat strong{display:block;font-size:1.5rem;color:var(--blue)}.game{padding:22px;margin-bottom:20px}.game h2{margin-top:0;color:var(--blue)}.tag{display:inline-block;background:#e8ecfb;color:var(--blue);padding:5px 10px;border-radius:999px;font-weight:bold;font-size:.88rem}.wordbank{background:var(--yellow);padding:12px;border-radius:12px;margin:12px 0}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.option,.tile,.drop{padding:12px;border-radius:12px;border:2px solid #d7dced;background:#f7f8fc;cursor:pointer}.option.selected,.tile.selected{border-color:var(--blue);background:#eaf0ff}.correct{background:#dff2e7!important;border-color:#6cab83!important}.wrong{background:#fde4e4!important;border-color:#d07070!important}.drop{min-height:56px}.memory{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mem{min-height:82px;border-radius:12px;border:2px solid #ccd5ee;background:var(--blue);color:transparent;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;cursor:pointer;font-weight:bold}.mem.open{background:#eaf0ff;color:var(--text)}.mem.done{background:#dff2e7;color:#245a35;border-color:#78b38c}.sentence{background:#f7f9fc;padding:12px;border-radius:12px;margin:9px 0}.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{padding:9px 12px;border-radius:999px;background:#e8ecfb;cursor:pointer}.answerline{min-height:52px;border:2px dashed #bbc3d8;padding:8px;border-radius:12px;margin:10px 0}.result{display:none;margin-top:12px;padding:12px;border-radius:10px;background:#eef7f1;font-weight:bold}.result.show{display:block}button{border:none;border-radius:11px;padding:10px 15px;background:var(--blue);color:white;font:inherit;cursor:pointer;margin:5px}.secondary{background:#6f7b75}.danger{background:var(--red)}select,input{padding:9px 11px;border:1px solid #bdc4d8;border-radius:9px;font:inherit}.login{position:fixed;inset:0;z-index:100;background:#172033f5;display:flex;align-items:center;justify-content:center;padding:20px}.loginbox{background:#fff;border-radius:20px;padding:25px;width:min(500px,100%)}.loginbox input{width:100%;margin:7px 0 12px}.hidden{display:none!important}.topic-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.progress{height:10px;background:#e3e7f2;border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green);width:0}.timer{font-weight:bold;color:#ffd66b}.small{font-size:.9rem;color:#667085}
+body.session-locked{overflow:hidden}
+.fullscreen-warning{position:fixed;inset:0;z-index:1000;background:rgba(17,24,39,.98);display:flex;align-items:center;justify-content:center;padding:20px}
+.fullscreen-warning-box{width:min(560px,100%);background:#fff;border-radius:22px;padding:30px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.45)}
+.fullscreen-warning-box h2{margin:0 0 12px;color:var(--red);font-size:1.8rem}
+.fullscreen-warning-box p{line-height:1.55}
+.fullscreen-warning-box button{width:100%;margin:14px 0 0;padding:13px}
+.warning-count{margin-top:14px;padding:10px;border-radius:10px;background:#fff3c8;font-weight:bold;color:#7a5a00}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.grid2,.grid3{grid-template-columns:1fr}.memory{grid-template-columns:repeat(2,1fr)}.bar{flex-direction:column;align-items:flex-start}}
+
+.sync-status{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;font-size:.86rem;font-weight:bold;background:#334155;color:#fff}
+.sync-status.sending{background:#8a6d1d}
+.sync-status.sent{background:#2f7d5b}
+.sync-status.error{background:#b64a4a}
+.protocol-panel{background:#fff;border-radius:18px;box-shadow:0 8px 22px #00000014;padding:18px;margin-bottom:20px}
+.protocol-panel h2{margin-top:0;color:var(--blue)}
+.protocol-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.protocol-item{background:#f7f8fc;border:1px solid #d7dced;border-radius:12px;padding:10px}
+.protocol-item strong{display:block;color:var(--blue);font-size:1.15rem}
+@media(max-width:760px){.protocol-grid{grid-template-columns:repeat(2,1fr)}}
+
+</style>
+</head>
+<body>
+<div id="login" class="login"><div class="loginbox"><h2>Schülerregistrierung</h2><p>Trage deine Daten ein und starte die Wortschatz-Spielwelt.</p><label for="studentName">Vor- und Nachname</label><input id="studentName" autocomplete="name" placeholder="z. B. Anna Müller"><label for="studentClass">Klasse</label><input id="studentClass" placeholder="z. B. 9A"><label for="schoolType">SA oder SU</label><select id="schoolType" style="width:100%;margin:7px 0 12px"><option value="">Bitte auswählen</option><option value="SA">SA</option><option value="SU">SU</option></select><button id="loginStartButton" type="button" style="width:100%" onclick="startSession()">Starten</button><p class="small">Version 2.0 · Arbeitsprotokoll mit Google-Sheets-Anbindung</p><p id="loginError" class="small" style="color:#b64a4a;display:none"></p></div></div>
+<div id="fullscreenWarning" class="fullscreen-warning hidden" role="dialog" aria-modal="true" aria-labelledby="fullscreenWarningTitle">
+  <div class="fullscreen-warning-box">
+    <h2 id="fullscreenWarningTitle">⚠ Vollbildmodus verlassen</h2>
+    <p>Du hast den Vollbildmodus oder das Arbeitsfenster verlassen.</p>
+    <p><strong>Die Übung bleibt gesperrt, bis du wieder in den Vollbildmodus zurückkehrst.</strong></p>
+    <button type="button" onclick="enterFullscreen()">⛶ Zum Vollbild zurückkehren</button>
+    <div id="fullscreenExitCount" class="warning-count">Registrierte Unterbrechungen: 1</div>
+  </div>
+</div>
+<div class="bar"><div id="who">Keine Schülerin angemeldet</div><div style="display:flex;flex-wrap:wrap;align-items:center;gap:7px"><span id="syncStatus" class="sync-status">Nicht gesendet</span><span class="timer" id="time">00:00</span><button class="secondary" onclick="resetAll()">Neu starten</button><button class="danger" onclick="finish()">Beenden</button></div></div>
+<header><h1>DSD I – Große Wortschatz-Spielwelt 2.0</h1><p>Haustiere · Freizeit · Schlaf · Theater · Reisen</p></header>
+<div class="wrap">
+
+<div class="protocol-panel">
+  <h2>Arbeitsprotokoll</h2>
+  <div class="protocol-grid">
+    <div class="protocol-item">Beginn<strong id="protocolStart">–</strong></div>
+    <div class="protocol-item">Bearbeitungszeit<strong id="protocolTime">00:00</strong></div>
+    <div class="protocol-item">Unterbrechungen<strong id="protocolInterruptions">0</strong></div>
+    <div class="protocol-item">Gesendet<strong id="protocolSent">Nein</strong></div>
+  </div>
+  <p class="small">Die Ergebnisse werden beim Beenden automatisch an Google Sheets gesendet. Falls die Verbindung nicht funktioniert, bleibt eine lokale Sicherung im Browser erhalten.</p>
+</div>
+
+<div class="stats"><div class="card stat">Spiele<strong id="gamesDone">0 / 10</strong></div><div class="card stat">Punkte<strong id="points">0</strong></div><div class="card stat">Serie<strong id="streak">0</strong></div><div class="card stat">Fortschritt<strong id="percent">0 %</strong><div class="progress"><span id="bar"></span></div></div></div>
+<div class="topic-buttons"><button onclick="showAll()">Alle Spiele</button><button class="secondary" onclick="filterTopic('Haustiere')">Haustiere</button><button class="secondary" onclick="filterTopic('Freizeit')">Freizeit</button><button class="secondary" onclick="filterTopic('Schlaf')">Schlaf</button><button class="secondary" onclick="filterTopic('Theater')">Theater</button><button class="secondary" onclick="filterTopic('Reisen')">Reisen</button></div>
+
+<section class="game" data-topic="Haustiere"><span class="tag">Spiel 1 · Haustiere</span><h2>Blitz-Auswahl</h2><p>Wähle die richtige deutsche Bedeutung.</p><div id="quiz1"></div><button onclick="checkQuiz1()">Prüfen</button><div id="r1" class="result"></div></section>
+
+<section class="game" data-topic="Reisen"><span class="tag">Spiel 2 · Reisen</span><h2>Memory</h2><p>Finde die deutschen und spanischen Paare.</p><div id="memory" class="memory"></div><div id="memInfo" class="result show">Paare: 0 / 8</div><button class="secondary" onclick="buildMemory()">Neu mischen</button></section>
+
+<section class="game" data-topic="Freizeit"><span class="tag">Spiel 3 · Freizeit</span><h2>Welches Verb passt?</h2><div id="verbGame"></div><button onclick="checkVerbGame()">Prüfen</button><div id="r3" class="result"></div></section>
+
+<section class="game" data-topic="Schlaf"><span class="tag">Spiel 4 · Schlaf</span><h2>Richtig oder falsch?</h2><div id="tfGame"></div><button onclick="checkTF()">Prüfen</button><div id="r4" class="result"></div></section>
+
+<section class="game" data-topic="Theater"><span class="tag">Spiel 5 · Theater</span><h2>Definitionen-Duell</h2><div id="defGame"></div><button onclick="checkDefs()">Prüfen</button><div id="r5" class="result"></div></section>
+
+<section class="game" data-topic="Schlaf"><span class="tag">Spiel 6 · Schlaf</span><h2>Satz-Puzzle</h2><p>Klicke die Wörter in der richtigen Reihenfolge an.</p><div id="puzzlePrompt" class="sentence"></div><div id="chips" class="chips"></div><div id="answerline" class="answerline"></div><button onclick="checkPuzzle()">Prüfen</button><button class="secondary" onclick="newPuzzle()">Neuer Satz</button><div id="r6" class="result"></div></section>
+
+<section class="game" data-topic="Reisen"><span class="tag">Spiel 7 · Reisen</span><h2>Lückentext</h2><div class="wordbank">erlebt · folgen · verbringt · vorbereiten · entscheiden</div><div id="gapGame"></div><button onclick="checkGaps()">Prüfen</button><div id="r7" class="result"></div></section>
+
+<section class="game" data-topic="Haustiere"><span class="tag">Spiel 8 · Haustiere</span><h2>Wörter sortieren</h2><p>Klicke zuerst ein Wort und danach die passende Kategorie.</p><div class="grid2"><div><h3>Wörter</h3><div id="sortWords" class="chips"></div></div><div><h3>Kategorien</h3><div class="drop" onclick="dropWord('Nomen')"><b>Nomen</b><div id="catNomen"></div></div><div class="drop" onclick="dropWord('Verben')"><b>Verben</b><div id="catVerben"></div></div><div class="drop" onclick="dropWord('Eigenschaften')"><b>Eigenschaften</b><div id="catEigenschaften"></div></div></div></div><button onclick="checkSort()">Prüfen</button><div id="r8" class="result"></div></section>
+
+<section class="game" data-topic="Theater"><span class="tag">Spiel 9 · Theater</span><h2>Mini-Kreuzwort ohne Gitter</h2><p>Schreibe das passende Wort.</p><div id="crossGame"></div><button onclick="checkCross()">Prüfen</button><div id="r9" class="result"></div></section>
+
+<section class="game" data-topic="Freizeit"><span class="tag">Spiel 10 · Gemischt</span><h2>Endgegner: 60-Sekunden-Challenge</h2><p>Beantworte möglichst viele Fragen. Jede richtige Antwort bringt einen Punkt.</p><button id="startChallenge" onclick="startChallenge()">Challenge starten</button><div id="challengeBox" class="hidden"><p><b>Zeit:</b> <span id="challengeTime">60</span> Sekunden</p><div id="challengeQuestion" class="sentence"></div><div id="challengeOptions" class="grid2"></div><p><b>Punkte:</b> <span id="challengeScore">0</span></p></div><div id="r10" class="result"></div></section>
+</div>
+<script>
+const GOOGLE_SCRIPT_URL='PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+const APP_VERSION='2.0';
+const state={
+  done:{},
+  points:0,
+  streak:0,
+  start:null,
+  end:null,
+  student:null,
+  timerId:null,
+  sent:false,
+  sendAttempts:0,
+  events:[]
+};
+async function startSession(){
+  const n=document.getElementById('studentName').value.trim();
+  const k=document.getElementById('studentClass').value.trim();
+  const school=document.getElementById('schoolType').value;
+  const error=document.getElementById('loginError');
+  if(!n||!k||!school){
+    error.textContent='Bitte alle Felder ausfüllen.';error.style.display='block';return;
+  }
+  const c=school;
+  error.style.display='none';
+  state.student={n,k,c,school};
+  state.start=Date.now();
+  state.events.push({type:'session_start',time:new Date().toISOString()});
+  document.getElementById('protocolStart').textContent=new Date(state.start).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('who').textContent=`👤 ${n} · ${k} · ${c}`;
+  document.getElementById('login').classList.add('hidden');
+  localStorage.setItem('dsd1_game_student',JSON.stringify(state.student));
+  if(state.timerId) clearInterval(state.timerId);
+  state.timerId=setInterval(updateTime,1000);
+  updateTime();
+  await enterFullscreen();
+}
+let fullscreenExitCounter=0;
+let fullscreenLockActive=false;
+function saveFullscreenEvent(type){
+  if(!state.student)return;
+  const key='dsd1_fullscreen_events_'+(state.student.n+'_'+state.student.k+'_'+state.student.school).replace(/\s+/g,'_');
+  const events=JSON.parse(localStorage.getItem(key)||'[]');
+  const event={time:new Date().toISOString(),type};
+  events.push(event);
+  state.events.push(event);
+  localStorage.setItem(key,JSON.stringify(events));
+}
+function showFullscreenWarning(reason='fullscreen_exit'){
+  if(!state.student)return;
+  if(!fullscreenLockActive) fullscreenExitCounter++;
+  fullscreenLockActive=true;
+  document.getElementById('fullscreenExitCount').textContent='Registrierte Unterbrechungen: '+fullscreenExitCounter;
+  document.getElementById('protocolInterruptions').textContent=fullscreenExitCounter;
+  document.getElementById('fullscreenWarning').classList.remove('hidden');
+  document.body.classList.add('session-locked');
+  saveFullscreenEvent(reason);
+}
+function hideFullscreenWarning(){
+  fullscreenLockActive=false;
+  document.getElementById('fullscreenWarning').classList.add('hidden');
+  document.body.classList.remove('session-locked');
+}
+async function enterFullscreen(){
+  try{
+    if(!document.fullscreenElement && document.documentElement.requestFullscreen){
+      await document.documentElement.requestFullscreen();
+    }
+    if(document.fullscreenElement){
+      hideFullscreenWarning();
+      saveFullscreenEvent('fullscreen_restored');
+    }
+  }catch(e){
+    showFullscreenWarning('fullscreen_request_denied');
+    console.warn('Vollbild konnte nicht gestartet werden:',e);
+  }
+}
+document.addEventListener('fullscreenchange',()=>{
+  if(!state.student)return;
+  if(document.fullscreenElement){
+    hideFullscreenWarning();
+  }else{
+    showFullscreenWarning('fullscreen_exit');
+  }
+});
+document.addEventListener('visibilitychange',()=>{
+  if(!state.student)return;
+  if(document.hidden){
+    saveFullscreenEvent('tab_hidden');
+  }else if(!document.fullscreenElement){
+    showFullscreenWarning('tab_return_without_fullscreen');
+  }
+});
+window.addEventListener('blur',()=>{
+  if(state.student)saveFullscreenEvent('window_blur');
+});
+function updateTime(){if(!state.start)return;const elapsed=Math.floor(((state.end||Date.now())-state.start)/1000);const txt=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');document.getElementById('time').textContent=txt;document.getElementById('protocolTime').textContent=txt}
+function complete(id,score,total,res){
+  const now=new Date().toISOString();
+  if(state.done[id]===undefined){
+    state.done[id]={score,total,attempts:1,lastChecked:now};
+    state.points+=score;
+  }else{
+    state.points+=score-state.done[id].score;
+    state.done[id].score=score;
+    state.done[id].total=total;
+    state.done[id].attempts++;
+    state.done[id].lastChecked=now;
+  }
+  state.streak=score===total?state.streak+1:0;
+  res.classList.add('show');
+  res.textContent=`Du hast ${score} von ${total} Punkten.`;
+  saveLocalBackup();
+  updateStats();
+}
+function updateStats(){const d=Object.keys(state.done).length;gamesDone.textContent=`${d} / 10`;points.textContent=state.points;streak.textContent=state.streak;const p=Math.round(d/10*100);percent.textContent=p+' %';bar.style.width=p+'%'}
+function filterTopic(t){document.querySelectorAll('.game').forEach(g=>g.style.display=g.dataset.topic===t?'block':'none')}function showAll(){document.querySelectorAll('.game').forEach(g=>g.style.display='block')}
+function setSyncStatus(type,text){
+  const el=document.getElementById('syncStatus');
+  el.className='sync-status'+(type?' '+type:'');
+  el.textContent=text;
+}
+function getElapsedSeconds(){
+  if(!state.start)return 0;
+  return Math.floor(((state.end||Date.now())-state.start)/1000);
+}
+function buildProtocol(){
+  const gameDetails={};
+  for(let i=1;i<=10;i++){
+    const key='g'+i;
+    const d=state.done[key];
+    gameDetails[key]=d?{
+      score:d.score,
+      total:d.total,
+      attempts:d.attempts,
+      lastChecked:d.lastChecked
+    }:{score:null,total:null,attempts:0,lastChecked:null};
+  }
+  return {
+    version:APP_VERSION,
+    timestamp:new Date().toISOString(),
+    studentName:state.student?.n||'',
+    studentClass:state.student?.k||'',
+    schoolType:state.student?.school||'',
+    startTime:state.start?new Date(state.start).toISOString():'',
+    endTime:state.end?new Date(state.end).toISOString():'',
+    durationSeconds:getElapsedSeconds(),
+    durationText:document.getElementById('time').textContent,
+    gamesCompleted:Object.keys(state.done).length,
+    totalPoints:state.points,
+    streak:state.streak,
+    fullscreenInterruptions:fullscreenExitCounter,
+    events:state.events,
+    gameDetails,
+    userAgent:navigator.userAgent,
+    language:navigator.language,
+    screen:`${screen.width}x${screen.height}`,
+    pageUrl:location.href
+  };
+}
+function saveLocalBackup(){
+  if(!state.student)return;
+  localStorage.setItem('dsd1_protocol_backup',JSON.stringify(buildProtocol()));
+}
+async function sendProtocol(){
+  if(!state.student)return false;
+  if(!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('PASTE_YOUR')){
+    setSyncStatus('error','URL fehlt');
+    document.getElementById('protocolSent').textContent='Nein';
+    saveLocalBackup();
+    return false;
+  }
+  state.sendAttempts++;
+  setSyncStatus('sending','Wird gesendet…');
+  try{
+    const response=await fetch(GOOGLE_SCRIPT_URL,{
+      method:'POST',
+      mode:'cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify(buildProtocol())
+    });
+    if(!response.ok)throw new Error('HTTP '+response.status);
+    const result=await response.json().catch(()=>({ok:true}));
+    if(result.ok===false)throw new Error(result.error||'Unbekannter Fehler');
+    state.sent=true;
+    setSyncStatus('sent','Gesendet');
+    document.getElementById('protocolSent').textContent='Ja';
+    localStorage.removeItem('dsd1_protocol_backup');
+    return true;
+  }catch(error){
+    console.error('Senden fehlgeschlagen:',error);
+    setSyncStatus('error','Nicht gesendet');
+    document.getElementById('protocolSent').textContent='Nein';
+    saveLocalBackup();
+    return false;
+  }
+}
+async function finish(){
+  if(!state.student)return;
+  if(!confirm('Möchtest du die Arbeit beenden und das Protokoll senden?'))return;
+  state.end=Date.now();
+  state.events.push({type:'session_end',time:new Date().toISOString()});
+  updateTime();
+  if(state.timerId)clearInterval(state.timerId);
+  const sent=await sendProtocol();
+  alert(sent
+    ?`Sitzung beendet. Punkte: ${state.points}. Das Protokoll wurde gesendet.`
+    :`Sitzung beendet. Punkte: ${state.points}. Das Protokoll konnte nicht gesendet werden und wurde lokal gespeichert.`);
+}
+function resetAll(){if(confirm('Alle Ergebnisse löschen?')){localStorage.removeItem('dsd1_protocol_backup');location.reload()}}
+const q1=[['mascota','das Haustier','die Bühne','der Schlafmangel'],['alimentar','füttern','proben','folgen'],['hábitat','der Lebensraum','das Publikum','der Rucksack'],['renunciar','verzichten','aufwachen','gründen']];
+quiz1.innerHTML=q1.map((q,i)=>`<div class="sentence">${i+1}. ${q[0]}: <select id="q1_${i}"><option></option>${q.slice(1).map(x=>`<option>${x}</option>`).join('')}</select></div>`).join('');
+function checkQuiz1(){let s=0;const a=['das Haustier','füttern','der Lebensraum','verzichten'];a.forEach((x,i)=>{if(document.getElementById('q1_'+i).value===x)s++});complete('g1',s,4,r1)}
+const mp=[['das Zelt','la carpa'],['der Schlafsack','el saco de dormir'],['der Rucksack','la mochila'],['die Wanderung','la caminata'],['die Aufnahme','la grabación / foto'],['das Erlebnis','la experiencia'],['die Nachprüfung','el examen de repetición'],['das Jugendcamp','el campamento juvenil']];let first=null,lock=false,matched=0;
+function buildMemory(){let items=[];mp.forEach((p,i)=>{items.push({t:p[0],p:i});items.push({t:p[1],p:i})});items.sort(()=>Math.random()-.5);memory.innerHTML='';matched=0;first=null;items.forEach(o=>{const c=document.createElement('div');c.className='mem';c.textContent=o.t;c.dataset.p=o.p;c.onclick=()=>flip(c);memory.appendChild(c)});memInfo.textContent='Paare: 0 / 8'}
+function flip(c){if(lock||c.classList.contains('done')||c.classList.contains('open'))return;c.classList.add('open');if(!first){first=c;return}if(first.dataset.p===c.dataset.p){first.className='mem done';c.className='mem done';matched++;memInfo.textContent=`Paare: ${matched} / 8`;first=null;if(matched===8)complete('g2',8,8,memInfo)}else{lock=true;setTimeout(()=>{first.classList.remove('open');c.classList.remove('open');first=null;lock=false},700)}}buildMemory();
+const vg=[['für ein Turnier','trainieren'],['an einer Theatergruppe','teilnehmen'],['für eine Aktivität','sich anmelden'],['ein Theaterstück','proben'],['Rätsel','lösen'],['Wissen','weitergeben']];verbGame.innerHTML=vg.map((x,i)=>`<div class="sentence">${x[0]} <select id="vg${i}"><option></option>${['trainieren','teilnehmen','sich anmelden','proben','lösen','weitergeben'].sort(()=>Math.random()-.5).map(v=>`<option>${v}</option>`).join('')}</select></div>`).join('');function checkVerbGame(){let s=0;vg.forEach((x,i)=>{if(document.getElementById('vg'+i).value===x[1])s++});complete('g3',s,6,r3)}
+const tf=[['Ausgeschlafene Schüler können sich besser konzentrieren.',true],['Schlafmangel bedeutet, dass man zu viel schläft.',false],['Wer verschläft, wacht zu spät auf.',true],['Einschlafen bedeutet aufwachen.',false],['Jugendliche brauchen keinen Schlaf.',false]];tfGame.innerHTML=tf.map((x,i)=>`<div class="sentence">${x[0]} <select id="tf${i}"><option></option><option value="true">richtig</option><option value="false">falsch</option></select></div>`).join('');function checkTF(){let s=0;tf.forEach((x,i)=>{if(document.getElementById('tf'+i).value===String(x[1]))s++});complete('g4',s,5,r4)}
+const defs=[['Ort, auf dem Schauspieler spielen','Bühne'],['Gemeinsames Üben vor einer Aufführung','Probe'],['Wichtigste Rolle in einem Stück','Hauptrolle'],['Zuschauer im Theater','Publikum'],['Person, die Regie führt','Regisseur']];defGame.innerHTML=defs.map((x,i)=>`<div class="sentence">${x[0]}: <input id="df${i}"></div>`).join('');function checkDefs(){let s=0;defs.forEach((x,i)=>{if(document.getElementById('df'+i).value.trim().toLowerCase()===x[1].toLowerCase())s++});complete('g5',s,5,r5)}
+const puzzles=[['Ausgeschlafene Schüler lernen besser.',['Ausgeschlafene','Schüler','lernen','besser.']],['Jugendliche schlafen oft später ein.',['Jugendliche','schlafen','oft','später','ein.']],['Schlafmangel hat viele Nachteile.',['Schlafmangel','hat','viele','Nachteile.']]];let pi=0,chosen=[];function newPuzzle(){pi=Math.floor(Math.random()*puzzles.length);chosen=[];puzzlePrompt.textContent='Baue den Satz.';answerline.textContent='';chips.innerHTML=[...puzzles[pi][1]].sort(()=>Math.random()-.5).map((w,i)=>`<span class="chip" onclick="chooseChip(this)">${w}</span>`).join('');r6.classList.remove('show')}function chooseChip(el){chosen.push(el.textContent);answerline.textContent=chosen.join(' ');el.classList.add('hidden')}function checkPuzzle(){const ok=chosen.join(' ')===puzzles[pi][0];complete('g6',ok?1:0,1,r6)}newPuzzle();
+const gaps=[['Ida zeigt, was sie in den Ferien ___ .','erlebt'],['Viele Freunde ___ ihr online.','folgen'],['Susa ___ eine Woche im Jugendcamp.','verbringt'],['Annika muss sich auf die Nachprüfung ___ .','vorbereiten'],['Emil kann sich nicht ___ .','entscheiden']];gapGame.innerHTML=gaps.map((x,i)=>`<div class="sentence">${x[0].replace('___',`<select id="gp${i}"><option></option>${['erlebt','folgen','verbringt','vorbereiten','entscheiden'].map(v=>`<option>${v}</option>`).join('')}</select>`)}</div>`).join('');function checkGaps(){let s=0;gaps.forEach((x,i)=>{if(document.getElementById('gp'+i).value===x[1])s++});complete('g7',s,5,r7)}
+const sortData={Nomen:['Haustier','Allergie','Lebensraum'],Verben:['füttern','verzichten','passen'],Eigenschaften:['sauber','ausgeschlafen','wichtig']};let selectedWord=null,placements={};function initSort(){let all=Object.entries(sortData).flatMap(([c,ws])=>ws.map(w=>({w,c}))).sort(()=>Math.random()-.5);sortWords.innerHTML=all.map(o=>`<span class="chip" data-cat="${o.c}" onclick="selectSort(this)">${o.w}</span>`).join('')}function selectSort(el){document.querySelectorAll('#sortWords .chip').forEach(x=>x.classList.remove('selected'));selectedWord=el;el.classList.add('selected')}function dropWord(cat){if(!selectedWord)return;placements[selectedWord.textContent]=cat;document.getElementById('cat'+cat).innerHTML+=`<span class="chip">${selectedWord.textContent}</span> `;selectedWord.remove();selectedWord=null}function checkSort(){let s=0,total=0;Object.entries(sortData).forEach(([c,ws])=>ws.forEach(w=>{total++;if(placements[w]===c)s++}));complete('g8',s,total,r8)}initSort();
+const cross=[['1. Schauspieler spielen hier.','Bühne'],['2. Vor der Aufführung findet sie statt.','Probe'],['3. Die wichtigste Rolle.','Hauptrolle'],['4. Die Zuschauer.','Publikum'],['5. Er leitet die Inszenierung.','Regisseur']];crossGame.innerHTML=cross.map((x,i)=>`<div class="sentence">${x[0]} <input id="cr${i}"></div>`).join('');function checkCross(){let s=0;cross.forEach((x,i)=>{if(document.getElementById('cr'+i).value.trim().toLowerCase()===x[1].toLowerCase())s++});complete('g9',s,5,r9)}
+const cq=[['Was bedeutet „der Schlafmangel“?',['falta de sueño','mochila','ensayo'],0],['Was ist „die Bühne“?',['escenario','público','papel principal'],0],['Was bedeutet „füttern“?',['alimentar','dormir','seguir'],0],['Was ist „der Rucksack“?',['mochila','carpa','hábitat'],0],['Was bedeutet „proben“?',['ensayar','renunciar','despertarse'],0],['Was ist „die Nachhilfe“?',['clases de apoyo','caminata','teatro'],0],['Was bedeutet „aufwachen“?',['despertarse','dormirse','concentrarse'],0]];let ctimer=null,cscore=0,ctime=60,currentQ=null;
+function startChallenge(){startChallengeBtn=document.getElementById('startChallenge');startChallengeBtn.disabled=true;challengeBox.classList.remove('hidden');cscore=0;ctime=60;challengeScore.textContent=0;challengeTime.textContent=60;nextCQ();ctimer=setInterval(()=>{ctime--;challengeTime.textContent=ctime;if(ctime<=0){clearInterval(ctimer);challengeBox.classList.add('hidden');complete('g10',cscore,cscore,r10);r10.textContent=`Zeit vorbei! Du hast ${cscore} Punkte erreicht.`}},1000)}function nextCQ(){currentQ=cq[Math.floor(Math.random()*cq.length)];challengeQuestion.textContent=currentQ[0];challengeOptions.innerHTML=currentQ[1].map((o,i)=>`<div class="option" onclick="answerCQ(${i})">${o}</div>`).join('')}function answerCQ(i){if(i===currentQ[2]){cscore++;state.streak++}else state.streak=0;challengeScore.textContent=cscore;streak.textContent=state.streak;nextCQ()}
+
+window.addEventListener('online',()=>{
+  if(state.student && !state.sent && state.end) sendProtocol();
+});
+window.addEventListener('beforeunload',()=>{
+  if(state.student && !state.sent) saveLocalBackup();
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+  ['studentName','studentClass','schoolType'].forEach(id=>{
+    document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')startSession();});
+  });
+});
+</script></body></html>
