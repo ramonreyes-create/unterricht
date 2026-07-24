@@ -172,6 +172,58 @@ body{
 .start-screen{
   border:3px solid #15395b;
 }
+.fullscreen-warning-overlay{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(80,0,0,.94);
+}
+.fullscreen-warning-overlay.visible{
+  display:flex;
+}
+.fullscreen-warning-card{
+  width:min(760px,100%);
+  padding:42px 34px;
+  border:6px solid #fff;
+  border-radius:22px;
+  background:#b91c1c;
+  color:#fff;
+  text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.55);
+}
+.fullscreen-warning-icon{
+  font-size:72px;
+  line-height:1;
+}
+.fullscreen-warning-card h2{
+  margin:14px 0 10px;
+  color:#fff;
+  font-size:clamp(38px,7vw,70px);
+  letter-spacing:.08em;
+}
+.fullscreen-warning-card p{
+  margin:10px auto 24px;
+  max-width:620px;
+  font-size:clamp(20px,3vw,28px);
+  font-weight:700;
+}
+.fullscreen-return-button{
+  padding:17px 28px;
+  border:3px solid #fff;
+  border-radius:12px;
+  background:#fff;
+  color:#991b1b;
+  font-size:22px;
+  font-weight:900;
+  cursor:pointer;
+}
+.fullscreen-return-button:hover{
+  background:#fef2f2;
+}
 </style>
 </head>
 <body>
@@ -396,6 +448,19 @@ body{
   <div id="sendStatus" class="sendstatus"></div>
 </section>
 
+</div>
+
+<div id="fullscreenWarningOverlay" class="fullscreen-warning-overlay" role="alertdialog"
+     aria-modal="true" aria-labelledby="fullscreenWarningTitle">
+  <div class="fullscreen-warning-card">
+    <div class="fullscreen-warning-icon">⚠️</div>
+    <h2 id="fullscreenWarningTitle">WARNING!</h2>
+    <p>Du verlässt den Vollbildmodus!</p>
+    <p>Dieser Vorgang wurde registriert. Bitte kehre sofort zur Prüfung im Vollbildmodus zurück.</p>
+    <button type="button" class="fullscreen-return-button" onclick="zurueckZuVollbild()">
+      Zurück zum Vollbild
+    </button>
+  </div>
 </div>
 
 <script>
@@ -671,15 +736,29 @@ document.addEventListener("fullscreenchange", function(){
       fs.className = "feedback bad";
     }
     if(pruefungGestartet && !pruefungBeendet){
-      alert(
-        "⚠️ Achtung!\n\n" +
-        "Du hast den Vollbildmodus verlassen.\n" +
-        "Das Verlassen des Vollbildmodus wurde registriert.\n\n" +
-        "Bitte kehre sofort zum Vollbildmodus zurück."
-      );
+      const overlay = document.getElementById("fullscreenWarningOverlay");
+      if(overlay){
+        overlay.classList.add("visible");
+      }
+    }
+  } else {
+    const overlay = document.getElementById("fullscreenWarningOverlay");
+    if(overlay){
+      overlay.classList.remove("visible");
     }
   }
 });
+
+function zurueckZuVollbild(){
+  const el = document.documentElement;
+  if(el.requestFullscreen){
+    el.requestFullscreen();
+  }else if(el.webkitRequestFullscreen){
+    el.webkitRequestFullscreen();
+  }else if(el.msRequestFullscreen){
+    el.msRequestFullscreen();
+  }
+}
 
 async function senden(){
   const btn = document.getElementById("sendButton");
