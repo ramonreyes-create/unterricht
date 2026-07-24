@@ -670,6 +670,14 @@ document.addEventListener("fullscreenchange", function(){
       fs.textContent = " ⚠️ Vollbildmodus wurde verlassen.";
       fs.className = "feedback bad";
     }
+    if(pruefungGestartet && !pruefungBeendet){
+      alert(
+        "⚠️ Achtung!\n\n" +
+        "Du hast den Vollbildmodus verlassen.\n" +
+        "Das Verlassen des Vollbildmodus wurde registriert.\n\n" +
+        "Bitte kehre sofort zum Vollbildmodus zurück."
+      );
+    }
   }
 });
 
