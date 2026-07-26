@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="de" translate="no" class="notranslate">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <meta name="microsoft" content="notranslate">
+  <meta name="robots" content="notranslate">
+  <meta http-equiv="Content-Language" content="de">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Das Satzlabor – Ernährung</title>
+  <style>
+    :root{
+      --ink:#243044;--muted:#64748b;--navy:#183153;--blue:#2764b8;--line:#cfdaea;
+      --green:#198754;--green-bg:#e9f8ef;--red:#b4232d;--red-bg:#fff0f1;
+      --yellow:#b56b00;--yellow-bg:#fff6d9;--violet:#7555b7;--surface:#fff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at 10% 8%,#dcecff 0,transparent 28%),linear-gradient(135deg,#eef5ff,#fbfdff);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+    header{position:relative;overflow:hidden;padding:28px clamp(18px,5vw,72px);background:linear-gradient(130deg,#17345e,#296cc3);color:#fff}
+    header:after{content:"🥕  🍎  🥦  🍞  🥛";position:absolute;right:4%;bottom:-8px;font-size:46px;opacity:.22;transform:rotate(-4deg)}
+    header h1{position:relative;z-index:1;margin:0;font-size:clamp(28px,4.7vw,44px)}
+    header p{position:relative;z-index:1;max-width:820px;margin:8px 0 0;line-height:1.5}
+    .hud{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px clamp(13px,4vw,52px);background:#fffffff2;border-bottom:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:0 5px 16px #17345f14}
+    .xp{font-weight:900;color:var(--navy);white-space:nowrap}.progress{flex:1;min-width:170px;height:13px;overflow:hidden;border-radius:999px;background:#dfe9f5}.progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#1ea66a,#67d18f);transition:width .25s}
+    button{border:0;border-radius:10px;padding:10px 14px;background:var(--blue);color:#fff;font-weight:850;cursor:pointer}button:hover{filter:brightness(.96)}button.secondary{background:#e7effa;color:var(--navy)}
+    .map{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;max-width:1180px;margin:18px auto;padding:0 16px}.map a{padding:10px 6px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);font-size:12px;font-weight:850;text-align:center;text-decoration:none;box-shadow:0 5px 12px #17345f0e}.map a:hover{border-color:var(--blue);background:#edf5ff}.map b{display:block;margin:auto auto 4px;width:27px;height:27px;padding-top:6px;border-radius:50%;background:var(--blue);color:#fff}
+    main{max-width:1120px;margin:auto;padding:0 16px 40px}
+    .level{margin:20px 0;overflow:hidden;border:1px solid var(--line);border-radius:19px;background:var(--surface);box-shadow:0 10px 28px #17345f12;scroll-margin-top:75px}
+    .level-head{display:flex;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(90deg,#e9f2ff,#f8fbff);border-bottom:1px solid var(--line)}.level-no{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:13px;background:var(--blue);color:#fff;font-size:20px;font-weight:950}.level-head h2{margin:0;color:var(--navy);font-size:21px}.level-head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+    .content{padding:18px}.explanation{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);gap:12px;margin-bottom:15px}.rulebox,.examplebox{padding:14px;border-radius:13px}.rulebox{background:#f6f9fd;border:1px solid var(--line);line-height:1.5}.examplebox{background:#fff7de;border:1px solid #f0d98a}.examplebox h3,.rulebox h3{margin:0 0 8px;color:var(--navy);font-size:15px}
+    .formula{display:flex;gap:6px;flex-wrap:wrap;margin:9px 0}.slot{padding:6px 9px;border-radius:8px;font-size:12px;font-weight:900}.s-blue{background:#dcecff;color:#14538f}.s-orange{background:#ffe4c3;color:#8a4900}.s-green{background:#dff4e5;color:#216a32}.s-violet{background:#eee5ff;color:#69409b}.s-red{background:#ffe0e3;color:#95222b}
+    .example{margin:7px 0;padding-left:9px;border-left:3px solid var(--yellow);line-height:1.45}
+    .task{margin:11px 0;padding:14px;border:1px solid var(--line);border-radius:13px;background:#fff;transition:.2s}.task.correct{border-color:#72c895;background:var(--green-bg)}.task.incorrect{border-color:#e6a0a6;background:var(--red-bg)}
+    .prompt{margin:0 0 9px;line-height:1.45;font-weight:760}.badge{display:inline-block;margin-right:6px;padding:3px 7px;border-radius:999px;background:var(--violet);color:#fff;font-size:11px;font-weight:900}.pieces{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.piece{padding:6px 8px;border-radius:8px;background:#eef3f9;color:#3d4b60;font-size:13px}
+    input{width:100%;padding:10px 12px;border:2px solid #b9cbe2;border-radius:10px;background:#fff;font:inherit}input:focus{outline:3px solid #dbe9ff;border-color:var(--blue)}.feedback{min-height:20px;margin:7px 0 0;font-size:13px;font-weight:800}.correct .feedback{color:var(--green)}.incorrect .feedback{color:var(--red)}
+    .hint{display:none;margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--yellow-bg);color:#6f4a00;font-size:13px}.hint.visible{display:block}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+    .final{display:none;margin:20px 0;padding:26px;border:2px solid #9acdb0;border-radius:18px;background:linear-gradient(135deg,#eaf9f0,#f8fffb);text-align:center}.final.visible{display:block}.final strong{display:block;color:var(--green);font-size:46px}.final p{font-size:17px}
+    .start-screen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:22px;background:linear-gradient(135deg,#102c52f5,#245faaf5);color:#fff;text-align:center}.start-card{max-width:620px;padding:34px;border:1px solid #ffffff52;border-radius:24px;background:#ffffff18;box-shadow:0 22px 70px #07182e80;backdrop-filter:blur(12px)}.start-card h2{margin:0 0 10px;font-size:clamp(28px,5vw,44px)}.start-card p{line-height:1.55}.start-card button{margin-top:10px;padding:14px 22px;background:#fff;color:var(--navy);font-size:17px}
+    .identity{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 8px;text-align:left}.identity label{font-size:12px;font-weight:850}.identity input{margin-top:5px;border-color:#fff}.start-error{min-height:20px;margin:7px 0 0;color:#ffe49d;font-weight:800}.send-status{margin:10px 0;font-weight:800}.send-status.ok{color:var(--green)}.send-status.error{color:var(--red)}
+    @media(max-width:850px){.map{grid-template-columns:repeat(3,1fr)}.explanation{grid-template-columns:1fr}.hud{position:static}}
+    @media(max-width:520px){.map{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.identity{grid-template-columns:1fr}}
+    @media print{.hud,.map,.actions,.hint,button{display:none!important}body{background:#fff}.level{box-shadow:none;break-inside:avoid}}
+  </style>
+</head>
+<body translate="no" class="notranslate">
+  <section class="start-screen" id="startScreen">
+    <div class="start-card">
+      <h2>🧪 Das Satzlabor</h2>
+      <p>Bearbeite 48 Aufgaben in sechs Stationen. Vollbildwechsel und das Verlassen dieser Registerkarte werden im Arbeitsprotokoll gespeichert.</p>
+      <div class="identity">
+        <label>Vor- und Nachname<input id="studentName" autocomplete="name" placeholder="Name der Schülerin"></label>
+        <label>Klasse<input id="studentClass" autocomplete="off" placeholder="z. B. 8A"></label>
+        <label>E-Mail<input id="studentEmail" type="email" autocomplete="email" placeholder="name@schule.cl"></label>
+        <label>Lehrkraft / Kurs<input id="courseName" autocomplete="off" placeholder="Deutsch"></label>
+      </div>
+      <div class="start-error" id="startError"></div>
+      <button onclick="startExercise()">Übung im Vollbild starten</button>
+    </div>
+  </section>
+  <header>
+    <h1>🧪 Das Satzlabor: Ernährung</h1>
+    <p>Sechs Stationen, 48 Aufgaben und ein Ziel: sichere deutsche Sätze bilden. Lies bei jeder Station zuerst die Erklärung.</p>
+  </header>
+  <div class="hud">
+    <span class="xp" id="scoreText">0 / 48 richtig</span>
+    <div class="progress"><span id="progressBar"></span></div>
+    <button class="secondary" onclick="toggleFullscreen()">⛶ Vollbild</button>
+    <button class="secondary" onclick="resetAll()">↻ Neu</button>
+  </div>
+  <nav class="map" aria-label="Lernweg">
+    <a href="#level1"><b>1</b>Fragen</a><a href="#level2"><b>2</b>Satzreihe</a><a href="#level3"><b>3</b>Nebensätze I</a>
+    <a href="#level4"><b>4</b>Relativsätze</a><a href="#level5"><b>5</b>Infinitiv mit zu</a><a href="#level6"><b>6</b>weil · obwohl · wenn</a>
+  </nav>
+  <main id="levels"></main>
+  <section class="final" id="finalBox">
+    <strong id="finalScore">0 / 48</strong><p id="finalMessage"></p>
+    <button id="sendWorkButton" onclick="submitWork()">📨 Arbeit senden</button>
+    <div class="send-status" id="sendStatus" aria-live="polite"></div>
+    <button onclick="resetAll()">Noch einmal üben</button>
+  </section>
+
+  <script>
+    /* Pega aquí la URL terminada en /exec de tu aplicación web de Google Apps Script. */
+    const SHEETS_WEB_APP_URL="PEGAR_AQUI_URL_DE_GOOGLE_APPS_SCRIPT";
+    const STORAGE_KEY="satzlabor_pending_events_v1";
+    const sessionId=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random().toString(16).slice(2));
+    const sessionStartedAt=new Date().toISOString();
+    let student={name:"",className:"",email:"",course:""};
+    let exerciseStarted=false,fullscreenExits=0,tabExits=0,windowBlurs=0;
+    let pendingEvents=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+
+    function sheetsConfigured(){return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(SHEETS_WEB_APP_URL)}
+    function saveQueue(){localStorage.setItem(STORAGE_KEY,JSON.stringify(pendingEvents))}
+    function eventRecord(eventType,detail={}){
+      const record={kind:"event",sessionId,sessionStartedAt,timestamp:new Date().toISOString(),student,eventType,
+        page:location.href,fullscreen:Boolean(document.fullscreenElement),visibility:document.visibilityState,
+        fullscreenExits,tabExits,windowBlurs,detail};
+      pendingEvents.push(record);saveQueue();flushEvents();return record;
+    }
+    async function postPayload(payload){
+      if(!sheetsConfigured())throw new Error("Google-Sheets-Verbindung nicht konfiguriert");
+      const body=new URLSearchParams({payload:JSON.stringify(payload)});
+      await fetch(SHEETS_WEB_APP_URL,{method:"POST",mode:"no-cors",body,keepalive:true});
+    }
+    async function flushEvents(){
+      if(!sheetsConfigured()||!navigator.onLine||!pendingEvents.length)return;
+      const batch=pendingEvents.slice(0,25);
+      try{await postPayload({kind:"eventBatch",records:batch});pendingEvents.splice(0,batch.length);saveQueue();if(pendingEvents.length)flushEvents()}catch(_){}
+    }
+    function answerSnapshot(){
+      const answers=[];
+      levels.forEach(level=>level.tasks.forEach((task,index)=>{
+        const box=document.getElementById(`${level.id}-${index}`);
+        answers.push({level:level.id,levelTitle:level.title,exercise:index+1,prompt:task.words,
+          answer:box?box.querySelector("input").value:"",correct:Boolean(state[`${level.id}-${index}`])});
+      }));
+      return answers;
+    }
+
+    const levels = [
+      {
+        id:"level1", title:"W-Fragen und Ja/Nein-Fragen", subtitle:"Fragen richtig bilden",
+        theory:`<h3>Erklärung</h3><p><b>W-Frage:</b> Das Fragewort steht auf Position 1, das Verb auf Position 2.</p><div class="formula"><span class="slot s-violet">W-Wort</span><span class="slot s-orange">Verb</span><span class="slot s-blue">Subjekt</span></div><p><b>Ja/Nein-Frage:</b> Das Verb steht auf Position 1.</p><div class="formula"><span class="slot s-orange">Verb</span><span class="slot s-blue">Subjekt</span><span class="slot s-green">Ergänzungen?</span></div>`,
+        examples:`<h3>Beispiele</h3><p class="example"><b>Was isst du</b> zum Frühstück?</p><p class="example"><b>Trinkst du</b> genug Wasser?</p>`,
+        tasks:[
+          q("warum · du · isst · kein Fleisch","Warum isst du kein Fleisch?","W-Wort – Verb – Subjekt"),
+          q("wie oft · ihr · kocht · zu Hause","Wie oft kocht ihr zu Hause?","Wie oft steht zusammen auf Position 1."),
+          q("du · magst · Brokkoli","Magst du Brokkoli?","Bei der Ja/Nein-Frage steht das Verb zuerst."),
+          q("deine Familie · kauft · Bio-Produkte","Kauft deine Familie Bio-Produkte?","Kauft – deine Familie – Bio-Produkte?"),
+          q("was · du · zum Frühstück · trinkst","Was trinkst du zum Frühstück?","W-Wort – Verb – Subjekt – Ergänzungen"),
+          q("wann · ihr · zu Mittag · esst","Wann esst ihr zu Mittag?","Wann steht zuerst; danach folgen Verb und Subjekt."),
+          q("sie · trinkt · genug Wasser","Trinkt sie genug Wasser?","Beginne die Ja/Nein-Frage mit dem Verb."),
+          q("welches Obst · Paul · am liebsten · isst","Welches Obst isst Paul am liebsten?","Die Wortgruppe Welches Obst steht auf Position 1.")
+        ]
+      },
+      {
+        id:"level2", title:"Satzreihe", subtitle:"Hauptsätze mit und, aber, oder und denn verbinden",
+        theory:`<h3>Erklärung</h3><p>Eine Satzreihe besteht aus zwei Hauptsätzen. Nach <b>und, aber, oder, denn</b> bleibt der normale Hauptsatzbau erhalten.</p><div class="formula"><span class="slot s-blue">Hauptsatz</span><span class="slot s-violet">Konnektor</span><span class="slot s-blue">Subjekt</span><span class="slot s-orange">Verb</span></div>`,
+        examples:`<h3>Beispiele</h3><p class="example">Ich esse Obst, <b>und</b> meine Schwester trinkt Milch.</p><p class="example">Ich koche selbst, <b>denn</b> Fertiggerichte sind oft ungesund.</p>`,
+        tasks:[
+          q("Ich esse gern Gemüse. Ich mag auch Obst. (und)","Ich esse gern Gemüse, und ich mag auch Obst.","und verbindet zwei ähnliche Aussagen.",["Ich esse gern Gemüse und ich mag auch Obst."]),
+          q("Tom mag Pizza. Er isst sie nur selten. (aber)","Tom mag Pizza, aber er isst sie nur selten.","aber zeigt einen Gegensatz."),
+          q("Möchtest du Wasser? Möchtest du Saft? (oder)","Möchtest du Wasser, oder möchtest du Saft?","oder verbindet zwei Möglichkeiten.",["Möchtest du Wasser oder möchtest du Saft?"]),
+          q("Ich frühstücke jeden Tag. Frühstück gibt mir Energie. (denn)","Ich frühstücke jeden Tag, denn Frühstück gibt mir Energie.","Nach denn steht das Subjekt vor dem Verb."),
+          q("Mia isst Salat. Sie mag keine Tomaten. (aber)","Mia isst Salat, aber sie mag keine Tomaten.","Nach aber bleibt die Hauptsatzstellung erhalten."),
+          q("Wir kochen eine Suppe. Wir machen einen Salat. (oder)","Wir kochen eine Suppe, oder wir machen einen Salat.","oder verbindet zwei Alternativen.",["Wir kochen eine Suppe oder wir machen einen Salat."]),
+          q("Ben kauft Vollkornbrot. Er kauft frisches Gemüse. (und)","Ben kauft Vollkornbrot, und er kauft frisches Gemüse.","und verbindet gleichrangige Hauptsätze.",["Ben kauft Vollkornbrot und er kauft frisches Gemüse."]),
+          q("Ich trinke keine Limonade. Sie enthält viel Zucker. (denn)","Ich trinke keine Limonade, denn sie enthält viel Zucker.","Nach denn: Subjekt sie vor dem Verb enthält.")
+        ]
+      },
+      {
+        id:"level3", title:"Kausal-, Temporal- und Konditionalsätze", subtitle:"weil, bevor und wenn",
+        theory:`<h3>Erklärung</h3><p>Diese Konjunktionen leiten Nebensätze ein. Das konjugierte Verb steht am Ende.</p><div class="formula"><span class="slot s-violet">Konjunktion</span><span class="slot s-blue">Subjekt</span><span class="slot s-green">Ergänzungen</span><span class="slot s-orange">Verb</span></div><p><b>weil</b> = Grund · <b>bevor</b> = Zeit · <b>wenn</b> = Bedingung/Zeit</p>`,
+        examples:`<h3>Beispiele</h3><p class="example">Ich esse Obst, <b>weil</b> es gesund <u>ist</u>.</p><p class="example"><b>Bevor</b> ich trainiere, <u>trinke</u> ich Wasser.</p>`,
+        tasks:[
+          q("Ich esse Vollkornbrot. Es enthält viele Ballaststoffe. (weil)","Ich esse Vollkornbrot, weil es viele Ballaststoffe enthält.","Im weil-Satz steht enthält am Ende."),
+          q("Ich gehe zur Schule. Ich frühstücke. (bevor)","Bevor ich zur Schule gehe, frühstücke ich.","Der Nebensatz steht zuerst; danach folgt die Inversion im Hauptsatz."),
+          q("Ich habe Hunger. Ich esse einen Apfel. (wenn)","Wenn ich Hunger habe, esse ich einen Apfel.","Wenn – ich – Hunger – habe; danach: esse ich …"),
+          q("Ich trinke Wasser. Ich mache Sport. (bevor)","Bevor ich Sport mache, trinke ich Wasser.","Im bevor-Satz steht mache am Ende."),
+          q("Wir kaufen Gemüse. Es ist frisch. (wenn)","Wir kaufen Gemüse, wenn es frisch ist.","Im wenn-Satz steht ist am Ende."),
+          q("Lena isst wenig Zucker. Sie möchte gesund leben. (weil)","Lena isst wenig Zucker, weil sie gesund leben möchte.","Bei zwei Verben steht möchte ganz am Ende."),
+          q("Ich wasche den Apfel. Ich esse ihn. (bevor)","Bevor ich den Apfel esse, wasche ich ihn.","Der bevor-Satz nennt die spätere Handlung."),
+          q("Tom kocht selbst. Er hat genug Zeit. (wenn)","Tom kocht selbst, wenn er genug Zeit hat.","Im Nebensatz steht hat am Ende.")
+        ]
+      },
+      {
+        id:"level4", title:"Relativsätze", subtitle:"Nomen genauer beschreiben",
+        theory:`<h3>Erklärung</h3><p>Ein Relativsatz beschreibt ein Nomen. Das Relativpronomen richtet sich nach Genus und Kasus. Das Verb steht am Ende.</p><div class="formula"><span class="slot s-blue">Nomen,</span><span class="slot s-violet">der/die/das</span><span class="slot s-green">Ergänzungen</span><span class="slot s-orange">Verb,</span></div>`,
+        examples:`<h3>Beispiele</h3><p class="example">Der Salat, <b>den</b> ich esse, ist frisch.</p><p class="example">Die Suppe, <b>die</b> meine Mutter kocht, schmeckt gut.</p>`,
+        tasks:[
+          q("Der Apfel ist frisch. Ich habe den Apfel gekauft.","Der Apfel, den ich gekauft habe, ist frisch.","Apfel ist maskulin; hier brauchen wir Akkusativ: den."),
+          q("Die Suppe schmeckt gut. Meine Großmutter kocht die Suppe.","Die Suppe, die meine Großmutter kocht, schmeckt gut.","Suppe ist feminin: die."),
+          q("Das Brot ist gesund. Es enthält viele Körner.","Das Brot, das viele Körner enthält, ist gesund.","Brot ist neutral: das."),
+          q("Der Joghurt steht im Kühlschrank. Ich esse den Joghurt gern.","Der Joghurt, den ich gern esse, steht im Kühlschrank.","Joghurt ist maskulin; das Objekt steht im Akkusativ: den."),
+          q("Die Bananen sind reif. Wir haben die Bananen gekauft.","Die Bananen, die wir gekauft haben, sind reif.","Im Plural lautet das Relativpronomen die."),
+          q("Das Rezept ist einfach. Du hast mir das Rezept gezeigt.","Das Rezept, das du mir gezeigt hast, ist einfach.","Rezept ist neutral: das."),
+          q("Der Koch arbeitet im Restaurant. Er bereitet die Suppe zu.","Der Koch, der die Suppe zubereitet, arbeitet im Restaurant.","Der Koch ist das Subjekt des Relativsatzes: der."),
+          q("Die Mahlzeit war lecker. Wir haben sie gemeinsam gekocht.","Die Mahlzeit, die wir gemeinsam gekocht haben, war lecker.","Mahlzeit ist feminin: die.")
+        ]
+      },
+      {
+        id:"level5", title:"Infinitivsätze mit zu", subtitle:"Absichten, Pläne und Versuche ausdrücken",
+        theory:`<h3>Erklärung</h3><p>Nach Verben wie <b>versuchen, planen, vergessen, hoffen</b> steht oft <b>zu + Infinitiv</b>. Der Infinitivteil steht am Ende und wird meistens mit Komma abgetrennt.</p><div class="formula"><span class="slot s-blue">Hauptsatz,</span><span class="slot s-green">Ergänzungen</span><span class="slot s-red">zu + Infinitiv</span></div>`,
+        examples:`<h3>Beispiele</h3><p class="example">Ich versuche, weniger Zucker <b>zu essen</b>.</p><p class="example">Sie plant, heute selbst <b>zu kochen</b>.</p>`,
+        tasks:[
+          q("Ich versuche. Ich trinke jeden Tag zwei Liter Wasser.","Ich versuche, jeden Tag zwei Liter Wasser zu trinken.","Im Infinitivsatz steht zu trinken am Ende."),
+          q("Lena plant. Sie kocht am Wochenende selbst.","Lena plant, am Wochenende selbst zu kochen.","planen + Komma + zu kochen"),
+          q("Wir hoffen. Wir ernähren uns gesünder.","Wir hoffen, uns gesünder zu ernähren.","Das Reflexivpronomen uns steht vor gesünder."),
+          q("Paul vergisst oft. Er nimmt sein Frühstück mit.","Paul vergisst oft, sein Frühstück mitzunehmen.","Bei einem trennbaren Verb steht zu in der Mitte: mitzunehmen."),
+          q("Ich plane. Ich kaufe morgen frisches Gemüse.","Ich plane, morgen frisches Gemüse zu kaufen.","Ergänzungen stehen vor zu kaufen."),
+          q("Sara versucht. Sie verzichtet auf Fast Food.","Sara versucht, auf Fast Food zu verzichten.","versuchen + auf Fast Food + zu verzichten"),
+          q("Die Schüler hoffen. Sie lernen mehr über Ernährung.","Die Schüler hoffen, mehr über Ernährung zu lernen.","Der Infinitiv lautet zu lernen."),
+          q("Wir haben beschlossen. Wir kochen heute gemeinsam.","Wir haben beschlossen, heute gemeinsam zu kochen.","beschließen kann mit einem Infinitivsatz mit zu stehen.")
+        ]
+      },
+      {
+        id:"level6", title:"Nebensätze mit weil, obwohl und wenn", subtitle:"Grund, Gegensatz und Bedingung ausdrücken",
+        theory:`<h3>Erklärung</h3><p><b>weil</b> nennt einen Grund. <b>obwohl</b> zeigt einen unerwarteten Gegensatz. <b>wenn</b> nennt eine Bedingung oder eine wiederholte Handlung. In jedem Nebensatz steht das konjugierte Verb am Ende.</p><div class="formula"><span class="slot s-violet">weil / obwohl / wenn</span><span class="slot s-blue">Subjekt</span><span class="slot s-green">Ergänzungen</span><span class="slot s-orange">Verb am Ende</span></div>`,
+        examples:`<h3>Beispiele</h3><p class="example">Ich esse Obst, <b>weil</b> es gesund <u>ist</u>.</p><p class="example"><b>Obwohl</b> die Suppe heiß <u>ist</u>, probiert Mia sie.</p><p class="example"><b>Wenn</b> ich Hunger <u>habe</u>, esse ich einen Apfel.</p>`,
+        tasks:[
+          q("Ich esse morgens Haferflocken. Sie geben mir lange Energie. (weil)","Ich esse morgens Haferflocken, weil sie mir lange Energie geben.","Im weil-Satz steht geben am Ende."),
+          q("Lena trinkt Wasser. Sie hat keinen Durst. (obwohl)","Lena trinkt Wasser, obwohl sie keinen Durst hat.","obwohl + Subjekt + Ergänzungen + Verb"),
+          q("Wir haben wenig Zeit. Wir bereiten einen Salat zu. (wenn)","Wenn wir wenig Zeit haben, bereiten wir einen Salat zu.","Nach dem Nebensatz beginnt der Hauptsatz mit dem Verb bereiten."),
+          q("Paul mag Gemüse nicht. Er probiert die Gemüsesuppe. (obwohl)","Obwohl Paul Gemüse nicht mag, probiert er die Gemüsesuppe.","Im obwohl-Satz steht mag am Ende."),
+          q("Ich nehme eine Banane mit. Ich bekomme später Hunger. (wenn)","Ich nehme eine Banane mit, wenn ich später Hunger bekomme.","Im wenn-Satz steht bekomme am Ende."),
+          q("Wir kaufen regionale Produkte. Die Transportwege sind kürzer. (weil)","Wir kaufen regionale Produkte, weil die Transportwege kürzer sind.","Im weil-Satz steht sind am Ende."),
+          q("Das Essen ist gesund. Es schmeckt den Kindern nicht. (obwohl)","Obwohl das Essen gesund ist, schmeckt es den Kindern nicht.","Nach dem Nebensatz folgt die Inversion: schmeckt es."),
+          q("Sara macht Sport. Sie trinkt danach viel Wasser. (wenn)","Wenn Sara Sport macht, trinkt sie danach viel Wasser.","Im wenn-Satz steht macht am Ende.")
+        ]
+      }
+    ];
+
+    function q(words,answer,hint,alternatives=[]){return {words,answer,hint,alternatives}}
+    const state={};
+    const totalTasks=levels.reduce((sum,level)=>sum+level.tasks.length,0);
+    function normalize(v){return String(v||"").trim().replace(/\s+/g," ").replace(/\s+([,.!?])/g,"$1").toLocaleLowerCase("de-DE")}
+    function render(){
+      document.getElementById("levels").innerHTML=levels.map((level,li)=>`
+        <section class="level" id="${level.id}" data-level="${level.id}">
+          <div class="level-head"><span class="level-no">${li+1}</span><div><h2>${level.title}</h2><p>${level.subtitle}</p></div></div>
+          <div class="content">
+            <div class="explanation"><article class="rulebox">${level.theory}</article><article class="examplebox">${level.examples}</article></div>
+            <div>${level.tasks.map((t,ti)=>taskHtml(level.id,ti,t)).join("")}</div>
+            <div class="actions"><button onclick="checkLevel('${level.id}')">Niveau prüfen</button><button class="secondary" onclick="toggleHints('${level.id}')">💡 Hinweise</button>${li===levels.length-1?'<button onclick="finish()">Gesamtergebnis</button>':""}</div>
+          </div>
+        </section>`).join("");
+      updateScore();
+    }
+    function taskHtml(level,index,t){return `<article class="task" id="${level}-${index}"><p class="prompt"><span class="badge">${index+1}</span>${t.words}</p><div class="pieces">${t.words.split(" · ").map(x=>`<span class="piece">${x}</span>`).join("")}</div><input lang="de" spellcheck="false" autocomplete="off" placeholder="Schreibe den vollständigen Satz …"><div class="feedback" aria-live="polite"></div><div class="hint">${t.hint}</div></article>`}
+    function checkLevel(id){
+      const level=levels.find(l=>l.id===id);
+      level.tasks.forEach((t,i)=>{
+        const box=document.getElementById(`${id}-${i}`),value=box.querySelector("input").value;
+        const accepted=[t.answer,...t.alternatives].map(normalize),ok=accepted.includes(normalize(value));
+        state[`${id}-${i}`]=ok;box.classList.toggle("correct",ok);box.classList.toggle("incorrect",!ok);
+        box.querySelector(".feedback").textContent=ok?"Richtig! Sehr gut gebaut.":value.trim()?"Noch nicht richtig. Prüfe die Verbposition und die Satzzeichen.":"Bitte schreibe zuerst einen Satz.";
+      });updateScore();
+      if(exerciseStarted)eventRecord("level_checked",{level:id,answers:answerSnapshot().filter(a=>a.level===id)});
+    }
+    function toggleHints(id){document.querySelectorAll(`[data-level="${id}"] .hint`).forEach(h=>h.classList.toggle("visible"))}
+    function updateScore(){const correct=Object.values(state).filter(Boolean).length;document.getElementById("scoreText").textContent=`${correct} / ${totalTasks} richtig`;document.getElementById("progressBar").style.width=`${correct/totalTasks*100}%`}
+    function finish(){
+      levels.forEach(l=>checkLevel(l.id));const correct=Object.values(state).filter(Boolean).length;
+      const resultBox=document.getElementById("finalBox");document.getElementById("finalScore").textContent=`${correct} / ${totalTasks}`;document.getElementById("finalMessage").textContent=correct===totalTasks?"Fantastisch! Du bist Satzbau-Profi.":correct>=Math.ceil(totalTasks*.8)?"Sehr stark! Verbessere noch die rot markierten Sätze.":correct>=Math.ceil(totalTasks*.55)?"Gute Arbeit! Wiederhole die Erklärungen der schwierigen Stationen.":"Gehe die sechs Stationen noch einmal Schritt für Schritt durch.";
+      resultBox.classList.add("visible");resultBox.scrollIntoView({behavior:"smooth",block:"center"});
+      eventRecord("exercise_finished",{correct,total:totalTasks,answers:answerSnapshot()});
+    }
+    function resetAll(){if(exerciseStarted)eventRecord("exercise_reset",{answers:answerSnapshot()});Object.keys(state).forEach(k=>delete state[k]);document.querySelectorAll("input").forEach(i=>i.value="");document.querySelectorAll(".task").forEach(t=>t.classList.remove("correct","incorrect"));document.querySelectorAll(".feedback").forEach(f=>f.textContent="");document.querySelectorAll(".hint").forEach(h=>h.classList.remove("visible"));document.getElementById("finalBox").classList.remove("visible");document.getElementById("sendStatus").textContent="";updateScore();scrollTo({top:0,behavior:"smooth"})}
+    function toggleFullscreen(){if(!document.fullscreenElement&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});else if(document.exitFullscreen)document.exitFullscreen().catch(()=>{})}
+    function startExercise(){
+      student={name:document.getElementById("studentName").value.trim(),className:document.getElementById("studentClass").value.trim(),email:document.getElementById("studentEmail").value.trim(),course:document.getElementById("courseName").value.trim()};
+      if(!student.name||!student.className){document.getElementById("startError").textContent="Bitte gib deinen Namen und deine Klasse ein.";return}
+      document.getElementById("startError").textContent="";
+      exerciseStarted=true;document.getElementById("startScreen").style.display="none";
+      eventRecord("session_started",{userAgent:navigator.userAgent,screen:`${screen.width}x${screen.height}`});
+      if(!document.fullscreenElement&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});
+    }
+    async function submitWork(){
+      const status=document.getElementById("sendStatus"),button=document.getElementById("sendWorkButton");
+      if(!sheetsConfigured()){status.className="send-status error";status.textContent="Die Google-Sheets-Verbindung wurde noch nicht eingerichtet. Bitte informiere deine Lehrkraft.";return}
+      button.disabled=true;status.className="send-status";status.textContent="Die Arbeit wird gesendet …";
+      const correct=Object.values(state).filter(Boolean).length;
+      const submission={kind:"submission",sessionId,sessionStartedAt,submittedAt:new Date().toISOString(),student,
+        correct,total:totalTasks,fullscreenExits,tabExits,windowBlurs,answers:answerSnapshot()};
+      try{
+        await flushEvents();await postPayload(submission);
+        eventRecord("work_submitted",{correct,total:totalTasks});
+        status.className="send-status ok";status.textContent="Arbeit erfolgreich gesendet. Du kannst dieses Fenster jetzt schließen.";
+        button.textContent="✓ Arbeit gesendet";
+      }catch(error){
+        status.className="send-status error";status.textContent="Senden nicht möglich. Prüfe die Internetverbindung und versuche es erneut.";button.disabled=false;
+      }
+    }
+    document.addEventListener("fullscreenchange",()=>{if(exerciseStarted&&!document.fullscreenElement){fullscreenExits++;eventRecord("fullscreen_exit")}else if(exerciseStarted&&document.fullscreenElement)eventRecord("fullscreen_enter")});
+    document.addEventListener("visibilitychange",()=>{if(!exerciseStarted)return;if(document.hidden){tabExits++;eventRecord("tab_hidden")}else eventRecord("tab_visible")});
+    window.addEventListener("blur",()=>{if(exerciseStarted){windowBlurs++;eventRecord("window_blur")}});
+    window.addEventListener("focus",()=>{if(exerciseStarted)eventRecord("window_focus")});
+    window.addEventListener("online",flushEvents);
+    window.addEventListener("beforeunload",()=>{if(exerciseStarted){const record=eventRecord("page_closed",{answers:answerSnapshot()});if(sheetsConfigured())navigator.sendBeacon(SHEETS_WEB_APP_URL,new URLSearchParams({payload:JSON.stringify({kind:"eventBatch",records:[record]})}))}});
+    document.querySelectorAll("body *").forEach(el=>{el.setAttribute("translate","no");el.classList.add("notranslate")});
+    render();
+  </script>
+</body>
+</html>
