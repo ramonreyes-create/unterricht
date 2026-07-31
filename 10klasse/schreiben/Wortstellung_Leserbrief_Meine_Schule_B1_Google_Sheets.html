@@ -41,14 +41,7 @@
   <div class="start-card">
     <h2>Wortstellung und Leserbrief</h2>
     <p>Die Übung wird im Vollbild bearbeitet. Das Verlassen des Vollbilds und der Wechsel zu einer anderen Registerkarte werden protokolliert.</p>
-    <div class="start-identity">
-      <label>Name und Nachname
-        <input id="startName" type="text" autocomplete="name" placeholder="Vor- und Nachname">
-      </label>
-      <label>Klasse / Kurs
-        <input id="startCourse" type="text" autocomplete="off" placeholder="z. B. B1 oder 10A">
-      </label>
-    </div>
+    <div class="box">Deine Anmeldung wird automatisch aus dem DSD-I-Portal übernommen.</div>
     <div id="startError" class="start-error"></div>
     <button onclick="startExercise()">Übung im Vollbild starten</button>
   </div>
@@ -64,14 +57,7 @@
 <main>
   <h1>Wortstellung und Leserbrief</h1>
   <p class="sub">Thema: Meine Schule · Niveau B1</p>
-  <div class="meta">
-    <label>Name und Nachname <span class="required">*</span>
-      <input id="studentName" type="text" autocomplete="name" placeholder="Vor- und Nachname" required>
-    </label>
-    <label>Klasse / Kurs <span class="required">*</span>
-      <input id="studentCourse" type="text" autocomplete="off" placeholder="z. B. B1 oder 10A" required>
-    </label>
-  </div>
+  <div class="box"><strong>Angemeldet über das DSD-I-Portal.</strong> Dein Ergebnis wird nach dem Senden automatisch der richtigen Schülerin zugeordnet.</div>
 
   <div class="rule">
     <strong>Merke:</strong> Im Hauptsatz steht das konjugierte Verb auf Position 2. Im Nebensatz mit <em>weil, dass, obwohl</em> oder <em>wenn</em> steht das Verb am Ende.
@@ -127,54 +113,32 @@
   <div id="score" role="status"></div>
   <div id="sendStatus" role="status" aria-live="polite"></div>
 </main>
+<script src="https://dsd-i-intensivtraining.ramon-reyes.workers.dev/dsd-connector.js"></script>
 <script>
-/* Nach der Bereitstellung des Google Apps Scripts die /exec-URL hier einfügen. */
-const SHEETS_WEB_APP_URL="https://script.google.com/macros/s/AKfycbxfGDfXRl_JIrTef_yiZ1j-rzQTmBEMe8P2gCwsGE4SMc6Xidn7rXEy1Gyd1Ufs5CNT/exec";
 let exerciseStarted=false;
+let exerciseStartedAt=0;
 let fullscreenExits=0;
 let tabExits=0;
 const eventLog=[];
 
-function sheetsConfigured(){
-  return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(SHEETS_WEB_APP_URL);
-}
-function studentIdentity(){
-  return {
-    name:document.getElementById("studentName").value.trim(),
-    course:document.getElementById("studentCourse").value.trim()
-  };
-}
-async function postPayload(payload){
-  if(!sheetsConfigured())return;
-  await fetch(SHEETS_WEB_APP_URL,{
-    method:"POST",
-    mode:"no-cors",
-    body:new URLSearchParams({payload:JSON.stringify(payload)})
-  });
-}
 function registerEvent(type,detail=""){
   if(!exerciseStarted)return;
   const record={
     kind:"event",
     timestamp:new Date().toISOString(),
-    ...studentIdentity(),
     type,detail,fullscreenExits,tabExits
   };
   eventLog.push(record);
-  postPayload(record).catch(()=>{});
 }
 async function startExercise(){
-  const name=document.getElementById("startName").value.trim();
-  const course=document.getElementById("startCourse").value.trim();
   const error=document.getElementById("startError");
-  if(!name||!course){
-    error.textContent="Bitte gib deinen Namen und deine Klasse / deinen Kurs ein.";
+  if(!window.DSDTraining?.connected){
+    error.textContent="Bitte öffne diese Übung über das DSD-I-Portal.";
     return;
   }
   error.textContent="";
-  document.getElementById("studentName").value=name;
-  document.getElementById("studentCourse").value=course;
   exerciseStarted=true;
+  exerciseStartedAt=Date.now();
   document.getElementById("startScreen").style.display="none";
   try{
     await document.documentElement.requestFullscreen();
@@ -283,35 +247,22 @@ function collectAnswers(){
   }));
 }
 async function submitWork(){
-  const name=document.getElementById("studentName").value.trim();
-  const course=document.getElementById("studentCourse").value.trim();
   const status=document.getElementById("sendStatus");
   const button=document.getElementById("sendButton");
-  if(!name||!course){
+  if(!window.DSDTraining?.connected){
     status.className="status-error";
-    status.textContent="Bitte gib deinen Namen und deine Klasse / deinen Kurs ein.";
-    return;
-  }
-  if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec$/.test(SHEETS_WEB_APP_URL)){
-    status.className="status-error";
-    status.textContent="Die Verbindung zu Google Sheets wurde noch nicht eingerichtet. Bitte informiere die Lehrkraft.";
+    status.textContent="Bitte öffne diese Übung über das DSD-I-Portal.";
     return;
   }
   const answers=collectAnswers();
   const correct=answers.filter(x=>x.correct).length;
   const letter=document.getElementById("letter").value.trim();
-  const payload={
-    kind:"submission",submittedAt:new Date().toISOString(),
-    name,course,correct,total:answers.length,
-    letter,wordCount:letter?letter.split(/\s+/).length:0,
-    answers,fullscreenExits,tabExits,eventLog,
-    checklist:[...document.querySelectorAll('.checklist input[type="checkbox"]')].map(x=>x.checked)
-  };
+  const details={letter,wordCount:letter?letter.split(/\s+/).length:0,items:answers,fullscreenExits,tabExits,eventLog,checklist:[...document.querySelectorAll('.checklist input[type="checkbox"]')].map(x=>x.checked)};
   button.disabled=true;
   status.className="";
   status.textContent="Die Arbeit wird gesendet …";
   try{
-    await postPayload(payload);
+    await DSDTraining.submit({exercise:"Wortstellung und Leserbrief – Meine Schule B1",score:correct,total:answers.length,answers:details,duration_seconds:Math.round((Date.now()-exerciseStartedAt)/1000)});
     status.className="status-ok";
     status.textContent="Die Arbeit wurde gesendet. Vielen Dank!";
     button.textContent="✓ Arbeit gesendet";
