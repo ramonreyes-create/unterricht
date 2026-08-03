@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Memory alemán</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f4f1e8;color:#17211b;font-family:Arial,sans-serif;text-align:center}
+    main{width:min(760px,94%);margin:35px auto}h1{font-size:42px;margin:0 0 6px}p{color:#637067;margin:0 0 22px}
+    .info{display:flex;justify-content:center;gap:28px;margin-bottom:20px;font-weight:bold}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .card{height:105px;border:0;border-radius:10px;background:#17211b;color:transparent;font-size:17px;font-weight:bold;padding:9px;cursor:pointer;box-shadow:0 4px 0 #a8a79f;transition:.15s}
+    .card:hover{transform:translateY(-2px)}.card.open{background:#d7f33d;color:#17211b}.card.matched{background:#fff;color:#17211b;box-shadow:inset 0 0 0 3px #79aa52;cursor:default}
+    #restart{margin-top:25px;border:0;background:#17211b;color:white;padding:13px 22px;border-radius:7px;font-weight:bold;cursor:pointer}
+    #message{min-height:25px;margin:18px 0 0;font-weight:bold;color:#3d7736}
+    @media(max-width:600px){.grid{grid-template-columns:repeat(3,1fr)}.card{height:95px;font-size:15px}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Memory alemán</h1>
+  <p>Une cada palabra alemana con su significado en español.</p>
+  <div class="info"><span>Intentos: <b id="tries">0</b></span><span>Parejas: <b id="pairs">0</b>/<b id="total">0</b></span></div>
+  <div class="grid" id="grid"></div>
+  <div id="message"></div>
+  <button id="restart">Jugar de nuevo</button>
+</main>
+<script>
+  const words=[
+    ['der Architekt','el arquitecto'],
+    ['die Baustelle','la obra'],
+    ['das Gebäude','el edificio'],
+    ['der Praktikant','el practicante'],
+    ['begleiten','acompañar'],
+    ['die Kosten','los costes'],
+    ['das Schülerpraktikum','las prácticas escolares'],
+    ['das Architekturbüro','el estudio de arquitectura'],
+    ['der Handwerker','el trabajador especializado'],
+    ['der Dachdecker','el techador'],
+    ['der Assistent','el asistente'],
+    ['überprüfen','revisar'],
+    ['Verantwortung übernehmen','asumir responsabilidad'],
+    ['der Termin','la fecha o la cita'],
+    ['der Arbeitstag','la jornada laboral'],
+    ['das Projekt','el proyecto']
+  ];
+  let first=null,second=null,locked=false,tries=0,pairs=0;
+  const grid=document.getElementById('grid');
+
+  function speak(text){
+    if(!speechSynthesis)return;
+    speechSynthesis.cancel();
+    const voice=new SpeechSynthesisUtterance(text);
+    voice.lang='de-DE'; voice.rate=.85; speechSynthesis.speak(voice);
+  }
+
+  function start(){
+    first=second=null;locked=false;tries=0;pairs=0;
+    document.getElementById('tries').textContent='0';
+    document.getElementById('pairs').textContent='0';
+    document.getElementById('total').textContent=words.length;
+    document.getElementById('message').textContent='';
+    grid.innerHTML='';
+    const cards=words.flatMap((pair,id)=>pair.map((text,side)=>({text,id,side}))).sort(()=>Math.random()-.5);
+    cards.forEach(data=>{
+      const card=document.createElement('button');
+      card.className='card'; card.textContent=data.text;
+      card.onclick=()=>turn(card,data);
+      grid.appendChild(card);
+    });
+  }
+
+  function turn(card,data){
+    if(locked||card.classList.contains('open')||card.classList.contains('matched'))return;
+    card.classList.add('open');
+    if(data.side===0)speak(data.text);
+    if(!first){first={card,data};return}
+    second={card,data};tries++;
+    document.getElementById('tries').textContent=tries;
+    if(first.data.id===second.data.id&&first.data.side!==second.data.side){
+      first.card.className='card matched';second.card.className='card matched';pairs++;
+      document.getElementById('pairs').textContent=pairs;
+      if(pairs===words.length)document.getElementById('message').textContent='¡Muy bien! Has encontrado todas las parejas.';
+      first=second=null;
+    }else{
+      locked=true;
+      setTimeout(()=>{first.card.classList.remove('open');second.card.classList.remove('open');first=second=null;locked=false},800);
+    }
+  }
+
+  document.getElementById('restart').onclick=start;
+  start();
+</script>
+</body>
+</html>
